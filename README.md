@@ -1,0 +1,1 @@
+Template for react-router-v6
