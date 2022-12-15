@@ -1,1 +1,1 @@
-Template for react-router-v6
+Eduquote - a quoting resource for education
