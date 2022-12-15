@@ -1,7 +1,7 @@
 import React from "react";
 import homeshape from '../../assets/images/homepage/home-shape.png';
 import home from "../../assets/images/homepage/home.png";
-import { BackgroundImage, ButtonText, HomeActionLink, HomeBody1, HomeClientsContainer, HomeHeroImg, HomePartImg, HomePartImgColumn, HomePartSection, HomeSectionColumn, HomeSectionContainer, HomeSh1, HomeSh2, HomeSh3, HomeSh4 } from "./HomePage.styles";
+import { BackgroundImage, ButtonText, HomeActionLink, HomeBody1, HomeClientsContainer, HomeFCard, HomeFColumn, HomeFIcon, HomeFRow, HomeFSection, HomeFSub, HomeHeroImg, HomePartImg, HomePartImgColumn, HomePartSection, HomeSectionColumn, HomeSectionContainer, HomeSh1, HomeSh2, HomeSh3, HomeSh4 } from "./HomePage.styles";
 import * as Icon from "react-feather";
 
 import img1 from '../../assets/images/partners/amazon.svg';
@@ -35,22 +35,56 @@ export default function HomePage() {
             <ButtonText>Learn More</ButtonText>
             <Icon.ArrowRight />
           </HomeActionLink>
-          <HomeHeroImg src={home} alt="home"/>
+          <HomeHeroImg src={home} alt="home" />
         </HomeSectionColumn>
       </HomeSectionContainer>
       <HomeClientsContainer>
         <HomeSectionColumn>
           <HomeSh2>Our Trusted Clients</HomeSh2>
-          <HomeSh4>Start working with Quote Builder to generate quotes and get your product delivered quickly and efficiently.</HomeSh4>
+          <HomeSh4>
+            Start working with Quote Builder to generate quotes and get your
+            product delivered quickly and efficiently.
+          </HomeSh4>
         </HomeSectionColumn>
         <HomePartSection>
           {partners.map((partner, key) => (
             <HomePartImgColumn>
-              <HomePartImg src={partner.image} alt="partnerimage"/>
+              <HomePartImg src={partner.image} alt="partnerimage" />
             </HomePartImgColumn>
           ))}
         </HomePartSection>
       </HomeClientsContainer>
+      <HomeFSection>
+        <HomeFRow>
+          <HomeFColumn>
+            <HomeFCard>
+              <HomeFIcon src={img1} alt="featureicon" />
+              <HomeSh2>Build</HomeSh2>
+              <HomeFSub>
+                Build a quote in your own time from a catalogue
+              </HomeFSub>
+            </HomeFCard>
+          </HomeFColumn>
+          <HomeFColumn>
+            <HomeFCard>
+              <HomeFIcon src={img2} alt="featureicon" />
+              <HomeSh2>Deploy</HomeSh2>
+              <HomeFSub>
+                Send your quote direct to the salesperson
+              </HomeFSub>
+            </HomeFCard>
+          </HomeFColumn>
+          <HomeFColumn>
+            <HomeFCard>
+              <HomeFIcon src={img4} alt="featureicon" />
+              <HomeSh2>Receive</HomeSh2>
+              <HomeFSub>
+                Receive your products on average 30% faster
+              </HomeFSub>
+            </HomeFCard>
+          </HomeFColumn>
+        </HomeFRow>
+      </HomeFSection>
     </BackgroundImage>
   );
 }
