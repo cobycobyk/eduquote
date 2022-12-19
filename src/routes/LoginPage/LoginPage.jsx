@@ -128,7 +128,7 @@ export default function LoginPage() {
               <SignupColumnFull>
                 <TextDivider>or</TextDivider>
                 <h6>Don't have an account?</h6>
-                <RegisterExtraLink to="/signup" >
+                <RegisterExtraLink to="/signup">
                   Sign Up
                 </RegisterExtraLink>
               </SignupColumnFull>

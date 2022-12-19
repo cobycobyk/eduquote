@@ -12,6 +12,7 @@ import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
 import SignupPage from "./routes/SignupPage/SignupPage";
+import ContactPage from "./routes/ContactPage/ContactPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
           {
             path: "signup",
             element: <SignupPage />
+          },
+          {
+            path: "contact",
+            element: <ContactPage />
           },
           {
             path: "contacts/:contactId",
