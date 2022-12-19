@@ -98,9 +98,10 @@ export const TopNavSignin = styled(Link)`
   border: 1px solid lightgrey;
   border-radius: 30px;
   padding: 7px 20px;
+  text-decoration: none;
   :hover {
-    background-color: var(--slightblue);
-    border: 1px solid var(--slightblue);
+    background-color: orange;
+    border: 1px solid orange;
     color: black;
     cursor: pointer;
   }
@@ -113,8 +114,8 @@ export const TopNavProfile = styled.div`
   padding: 7px 20px;
   background-color: white;
   :hover {
-    background-color: var(--slightblue);
-    border: 1px solid var(--slightblue);
+    background-color: orange;
+    border: 1px solid orange;
     color: black;
     cursor: pointer;
   }

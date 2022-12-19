@@ -9,8 +9,9 @@ const navLinks = [
   { id: 2, title: "Build A Quote", link: "/buildaquote" },
   { id: 4, title: "Case Studies", link: "/case-studies" },
   { id: 5, title: "How-To", link: "/howto" },
-  { id: 6, title: "About", link: "/about" },
-  { id: 7, title: "Contact", link: "/contact" },
+  { id: 6, title: "Pricing", link: "/pricing" },
+  { id: 7, title: "About", link: "/about" },
+  { id: 8, title: "Contact", link: "/contact" },
 ];
 
 export default function Navigation() {

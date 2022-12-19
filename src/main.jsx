@@ -10,6 +10,8 @@ import { action as destroyAction } from './routes/destroy';
 import Index from "./routes";
 import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
+import LoginPage from "./routes/LoginPage/LoginPage";
+import SignupPage from "./routes/SignupPage/SignupPage";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,15 @@ const router = createBrowserRouter([
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <HomePage />},
+          { index: true, element: <HomePage /> },
+          {
+            path: "login",
+            element: <LoginPage />
+          },
+          {
+            path: "signup",
+            element: <SignupPage />
+          },
           {
             path: "contacts/:contactId",
             element: <Contact />,

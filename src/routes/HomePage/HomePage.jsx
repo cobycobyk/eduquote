@@ -31,7 +31,7 @@ export default function HomePage() {
           <HomeBody1>
             The <span>efficient</span> way to buy and sell catalogued products
           </HomeBody1>
-          <HomeActionLink to="/" color="orange">
+          <HomeActionLink to="/about" color="orange">
             <ButtonText>Learn More</ButtonText>
             <Icon.ArrowRight />
           </HomeActionLink>
@@ -48,7 +48,7 @@ export default function HomePage() {
         </HomeSectionColumn>
         <HomePartSection>
           {partners.map((partner, key) => (
-            <HomePartImgColumn>
+            <HomePartImgColumn key={key}>
               <HomePartImg src={partner.image} alt="partnerimage" />
             </HomePartImgColumn>
           ))}
