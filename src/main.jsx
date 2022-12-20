@@ -16,6 +16,10 @@ import ContactPage from "./routes/ContactPage/ContactPage";
 import AboutPage from "./routes/AboutPage/AboutPage";
 import CaseStudiesPage from "./routes/CaseStudiesPage/CaseStudiesPage";
 import CaseStudyPage from "./routes/CaseStudyPage/CaseStudyPage";
+import AccountPage from "./routes/AccountPage/AccountPage";
+import ProfilePage from "./routes/AccountPage/ProfilePage";
+import MyQuotesPage from "./routes/AccountPage/MyQuotesPage";
+import AccountSettingsPage from "./routes/AccountPage/AccountSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +81,25 @@ const router = createBrowserRouter([
         element: <CaseStudyPage />,
       },
     ],
+  },
+  {
+    path: '/account',
+    element: <AccountPage />,
+    children: [
+      { index: true, element: <ProfilePage /> },
+      {
+        path: "/account/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/account/myquotes",
+        element: <MyQuotesPage />,
+      },
+      {
+        path: "/account/settings",
+        element: <AccountSettingsPage />,
+      },
+    ]
   },
 ]);
 
