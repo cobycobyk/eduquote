@@ -7,7 +7,7 @@ import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, Top
 const navLinks = [
   { id: 1, title: "Home", link: "/" },
   { id: 2, title: "Build A Quote", link: "/buildaquote" },
-  { id: 4, title: "Case Studies", link: "/case-studies" },
+  { id: 4, title: "Case Studies", link: "/casestudies" },
   { id: 5, title: "How-To", link: "/howto" },
   { id: 6, title: "Pricing", link: "/pricing" },
   { id: 7, title: "About", link: "/about" },

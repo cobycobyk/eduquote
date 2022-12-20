@@ -14,6 +14,8 @@ import LoginPage from "./routes/LoginPage/LoginPage";
 import SignupPage from "./routes/SignupPage/SignupPage";
 import ContactPage from "./routes/ContactPage/ContactPage";
 import AboutPage from "./routes/AboutPage/AboutPage";
+import CaseStudiesPage from "./routes/CaseStudiesPage/CaseStudiesPage";
+import CaseStudyPage from "./routes/CaseStudyPage/CaseStudyPage";
 
 const router = createBrowserRouter([
   {
@@ -29,20 +31,21 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           {
             path: "login",
-            element: <LoginPage />
+            element: <LoginPage />,
           },
           {
             path: "signup",
-            element: <SignupPage />
+            element: <SignupPage />,
           },
           {
             path: "contact",
-            element: <ContactPage />
+            element: <ContactPage />,
           },
           {
             path: "about",
-            element: <AboutPage />
+            element: <AboutPage />,
           },
+
           {
             path: "contacts/:contactId",
             element: <Contact />,
@@ -61,6 +64,17 @@ const router = createBrowserRouter([
             errorElement: <div>Oops! There was an error</div>,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "/casestudies",
+    element: <Navigation />,
+    children: [
+      { index: true, element: <CaseStudiesPage /> },
+      {
+        path: "/casestudies/:casestudyid",
+        element: <CaseStudyPage />,
       },
     ],
   },
