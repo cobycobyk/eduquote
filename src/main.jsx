@@ -13,6 +13,7 @@ import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
 import SignupPage from "./routes/SignupPage/SignupPage";
 import ContactPage from "./routes/ContactPage/ContactPage";
+import AboutPage from "./routes/AboutPage/AboutPage";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
           {
             path: "contact",
             element: <ContactPage />
+          },
+          {
+            path: "about",
+            element: <AboutPage />
           },
           {
             path: "contacts/:contactId",
