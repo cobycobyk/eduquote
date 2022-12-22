@@ -46,6 +46,12 @@ export default function Navigation() {
                     Account
                   </ProfileDropDownLink>
                   <ProfileDropDownLink
+                    to="/dashboard"
+                    onClick={() => setToggleProfile(!toggleProfile)}
+                  >
+                    Dashboard
+                  </ProfileDropDownLink>
+                  <ProfileDropDownLink
                     to="/quotebuilder"
                     onClick={() => setToggleProfile(!toggleProfile)}
                   >

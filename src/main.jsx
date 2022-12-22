@@ -4,10 +4,7 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import "./index.css";
 import Root, {loader as rootLoader, action as rootAction} from "./routes/root";
 import ErrorPage from './error-page';
-import Contact, {loader as contactLoader, action as contactAction} from './routes/contact';
-import EditContact, { action as editAction } from "./routes/edit";
-import { action as destroyAction } from './routes/destroy';
-import Index from "./routes";
+import { action as clientAction, loader as clientLoader } from './routes/DashboardPage/DashboardPage';
 import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
@@ -20,6 +17,12 @@ import AccountPage from "./routes/AccountPage/AccountPage";
 import ProfilePage from "./routes/AccountPage/ProfilePage";
 import MyQuotesPage from "./routes/AccountPage/MyQuotesPage";
 import AccountSettingsPage from "./routes/AccountPage/AccountSettingsPage";
+import DashboardPage from "./routes/DashboardPage/DashboardPage";
+import DashIndex from "./routes/DashboardPage/DashIndex";
+import DashClients from "./routes/DashboardPage/DashClients";
+import DashClientEdit, {action as editAction} from "./routes/DashboardPage/DashClientEdit";
+import DashClient from "./routes/DashboardPage/DashClient";
+import Index from "./routes";
 
 const router = createBrowserRouter([
   {
@@ -49,57 +52,62 @@ const router = createBrowserRouter([
             path: "about",
             element: <AboutPage />,
           },
-
           {
-            path: "contacts/:contactId",
-            element: <Contact />,
-            loader: contactLoader,
-            action: contactAction,
-          },
-          {
-            path: "contacts/:contactId/edit",
-            element: <EditContact />,
-            leader: contactLoader,
-            action: editAction,
-          },
-          {
-            path: "contacts/:contactId/destroy",
-            action: destroyAction,
-            errorElement: <div>Oops! There was an error</div>,
+            path: "account",
+            element: <AccountPage />,
+            children: [
+              { index: true, element: <ProfilePage /> },
+              {
+                path: "/account/profile",
+                element: <ProfilePage />,
+              },
+              {
+                path: "/account/myquotes",
+                element: <MyQuotesPage />,
+              },
+              {
+                path: "/account/settings",
+                element: <AccountSettingsPage />,
+              },
+            ],
           },
         ],
       },
     ],
   },
   {
-    path: "/casestudies",
+    path: "casestudies",
     element: <Navigation />,
     children: [
       { index: true, element: <CaseStudiesPage /> },
       {
-        path: "/casestudies/:casestudyid",
+        path: "casestudies/:casestudyid",
         element: <CaseStudyPage />,
       },
     ],
   },
   {
-    path: '/account',
-    element: <AccountPage />,
+    path: "dashboard",
+    element: <DashboardPage />,
+    action: clientAction,
+    loader: clientLoader,
     children: [
-      { index: true, element: <ProfilePage /> },
+      { index: true, element: <DashIndex /> },
       {
-        path: "/account/profile",
-        element: <ProfilePage />,
+        path: "clients",
+        element: <DashClients />,
       },
       {
-        path: "/account/myquotes",
-        element: <MyQuotesPage />,
+        path: "clients/:clientId",
+        element: <DashClient />,
       },
       {
-        path: "/account/settings",
-        element: <AccountSettingsPage />,
+        path: "clients/:clientId/edit",
+        element: <DashClientEdit />,
+        loader: clientLoader,
+        action: editAction,
       },
-    ]
+    ],
   },
 ]);
 

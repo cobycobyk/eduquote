@@ -169,8 +169,10 @@ export const ProfileDropDownLinks = styled.div`
 export const ProfileDropDownLink = styled(Link)`
   width: 100%;
   padding: 0.25rem 1rem;
+  margin-bottom: 0.25rem;
   font-weight: 400;
   color: black;
+  text-decoration: none;
   :hover {
     background-color: lightgrey;
     color: black;

@@ -19,7 +19,6 @@ export default function AccountPage() {
   }
   return (
     <React.Fragment>
-      <Navigation />
       <AccountContainer>
         <AccountRow>
           <AccountColumn>
