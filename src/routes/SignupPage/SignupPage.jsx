@@ -1,5 +1,5 @@
-import React, {useState} from "react"
-import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardTitlee, FormExRow, FormLabel, Formm, RegisterButton, RegisterExtraButton, RegisterExtraLink, SignupCard, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupRow } from "./SignupPage.styles"
+import React, {useState, useEffect} from "react"
+import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardTitlee, ErrorMessage, FormExRow, FormLabel, Formm, RegisterButton, RegisterExtraButton, RegisterExtraLink, SignupCard, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupRow } from "./SignupPage.styles"
 import login from '../../assets/images/login/login.svg';
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
@@ -18,8 +18,8 @@ const defaultFormData = {
 
 export default function SignupPage() {
   const [formData, setFormData] = useState(defaultFormData);
-  const { firstName, lastName, email, phoneNumber, password, confirmPassword } =
-    formData;
+  const { firstName, lastName, email, phoneNumber, password, confirmPassword } = formData;
+  const [message, setMessage] = useState(false);
 
   const resetFormFields = () => {
     setFormData(defaultFormData)
@@ -36,7 +36,7 @@ export default function SignupPage() {
       await createUserDocumentFromAuth(user, { displayName });
 
     } catch (error) {
-      console.log('user creation error', error)
+      setMessage(error.code)
     }
   };
 
@@ -44,6 +44,12 @@ export default function SignupPage() {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
   }
+
+  useEffect(() => {
+    if (message === "auth/email-already-in-use") {
+      setMessage("Email Already In Use");
+    }
+  }, [message]);
 
   const disable = password !== confirmPassword;
 
@@ -237,6 +243,9 @@ export default function SignupPage() {
                       }}
                     />
                   </SignupColumn>
+                </SignupRow>
+                <SignupRow>
+                  {message.length && <ErrorMessage>{message}</ErrorMessage>}
                 </SignupRow>
                 <SignupColumnFull>
                   <RegisterButton type="submit" disable={disable}>

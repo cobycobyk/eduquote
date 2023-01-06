@@ -69,7 +69,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
       }
     }
   }
-  return userSnapshot;
+  return userDocRef;
 }
 //sign out user
 export const signOutUser = async () => await signOut(auth);
