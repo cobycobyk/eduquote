@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import { DisplayFlex, DisplayFlexJCenter, TextDivider, TextDividerSolid } from "../../assets/css/custom.styles";
 import { DAddButton, DashContainer, DMain, DMainNav, DMainNavLeft, DMainNavRight, DNavButton, DNavLink, DSH1, DSH3, DSidebar, DSImg, DSInfo } from "./DashboardPage.styles";
 import qlogo from '../../assets/images/logos/qlogo.png';
-import { Form, Outlet, redirect, useLoaderData } from "react-router-dom";
+import { Form, Outlet, redirect, useLoaderData, useFormAction } from "react-router-dom";
 import { createClient, getClients } from "./client";
 import * as Icon from "react-feather";
+import { createQuote, getQuotes } from "./DashQuotes/quote";
 
 export async function action() {
   const client = await createClient();
@@ -15,6 +16,15 @@ export async function action() {
 export async function loader({request}) {
   const clients = await getClients();
   return clients;
+}
+export async function quoteLoader({request}) {
+  const quotes = await getQuotes();
+  return quotes;
+}
+export async function quoteAction() {
+  const quote = await createQuote();
+  console.log('quote action')
+  return redirect(`/dashboard/quotes/${quote.id}/edit`);
 }
 
 export default function DashboardPage() {
@@ -40,28 +50,35 @@ export default function DashboardPage() {
           </DSInfo>
           <DSH3>Email</DSH3>
           <TextDivider>Dashboard</TextDivider>
-          <DNavLink to="/dashboard" onClick={(e) => setCurrentPage("Dashboard")}>
+          <DNavLink
+            to="/dashboard"
+            onClick={(e) => setCurrentPage("Dashboard")}
+          >
             Dashboard
           </DNavLink>
           <TextDivider>Clients</TextDivider>
           <DNavLink to="clients" onClick={(e) => setCurrentPage("Clients")}>
             All Clients
           </DNavLink>
-            <Form method="post">
-              <DAddButton
-                type="submit"
-                onClick={(e) => setCurrentPage("Add Client")}
-                >
-                Add Client
-              </DAddButton>
-            </Form>
+          <Form method="post">
+            <DAddButton
+              type="submit"
+              onClick={(e) => setCurrentPage("Add Client")}
+            >
+              Add Client
+            </DAddButton>
+          </Form>
           <TextDivider>Quotes</TextDivider>
           <DNavLink to="quotes" onClick={(e) => setCurrentPage("Quotes")}>
             All Quotes
           </DNavLink>
-          <DNavLink to="quote" onClick={(e) => setCurrentPage("New Quote")}>
+          <DAddButton
+            formAction={useFormAction("quoteAction")}
+            formMethod="post"
+            onClick={(e) => setCurrentPage("New Quote")}
+          >
             New Quote
-          </DNavLink>
+          </DAddButton>
           <TextDivider>Catalogues</TextDivider>
           <DNavLink
             to="clients"
@@ -84,8 +101,11 @@ export default function DashboardPage() {
           <DMainNav>
             <DMainNavLeft>{currentPage}</DMainNavLeft>
             <DMainNavRight>
-              <Icon.Plus />
-              <DNavButton>Create</DNavButton>
+              <DNavButton>
+                <Icon.Plus />
+                Create
+              </DNavButton>
+              <Icon.ChevronDown />
             </DMainNavRight>
           </DMainNav>
           <TextDividerSolid />

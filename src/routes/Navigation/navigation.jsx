@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import qlogo from '../../assets/images/logos/qlogo.png';
+import { getCurrentUser } from "../../utils/firebase";
 import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
 
 
@@ -15,9 +16,10 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const [currentUser, setCurrentUser] = useState(true);
+  const [currentUser, setCurrentUser] = useState(false);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
+
 
   return (
     <React.Fragment>
@@ -92,7 +94,7 @@ export default function Navigation() {
             <React.Fragment>
               <TopNavRightShow>
                 <TopNavRight>
-                  <TopNavSignin to="/signin">Sign In</TopNavSignin>
+                  <TopNavSignin to="/login">Sign In</TopNavSignin>
                 </TopNavRight>
               </TopNavRightShow>
             </React.Fragment>

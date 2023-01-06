@@ -3,6 +3,7 @@ import login from "../../assets/images/login/login.svg";
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
 import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardTitlee, ErrorMessage, ForgotPass, FormInput, FormLabel, Formm, RegisterButton, RegisterExtraButton, RegisterExtraLink, ResetMessage, SignupCard, SignupColumnFull, SignupLabelRow, SignupLabelRowPass, SignupRow } from "../SignupPage/SignupPage.styles";
+import { createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase";
 
 const defaultFormData = {
   email: "",
@@ -20,8 +21,14 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
+    console.log("log in submitted");
+    signInAuthUserWithEmailAndPassword(email, password);
   };
+
+  const googleSignIn = async () => {
+    const {user} = await signInWithGooglePopup();
+    const userDocRef = await createUserDocumentFromAuth(user)
+  }
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -121,7 +128,7 @@ export default function LoginPage() {
                 </SignupColumnFull>
               </Formm>
               <SignupColumnFull>
-                <RegisterExtraButton onClick={handleChange}>
+                <RegisterExtraButton onClick={googleSignIn}>
                   Sign in with Google
                 </RegisterExtraButton>
               </SignupColumnFull>

@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import "./index.css";
 import Root, {loader as rootLoader, action as rootAction} from "./routes/root";
 import ErrorPage from './error-page';
-import { action as clientAction, loader as clientLoader } from './routes/DashboardPage/DashboardPage';
+import { action as clientAction, loader as clientLoader, quoteLoader } from './routes/DashboardPage/DashboardPage';
 import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
@@ -23,6 +23,9 @@ import DashClients from "./routes/DashboardPage/DashClients";
 import DashClientEdit, {action as editAction} from "./routes/DashboardPage/DashClientEdit";
 import DashClient from "./routes/DashboardPage/DashClient";
 import Index from "./routes";
+import DashQuotes from "./routes/DashboardPage/DashQuotes/DashQuotes";
+import DashQuote from "./routes/DashboardPage/DashQuotes/DashQuote";
+import DashQuoteEdit from "./routes/DashboardPage/DashQuotes/DashQuoteEdit";
 
 const router = createBrowserRouter([
   {
@@ -90,12 +93,12 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: <DashboardPage />,
     action: clientAction,
-    loader: clientLoader,
     children: [
       { index: true, element: <DashIndex /> },
       {
         path: "clients",
         element: <DashClients />,
+        loader: clientLoader,
       },
       {
         path: "clients/:clientId",
@@ -106,6 +109,20 @@ const router = createBrowserRouter([
         element: <DashClientEdit />,
         loader: clientLoader,
         action: editAction,
+      },
+      {
+        path: "quotes",
+        element: <DashQuotes />,
+        loader: quoteLoader,
+      },
+      {
+        path: "quotes/:quoteId",
+        element: <DashQuote />,
+      },
+      {
+        path: "quotes/:quoteId/edit",
+        element: <DashQuoteEdit />,
+        loader: quoteLoader,
       },
     ],
   },

@@ -3,6 +3,8 @@ import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardT
 import login from '../../assets/images/login/login.svg';
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
+import { createAuthUserWithEmailAndPassword } from "../../utils/firebase";
+import { redirect } from "react-router-dom";
 
 const defaultFormData = {
   firstName: "",
@@ -22,6 +24,8 @@ export default function SignupPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");
+    createAuthUserWithEmailAndPassword(email, password)
+    redirect("/");
   };
 
   function handleChange(evt) {

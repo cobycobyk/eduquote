@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export const DashContainer = styled.div`
   display: flex;
@@ -38,14 +38,12 @@ export const DNavLink = styled(NavLink)`
     background-color: orange;
   }
 `;
-
 export const DSH2 = styled.h2`
   font-weight: bold;
 `;
 export const DSH3 = styled.h3`
   font-weight: bold;
 `;
-
 export const DIContainer = styled.div`
   display: flex;
   margin: 75px 100px;
@@ -71,7 +69,7 @@ export const DMainNavRight = styled.div`
   align-items: center;
   border: none;
   border-radius: 16px;
-  padding-left: 1rem;
+  padding: 0 1rem;
   background-color: lightgrey;
   :hover {
     cursor: pointer;
@@ -80,7 +78,9 @@ export const DMainNavRight = styled.div`
   }
 `;
 export const DNavButton = styled.div`
-  padding: 0.75rem 1rem 0.75rem 0.25rem;
+  padding: 0.75rem 0.5rem 0.75rem 0.25rem;
+  display: flex;
+  align-items: center;
 `;
 export const DAddButton = styled.button`
   display: flex;
@@ -96,5 +96,58 @@ export const DAddButton = styled.button`
   :hover {
     color: white;
     background-color: orange;
+  }
+`;
+
+/*------- DashClients ------*/
+export const DTable = styled.table`
+  width: 100%;
+  vertical-align: top;
+  border-collapse: collapse;
+  border-color: #dee2e6;
+`;
+export const Thead = styled.thead`
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  border-bottom: 1px solid lightgrey;
+  background-color: lightgrey;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
+export const Tbody = styled.tbody`
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
+export const Tr = styled.tr`
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  border-bottom: 1px solid lightgrey;
+`;
+export const Th = styled.th`
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  padding: 0.5rem;
+  @media only screen and (max-width: 600px) {
+    padding: 0.2rem;
+  }
+`;
+export const Td = styled.td`
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  padding-left: 0.5rem;
+`;
+export const TdLink = styled(Link)`
+  float: right;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0.2rem;
   }
 `;

@@ -1,9 +1,15 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
-import { DTable, Tbody, Td, Th, Thead, Tr } from "./DashboardPage.styles";
+import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
+import { getQuotes } from "./quote";
 
-export default function DashClients() {
-  const clients = useLoaderData();
+export async function loader({ request }) {
+  const quotes = await getQuotes();
+  return quotes;
+}
+
+export default function DashQuotes() {
+  const quotes = useLoaderData();
 
   return (
     <DTable>
@@ -18,19 +24,19 @@ export default function DashClients() {
           <Th>Actions</Th>
         </Tr>
       </Thead>
-      {clients.length ? (
+      {quotes.length ? (
         <Tbody>
-          {clients?.map((client, key) => {
+          {quotes?.map((quote, key) => {
             return (
               <Tr key={key}>
-                <Th>{client.first}</Th>
-                <Td>{client.last}</Td>
+                <Th>{quote.first}</Th>
+                <Td>{quote.last}</Td>
               </Tr>
             );
           })}
         </Tbody>
       ) : (
-        <div>No clients</div>
+        <div>No Quotes</div>
       )}
     </DTable>
   );
