@@ -23,23 +23,6 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 //SignIn with google
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-//Create auth user with email and password
-export const createAuthUserWithEmailAndPassword = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log('create user success', user)
-      return user
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('error code', errorCode)
-      console.log('error message', errorMessage)
-      return errorCode
-    });
-};
 //sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
@@ -57,10 +40,15 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
       return errorCode
     });
 };
+//Create auth user with email and password
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
 //create user auth doc
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, 'users', userAuth.uid);
-  console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
@@ -69,13 +57,19 @@ export const createUserDocumentFromAuth = async (userAuth) => {
       await setDoc(userDocRef, {
         displayName,
         email,
-        createdAt
+        createdAt,
+        ...additionalInformation
       })
     } catch (error) {
-      console.log('error creating user', error.message)
+      if (error.code === 'auth/email-already-in-use') {
+        alert('Email already in use')
+      } else {
+        console.log('error creating user', error.message)
+        return error
+      }
     }
   }
-  return userDocRef;
+  return userSnapshot;
 }
 //sign out user
 export const signOutUser = async () => await signOut(auth);

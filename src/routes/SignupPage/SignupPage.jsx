@@ -3,7 +3,7 @@ import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardT
 import login from '../../assets/images/login/login.svg';
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
-import { createAuthUserWithEmailAndPassword } from "../../utils/firebase";
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase";
 import { redirect } from "react-router-dom";
 
 const defaultFormData = {
@@ -21,11 +21,23 @@ export default function SignupPage() {
   const { firstName, lastName, email, phoneNumber, password, confirmPassword } =
     formData;
 
-  const handleSubmit = (e) => {
+  const resetFormFields = () => {
+    setFormData(defaultFormData)
+  }
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitted");
-    createAuthUserWithEmailAndPassword(email, password)
-    redirect("/");
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    try {
+      const {user} = await createAuthUserWithEmailAndPassword(email, password);
+      await createUserDocumentFromAuth(user, { displayName });
+
+    } catch (error) {
+      console.log('user creation error', error)
+    }
   };
 
   function handleChange(evt) {
