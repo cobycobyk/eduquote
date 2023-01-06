@@ -19,24 +19,56 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(false);
 
+  const resetFormFields = () => {
+    setFormData(defaultFormData);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("log in submitted");
-    signInAuthUserWithEmailAndPassword(email, password);
+    try {
+      const response = signInAuthUserWithEmailAndPassword(email, password);
+      console.log(response)
+      resetFormFields();
+    } catch (error) {
+      switch (error.code) {
+        case "auth/wrong-password":
+          setError("incorrect password for email");
+          break;
+        case "auth/user-not-found":
+          setError("no user associated with this email");
+          break;
+        default:
+          console.log(error);
+      }
+    }
   };
 
   const googleSignIn = async () => {
     const {user} = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(user)
+    await createUserDocumentFromAuth(user)
   }
 
   function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
   }
-  const handleResetPassword = () => {
-    console.log('resetpassword')
-  }
+  const handleResetPassword = async () => {
+    if (!formData.email) {
+      return setError("Please enter your email");
+    } else {
+      setError(false);
+    }
+    const response = await sendPasswordReset(formData.email);
+    if (response === true) {
+      setMessage("Please check email for password reset");
+    } else if (response === "auth/invalid-email") {
+      setMessage(false);
+      setError("Invalid Email, please enter a correct email");
+    } else if (response === "auth/user-not-found") {
+      setMessage(false);
+      setError("User Not Found");
+    }
+  };
   return (
     <React.Fragment>
       <AuthContainer>

@@ -3,7 +3,7 @@ import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardT
 import login from '../../assets/images/login/login.svg';
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase";
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth, signInWithGooglePopup } from "../../utils/firebase";
 import { redirect } from "react-router-dom";
 
 const defaultFormData = {
@@ -24,7 +24,10 @@ export default function SignupPage() {
   const resetFormFields = () => {
     setFormData(defaultFormData)
   }
-  
+  const googleSignIn = async () => {
+    const { user } = await signInWithGooglePopup();
+    await createUserDocumentFromAuth(user);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -33,8 +36,10 @@ export default function SignupPage() {
     }
     try {
       const {user} = await createAuthUserWithEmailAndPassword(email, password);
-      await createUserDocumentFromAuth(user, { displayName });
-
+      console.log(user);
+      await createUserDocumentFromAuth(user);
+      console.log('ref')
+      resetFormFields();
     } catch (error) {
       setMessage(error.code)
     }
@@ -245,7 +250,7 @@ export default function SignupPage() {
                   </SignupColumn>
                 </SignupRow>
                 <SignupRow>
-                  {message.length && <ErrorMessage>{message}</ErrorMessage>}
+                  {message?.length && <ErrorMessage>{message}</ErrorMessage>}
                 </SignupRow>
                 <SignupColumnFull>
                   <RegisterButton type="submit" disable={disable}>
@@ -255,7 +260,7 @@ export default function SignupPage() {
               </Formm>
               <FormExRow>
                 <SignupColumnFull>
-                  <RegisterExtraButton onClick={handleChange}>
+                  <RegisterExtraButton onClick={googleSignIn}>
                     Sign Up With Google
                   </RegisterExtraButton>
                 </SignupColumnFull>

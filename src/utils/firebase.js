@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 
 //webapp configuration
 const firebaseConfig = {
@@ -25,20 +25,8 @@ provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 //sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log('sign in user success', user)
-      return user
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('error code', errorCode)
-      console.log('error message', errorMessage)
-      return errorCode
-    });
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
 };
 //Create auth user with email and password
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -47,6 +35,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 };
 //create user auth doc
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+  console.log('userdoc creation')
   if (!userAuth) return;
   const userDocRef = doc(db, 'users', userAuth.uid);
   const userSnapshot = await getDoc(userDocRef);
@@ -59,14 +48,10 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         email,
         createdAt,
         ...additionalInformation
-      })
+      });
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        alert('Email already in use')
-      } else {
-        console.log('error creating user', error.message)
-        return error
-      }
+      console.log('error creating user', error.message)
+      return error
     }
   }
   return userDocRef;
@@ -87,5 +72,23 @@ export const getCurrentUser = () => {
       console.log('user signed out firebase 69')
       return null;
     }
+  });
+};
+//send password reset email
+export const sendPasswordReset = async (email) => {
+  return new Promise((resolve, reject) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        resolve(true);
+        console.log('password send worked')
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error, errorCode, errorMessage);
+        console.log('code', errorCode);
+        console.log('message', errorMessage);
+        return resolve(errorCode)
+      })
   });
 };
