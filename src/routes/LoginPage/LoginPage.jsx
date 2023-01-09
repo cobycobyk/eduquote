@@ -4,6 +4,7 @@ import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
 import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardTitlee, ErrorMessage, ForgotPass, FormInput, FormLabel, Formm, RegisterButton, RegisterExtraButton, RegisterExtraLink, ResetMessage, SignupCard, SignupColumnFull, SignupLabelRow, SignupLabelRowPass, SignupRow } from "../SignupPage/SignupPage.styles";
 import { createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const defaultFormData = {
   email: "",
@@ -11,6 +12,7 @@ const defaultFormData = {
 };
 
 export default function LoginPage() {
+  const [currentUser, setCurrentUser] = useOutletContext();
   const [formData, setFormData] = useState(defaultFormData);
   const {
     email,
@@ -18,6 +20,7 @@ export default function LoginPage() {
   } = formData;
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(false);
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormData(defaultFormData);
@@ -26,9 +29,10 @@ export default function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const response = signInAuthUserWithEmailAndPassword(email, password);
-      console.log(response)
+      const { user } = signInAuthUserWithEmailAndPassword(email, password);
+      setCurrentUser(user);
       resetFormFields();
+      navigate('/');
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -45,7 +49,9 @@ export default function LoginPage() {
 
   const googleSignIn = async () => {
     const {user} = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user)
+    await createUserDocumentFromAuth(user);
+    setCurrentUser(user);
+    navigate('/');
   }
 
   function handleChange(evt) {

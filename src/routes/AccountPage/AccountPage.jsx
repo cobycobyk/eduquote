@@ -2,7 +2,7 @@ import React from "react";
 import Navigation from "../Navigation/navigation";
 import { AccountColumn, AccountContainer, AccountLi, AccountLink, AccountLinkTitle, AccountPhoto, AccountPhotoContainer, AccountPhotoHello, AccountPhotoHelloContainer, AccountPhotoName, AccountRow, AccountUl } from "./AccountPage.styles";
 import * as Icon from "react-feather";
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 const widgets = [
   { id: 1, icon: <Icon.User />, title: "Profile", link: "profile" },
@@ -11,7 +11,7 @@ const widgets = [
 ];
 
 export default function AccountPage() {
-  const currentUser = { firstName: "John", lastName: "Doe" }
+  const [currentUser, setCurrentUser] = useOutletContext();
   const photo = false;
 
   const handleLogout = () => {
@@ -34,7 +34,7 @@ export default function AccountPage() {
               <AccountPhotoHelloContainer>
                 <AccountPhotoHello>Hello,</AccountPhotoHello>
                 <AccountPhotoName>
-                  {currentUser.firstName} {currentUser.lastName}
+                  {currentUser.displayName} {currentUser.lastName}
                 </AccountPhotoName>
               </AccountPhotoHelloContainer>
             </AccountPhotoContainer>

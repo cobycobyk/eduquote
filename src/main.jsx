@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, useOutletContext } from "react-router-dom";
 import "./index.css";
 import Root, {loader as rootLoader, action as rootAction} from "./routes/root";
 import ErrorPage from './error-page';
@@ -26,17 +26,31 @@ import Index from "./routes";
 import DashQuotes from "./routes/DashboardPage/DashQuotes/DashQuotes";
 import DashQuote from "./routes/DashboardPage/DashQuotes/DashQuote";
 import DashQuoteEdit from "./routes/DashboardPage/DashQuotes/DashQuoteEdit";
+import QuotePage from "./routes/QuotePage/QuotePage";
+import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
+import TestPage from "./routes/TestPage/TestPage";
+import TestParent from "./routes/TestPage/TestParent";
+import { UserContext } from "./context/user.context.jsx";
+
+const NavBarWrapper = () => {
+  const [currentUser, setCurrentUser] = useOutletContext();
+  return (
+    <>
+      <Navigation />
+      <Outlet context={useOutletContext()}/>
+    </>
+  )
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigation />,
+    element: <UserContext />,
     errorElement: <ErrorPage />,
-    loader: rootLoader,
-    action: rootAction,
     children: [
       {
-        errorElement: <ErrorPage />,
+        path: "/",
+        element: <NavBarWrapper />,
         children: [
           { index: true, element: <HomePage /> },
           {
@@ -54,6 +68,10 @@ const router = createBrowserRouter([
           {
             path: "about",
             element: <AboutPage />,
+          },
+          {
+            path: "test",
+            element: <TestPage />,
           },
           {
             path: "account",
@@ -74,18 +92,31 @@ const router = createBrowserRouter([
               },
             ],
           },
+          {
+            path: "casestudies",
+            element: <CaseStudiesPage />,
+            children: [
+              {
+                path: "casestudies/:casestudyid",
+                element: <CaseStudyPage />,
+              },
+            ],
+          },
+          {
+            path: "quote",
+            element: <QuotePage />,
+            children: [
+              {
+                path: "quote/:quoteId",
+                element: <QuotePage />,
+              },
+              {
+                path: "quote/:quoteId/edit",
+                element: <QuoteEditPage />,
+              },
+            ],
+          },
         ],
-      },
-    ],
-  },
-  {
-    path: "casestudies",
-    element: <Navigation />,
-    children: [
-      { index: true, element: <CaseStudiesPage /> },
-      {
-        path: "casestudies/:casestudyid",
-        element: <CaseStudyPage />,
       },
     ],
   },
@@ -127,6 +158,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

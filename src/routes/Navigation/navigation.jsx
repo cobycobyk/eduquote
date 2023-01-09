@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import qlogo from '../../assets/images/logos/qlogo.png';
-import { getCurrentUser } from "../../utils/firebase";
 import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
+import { signOutUser } from "../../utils/firebase";
 
 
 const navLinks = [
   { id: 1, title: "Home", link: "/" },
-  { id: 2, title: "Build A Quote", link: "/buildaquote" },
+  { id: 2, title: "Build A Quote", link: "/quote" },
   { id: 4, title: "Case Studies", link: "/casestudies" },
   { id: 5, title: "How-To", link: "/howto" },
   { id: 6, title: "Pricing", link: "/pricing" },
@@ -16,10 +16,10 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUser, setCurrentUser] = useOutletContext();
+  console.log(currentUser);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
-
 
   return (
     <React.Fragment>
@@ -35,6 +35,9 @@ export default function Navigation() {
                   <TopNavLink to={navLink.link}>{navLink.title}</TopNavLink>
                 </TopNavLi>
               ))}
+              <TopNavLi>
+                {currentUser?.displayName}
+              </TopNavLi>
             </TopNavUl>
           </TopNavMiddle>
           {currentUser ? (
@@ -101,7 +104,6 @@ export default function Navigation() {
           )}
         </TopNavContainer>
       </TopNav>
-      <Outlet />
     </React.Fragment>
   );
 }
