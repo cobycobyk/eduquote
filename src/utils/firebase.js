@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 
 //webapp configuration
@@ -114,6 +114,7 @@ export const addClient = async (userCompany, formData) => {
         email: formData.email,
         institution: formData.institution,
         salesperson: formData.salesperson,
+        status: "active",
       })
     } catch (error) {
       console.log('error creating client')
@@ -121,3 +122,27 @@ export const addClient = async (userCompany, formData) => {
   }
   return clientSnapshot;
 }
+//edit client
+export const updateClient = async (formData) => {
+  if (!auth.currentUser) return;
+  const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
+  await updateDoc(clientDocRef, {
+    updatedAt: serverTimestamp(),
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    institution: formData.institution,
+    salesperson: formData.salesperson,
+  })
+}
+//get clients
+export const getAllClients = async (userCompany) => {
+  if (auth.currentUser) return;
+  const clientDocRef = await getDocs(collection(db, 'companies', userCompany, 'clients'))
+  const clients = []
+  clientDocRef.forEach((doc) => {
+    clients.push(doc.data());
+  });
+  return clients;
+};
+

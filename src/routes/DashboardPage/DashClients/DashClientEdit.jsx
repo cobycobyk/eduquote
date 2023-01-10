@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   CardTitlee,
   FormLabel,
@@ -14,34 +14,29 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
-
-const defaultFormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  institution: "",
-  salesperson: "",
-};
+import { addClient, updateClient } from "../../../utils/firebase";
+import { FormExButton } from "../../ContactPage/ContactPage.styles";
 
 export default function DashClientEdit() {
-  const [formData, setFormData] = useState(defaultFormData);
+  const [formData, setFormData] = useState({});
   const [salespersons, setSalespersons] = useState([]);
+  const [salesperson, setSalesperson] = useState("");
+  const location = useLocation();
+  const clientInfo = location.state?.data;
   const navigate = useNavigate();
-
-  useEffect(() => {}, []);
-
-  const resetFormData = () => {
-    setFormData(defaultFormData);
-  };
+  useEffect(() => {
+    setFormData(clientInfo)
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitted");
+    await updateClient(formData);
+    navigate("/dashboard/clients");
   };
 
   return (
@@ -62,7 +57,7 @@ export default function DashClientEdit() {
               name="firstName"
               onChange={handleChange}
               id="firstName"
-              placeholder="First Name"
+              placeholder={clientInfo.firstName}
               required
               errorMessage=""
               validate={{
@@ -86,7 +81,7 @@ export default function DashClientEdit() {
               value={formData.lastName}
               onChange={handleChange}
               id="lastName"
-              placeholder="Last Name"
+              placeholder={clientInfo.lastName}
               required
               errorMessage=""
               validate={{
@@ -112,7 +107,7 @@ export default function DashClientEdit() {
               type="email"
               name="email"
               id="email"
-              placeholder="Enter Email"
+              placeholder={clientInfo.email}
               required
               errorMessage=""
               validate={{
@@ -136,7 +131,7 @@ export default function DashClientEdit() {
             </SignupLabelRow>
             <SignupInput
               type="text"
-              placeholder="Institution Name"
+              placeholder={clientInfo.institution}
               name="institution"
               value={formData.institution}
               onChange={handleChange}
@@ -160,14 +155,15 @@ export default function DashClientEdit() {
               type="text"
               name="salesperson"
               id="salesperson"
-              placeholder="Enter Salesperson"
+              placeholder={clientInfo.salesperson}
               required
               errorMessage=""
             />
           </SignupColumn>
           <SignupColumn>
             <SignupColumnFull>
-              <RegisterButton type="submit">Add Client</RegisterButton>
+              <RegisterButton type="submit">Save and Exit Client</RegisterButton>
+              <FormExButton onClick={() => navigate('/dashboard/clients')}>Cancel</FormExButton>
             </SignupColumnFull>
           </SignupColumn>
         </SignupRow>

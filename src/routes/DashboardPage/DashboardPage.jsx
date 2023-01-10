@@ -32,7 +32,6 @@ export default function DashboardPage() {
   const [currentUser, setCurrentUser] = useOutletContext();
   const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [currentPage, setCurrentPage] = useState("Dashboard");
-  console.log(currentUser);
   const changePage = (e) => {
     setCurrentPage(e)
   }
@@ -42,7 +41,6 @@ export default function DashboardPage() {
     }
     const userInfo = async () => {
       const info = await getUserInfo(currentUser);
-      console.log(info);
       setCurrentUserInfo(info);
     };
     userInfo();
@@ -70,7 +68,10 @@ export default function DashboardPage() {
             Dashboard
           </DNavLink>
           <TextDivider>Clients</TextDivider>
-          <DNavLink to="clients" onClick={(e) => setCurrentPage("Clients")}>
+          <DNavLink
+            to="clients"
+            state={{data: currentUserInfo}}
+            onClick={(e) => setCurrentPage("Clients")}>
             All Clients
           </DNavLink>
           <DAddLink

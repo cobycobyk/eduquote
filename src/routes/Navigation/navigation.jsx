@@ -25,7 +25,6 @@ export default function Navigation() {
     await signOutUser();
     setCurrentUser(null);
   }
-  console.log(currentUser)
 
   useEffect(() => {
     if (currentUser === null) {
@@ -33,7 +32,6 @@ export default function Navigation() {
     }
     const userInfo = async () => {
       const info = await getUserInfo(currentUser);
-      console.log(info);
       setCurrentUserInfo(info);
     }
     userInfo();

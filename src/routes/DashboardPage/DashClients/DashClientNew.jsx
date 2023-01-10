@@ -34,7 +34,6 @@ export default function DashClientNew() {
 
   useEffect(() => {
     setSalesperson(currentUserInfo?.firstName);
-    console.log(currentUserInfo)
   }, [currentUserInfo]);
 
   const resetFormData = () => {

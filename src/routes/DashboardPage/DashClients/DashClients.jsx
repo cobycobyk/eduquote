@@ -1,16 +1,30 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getAllClients } from "../../../utils/firebase";
 
 export default function DashClients() {
-  const clients = useLoaderData();
+  const location = useLocation();
+  const currentUserInfo = location.state?.data;
+  const [clients, setClients] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getClients = async () => {
+      const allClients = await getAllClients(currentUserInfo.company)
+      setClients(allClients);
+    }
+    getClients();
+  }, []);
+
+  const handleClick = (client) => {
+    navigate(`/dashboard/clients/${client.email}/edit`, {state: {data: client}})
+  }
 
   return (
     <DTable>
       <Thead>
         <Tr>
-          <Th>check</Th>
-          <Th>ID</Th>
           <Th>Name</Th>
           <Th>Email</Th>
           <Th>Status</Th>
@@ -22,9 +36,11 @@ export default function DashClients() {
         <Tbody>
           {clients?.map((client, key) => {
             return (
-              <Tr key={key}>
-                <Th>{client.first}</Th>
-                <Td>{client.last}</Td>
+              <Tr key={key} onClick={() => handleClick(client)}>
+                <Th>{client.firstName}</Th>
+                <Td>{client.lastName}</Td>
+                <Td>{client.email}</Td>
+                <Td>{client.status}</Td>
               </Tr>
             );
           })}

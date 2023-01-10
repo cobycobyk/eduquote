@@ -141,7 +141,6 @@ const router = createBrowserRouter([
               {
                 path: "clients",
                 element: <DashClients />,
-                loader: clientLoader,
               },
               {
                 path: "client/new",
