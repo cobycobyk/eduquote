@@ -30,7 +30,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const { user } = signInAuthUserWithEmailAndPassword(email, password);
-      setCurrentUser(user);
       resetFormFields();
       navigate('/');
     } catch (error) {
@@ -50,7 +49,6 @@ export default function LoginPage() {
   const googleSignIn = async () => {
     const {user} = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
-    setCurrentUser(user);
     navigate('/');
   }
 

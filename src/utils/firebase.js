@@ -12,7 +12,6 @@ const firebaseConfig = {
   appId: "1:63088264846:web:9d891b000ad18f73fe2bdf",
   measurementId: "G-X6CP8FFMQQ"
 };
-
 //initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -34,7 +33,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 //create user auth doc
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
   if (!userAuth) return;
   console.log('userdoc creation')
   const userDocRef = doc(db, 'users', userAuth.uid);
@@ -47,32 +46,29 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         displayName,
         email,
         createdAt,
-        ...additionalInformation
+        role: "client",
+        company: null,
+        ...additionalInformation,
       });
     } catch (error) {
       console.log('error creating user', error.message)
       return error
     }
   }
-  return userDocRef;
+  return userSnapshot;
 }
 //sign out user
 export const signOutUser = async () => await signOut(auth);
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 //getCurrentUser
-export const getCurrentUser = () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      return user
+export const getUserInfo = async (currentUser) => {
+    if (auth.currentUser !== currentUser) return 'User not logged in';
+    const userSnapshot = await getDoc(doc(db, `users`, auth.currentUser.uid));
+    if (userSnapshot.exists()) {
+        return userSnapshot.data();
     } else {
-      // User is signed out
-      // ...
-      console.log('user signed out firebase 69')
-      return null;
-    }
-  });
+        console.log('no data');
+    };
 };
 //send password reset email
 export const sendPasswordReset = async (email) => {
@@ -92,3 +88,36 @@ export const sendPasswordReset = async (email) => {
       })
   });
 };
+
+/*-----------Storage-----------*/
+//upload product
+// export const uploadProduct = async (formData) => {
+  //   //look to see if document already exists
+  //   const existsRef = await getDoc(doc(firestore, ''))
+  // }
+
+/*-----------Database-----------*/
+//add client
+export const addClient = async (userCompany, formData) => {
+  if (!auth.currentUser) return;
+  const clientDocRef = doc(db, 'companies', userCompany, 'clients', formData.email);
+  const clientSnapshot = await getDoc(clientDocRef);
+  console.log('add')
+  console.log(clientSnapshot)
+  if (!clientSnapshot.exists()) {
+    const createdAt = new Date();
+    try {
+      await setDoc(clientDocRef, {
+        createdAt,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        institution: formData.institution,
+        salesperson: formData.salesperson,
+      })
+    } catch (error) {
+      console.log('error creating client')
+    }
+  }
+  return clientSnapshot;
+}

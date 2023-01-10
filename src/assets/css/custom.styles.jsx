@@ -49,6 +49,11 @@ export const TextDividerSolid = styled.div`
     flex-grow: 3;
   }
 `;
+export const TextDividerSolid2 = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: black;
+`;
 export const DisplayFlex = styled.div`
   display: flex;
   align-items: center;

@@ -98,6 +98,22 @@ export const DAddButton = styled.button`
     background-color: orange;
   }
 `;
+export const DAddLink = styled(Link)`
+  display: flex;
+  justify-content: start;
+  color: black;
+  text-decoration: none;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 16px;
+  background-color: inherit;
+  :hover {
+    color: white;
+    background-color: orange;
+  }
+`;
 
 /*------- DashClients ------*/
 export const DTable = styled.table`

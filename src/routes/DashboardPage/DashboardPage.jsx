@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { DisplayFlex, DisplayFlexJCenter, TextDivider, TextDividerSolid } from "../../assets/css/custom.styles";
-import { DAddButton, DashContainer, DMain, DMainNav, DMainNavLeft, DMainNavRight, DNavButton, DNavLink, DSH1, DSH3, DSidebar, DSImg, DSInfo } from "./DashboardPage.styles";
+import { DAddButton, DAddLink, DashContainer, DMain, DMainNav, DMainNavLeft, DMainNavRight, DNavButton, DNavLink, DSH1, DSH3, DSidebar, DSImg, DSInfo } from "./DashboardPage.styles";
 import qlogo from '../../assets/images/logos/qlogo.png';
-import { Form, Outlet, redirect, useLoaderData, useFormAction } from "react-router-dom";
+import { Form, Outlet, redirect, useLoaderData, useFormAction, useOutletContext } from "react-router-dom";
 import { createClient, getClients } from "./client";
 import * as Icon from "react-feather";
 import { createQuote, getQuotes } from "./DashQuotes/quote";
+import { getUserInfo } from "../../utils/firebase";
 
 export async function action() {
   const client = await createClient();
@@ -28,12 +29,24 @@ export async function quoteAction() {
 }
 
 export default function DashboardPage() {
-  const clients = useLoaderData();
+  const [currentUser, setCurrentUser] = useOutletContext();
+  const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [currentPage, setCurrentPage] = useState("Dashboard");
-  
+  console.log(currentUser);
   const changePage = (e) => {
     setCurrentPage(e)
   }
+  useEffect(() => {
+    if (currentUser === null) {
+      return setCurrentUserInfo(null);
+    }
+    const userInfo = async () => {
+      const info = await getUserInfo(currentUser);
+      console.log(info);
+      setCurrentUserInfo(info);
+    };
+    userInfo();
+  }, [currentUser]);
 
   return (
     <React.Fragment>
@@ -60,14 +73,13 @@ export default function DashboardPage() {
           <DNavLink to="clients" onClick={(e) => setCurrentPage("Clients")}>
             All Clients
           </DNavLink>
-          <Form method="post">
-            <DAddButton
-              type="submit"
-              onClick={(e) => setCurrentPage("Add Client")}
+          <DAddLink
+            to="client/new"
+            state={{data: currentUserInfo}}
+            onClick={(e) => setCurrentPage("Add Client")}
             >
               Add Client
-            </DAddButton>
-          </Form>
+            </DAddLink>
           <TextDivider>Quotes</TextDivider>
           <DNavLink to="quotes" onClick={(e) => setCurrentPage("Quotes")}>
             All Quotes
@@ -81,16 +93,16 @@ export default function DashboardPage() {
           </DAddButton>
           <TextDivider>Catalogues</TextDivider>
           <DNavLink
-            to="clients"
+            to="catalogs"
             onClick={(e) => setCurrentPage("All Catalogues")}
           >
-            All Catalogues
+            All Catalogs
           </DNavLink>
           <DNavLink
             to="clients"
             onClick={(e) => setCurrentPage("New Catalogue")}
           >
-            New Catalogue
+            New Catalog
           </DNavLink>
           <TextDivider>Settings</TextDivider>
           <DNavLink to="settings" onClick={(e) => setCurrentPage("Settings")}>

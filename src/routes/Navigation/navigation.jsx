@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import qlogo from '../../assets/images/logos/qlogo.png';
+import { signOutUser, getUserInfo } from "../../utils/firebase";
 import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
-import { signOutUser } from "../../utils/firebase";
 
 
 const navLinks = [
@@ -17,9 +17,27 @@ const navLinks = [
 
 export default function Navigation() {
   const [currentUser, setCurrentUser] = useOutletContext();
-  console.log(currentUser);
+  const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
+
+  const handleLogOut = async () => {
+    await signOutUser();
+    setCurrentUser(null);
+  }
+  console.log(currentUser)
+
+  useEffect(() => {
+    if (currentUser === null) {
+      return setCurrentUserInfo(null);
+    }
+    const userInfo = async () => {
+      const info = await getUserInfo(currentUser);
+      console.log(info);
+      setCurrentUserInfo(info);
+    }
+    userInfo();
+  }, [currentUser])
 
   return (
     <React.Fragment>
@@ -36,7 +54,7 @@ export default function Navigation() {
                 </TopNavLi>
               ))}
               <TopNavLi>
-                {currentUser?.displayName}
+                {currentUser?.displayName || currentUser?.firstName}
               </TopNavLi>
             </TopNavUl>
           </TopNavMiddle>
@@ -80,7 +98,7 @@ export default function Navigation() {
                   </React.Fragment>
                 ) : null} */}
                   <hr />
-                  <ProfileDropDownLink to="/">Logout</ProfileDropDownLink>
+                  <ProfileDropDownLink to="/" onClick={handleLogOut}>Logout</ProfileDropDownLink>
                 </ProfileDropDownLinks>
               </ProfileDropDown>
               <TopNavRightShow>

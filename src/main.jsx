@@ -1,10 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Outlet, useOutletContext } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useOutletContext,
+} from "react-router-dom";
 import "./index.css";
-import Root, {loader as rootLoader, action as rootAction} from "./routes/root";
-import ErrorPage from './error-page';
-import { action as clientAction, loader as clientLoader, quoteLoader } from './routes/DashboardPage/DashboardPage';
+import Root, {
+  loader as rootLoader,
+  action as rootAction,
+} from "./routes/root";
+import ErrorPage from "./error-page";
+import {
+  action as clientAction,
+  loader as clientLoader,
+  quoteLoader,
+} from "./routes/DashboardPage/DashboardPage";
 import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
@@ -19,9 +31,9 @@ import MyQuotesPage from "./routes/AccountPage/MyQuotesPage";
 import AccountSettingsPage from "./routes/AccountPage/AccountSettingsPage";
 import DashboardPage from "./routes/DashboardPage/DashboardPage";
 import DashIndex from "./routes/DashboardPage/DashIndex";
-import DashClients from "./routes/DashboardPage/DashClients";
-import DashClientEdit, {action as editAction} from "./routes/DashboardPage/DashClientEdit";
-import DashClient from "./routes/DashboardPage/DashClient";
+import DashClients from "./routes/DashboardPage/DashClients/DashClients";
+import DashClientEdit from "./routes/DashboardPage/DashClients/DashClientEdit";
+import DashClient from "./routes/DashboardPage/DashClients/DashClient";
 import Index from "./routes";
 import DashQuotes from "./routes/DashboardPage/DashQuotes/DashQuotes";
 import DashQuote from "./routes/DashboardPage/DashQuotes/DashQuote";
@@ -31,16 +43,19 @@ import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
 import TestPage from "./routes/TestPage/TestPage";
 import TestParent from "./routes/TestPage/TestParent";
 import { UserContext } from "./context/user.context.jsx";
+import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashCatalogs";
+import { ProductsContext } from "./context/products.context";
+import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 
 const NavBarWrapper = () => {
   const [currentUser, setCurrentUser] = useOutletContext();
   return (
     <>
       <Navigation />
-      <Outlet context={useOutletContext()}/>
+      <Outlet context={useOutletContext()} />
     </>
-  )
-}
+  );
+};
 
 const router = createBrowserRouter([
   {
@@ -104,8 +119,9 @@ const router = createBrowserRouter([
           },
           {
             path: "quote",
-            element: <QuotePage />,
+            element: <ProductsContext />,
             children: [
+              { index: true, element: <QuotePage /> },
               {
                 path: "quote/:quoteId",
                 element: <QuotePage />,
@@ -116,49 +132,66 @@ const router = createBrowserRouter([
               },
             ],
           },
+          {
+            path: "dashboard",
+            element: <DashboardPage />,
+            action: clientAction,
+            children: [
+              { index: true, element: <DashIndex /> },
+              {
+                path: "clients",
+                element: <DashClients />,
+                loader: clientLoader,
+              },
+              {
+                path: "client/new",
+                element: <DashClientNew />,
+                loader: clientLoader,
+              },
+              {
+                path: "clients/:clientId",
+                element: <DashClient />,
+              },
+              {
+                path: "clients/:clientId/edit",
+                element: <DashClientEdit />,
+                loader: clientLoader,
+              },
+              {
+                path: "quotes",
+                element: <DashQuotes />,
+                loader: quoteLoader,
+              },
+              {
+                path: "quotes/:quoteId",
+                element: <DashQuote />,
+              },
+              {
+                path: "quotes/:quoteId/edit",
+                element: <DashQuoteEdit />,
+                loader: quoteLoader,
+              },
+              {
+                path: "catalogs",
+                element: <DashCatalogs />,
+                loader: quoteLoader,
+              },
+              {
+                path: "catalogs/:catalogId",
+                element: <DashQuote />,
+              },
+              {
+                path: "catalogs/:catalogId/edit",
+                element: <DashQuoteEdit />,
+                loader: quoteLoader,
+              },
+            ],
+          },
         ],
       },
     ],
   },
-  {
-    path: "dashboard",
-    element: <DashboardPage />,
-    action: clientAction,
-    children: [
-      { index: true, element: <DashIndex /> },
-      {
-        path: "clients",
-        element: <DashClients />,
-        loader: clientLoader,
-      },
-      {
-        path: "clients/:clientId",
-        element: <DashClient />,
-      },
-      {
-        path: "clients/:clientId/edit",
-        element: <DashClientEdit />,
-        loader: clientLoader,
-        action: editAction,
-      },
-      {
-        path: "quotes",
-        element: <DashQuotes />,
-        loader: quoteLoader,
-      },
-      {
-        path: "quotes/:quoteId",
-        element: <DashQuote />,
-      },
-      {
-        path: "quotes/:quoteId/edit",
-        element: <DashQuoteEdit />,
-        loader: quoteLoader,
-      },
-    ],
-  },
 ]);
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

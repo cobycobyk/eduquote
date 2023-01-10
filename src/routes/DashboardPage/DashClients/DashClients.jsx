@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
-import { DTable, Tbody, Td, Th, Thead, Tr } from "./DashboardPage.styles";
+import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 
 export default function DashClients() {
   const clients = useLoaderData();

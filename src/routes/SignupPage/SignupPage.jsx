@@ -4,7 +4,7 @@ import login from '../../assets/images/login/login.svg';
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth, signInWithGooglePopup } from "../../utils/firebase";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormData = {
   firstName: "",
@@ -20,6 +20,7 @@ export default function SignupPage() {
   const [formData, setFormData] = useState(defaultFormData);
   const { firstName, lastName, email, phoneNumber, password, confirmPassword } = formData;
   const [message, setMessage] = useState(false);
+  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormData(defaultFormData)
@@ -27,6 +28,7 @@ export default function SignupPage() {
   const googleSignIn = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
+    navigate('/');
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +39,14 @@ export default function SignupPage() {
     try {
       const {user} = await createAuthUserWithEmailAndPassword(email, password);
       console.log(user);
-      await createUserDocumentFromAuth(user);
-      console.log('ref')
+      await createUserDocumentFromAuth(user, {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+      });
       resetFormFields();
+      navigate('/');
     } catch (error) {
       setMessage(error.code)
     }
