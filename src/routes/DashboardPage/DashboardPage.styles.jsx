@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 export const DashContainer = styled.div`
   display: flex;
+  padding: 4.625rem 0;
 `;
 export const DSidebar = styled.div`
   width: 19rem;
