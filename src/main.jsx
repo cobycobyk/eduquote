@@ -62,6 +62,11 @@ function App() {
           <Route index element={<CaseStudiesPage />} />
           <Route path=":casestudyid" element={<CaseStudyPage />} />
         </Route>
+        <Route path="account">
+          <Route index element={<AccountPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="myquotes" element={<MyQuotesPage />} />
+        </Route>
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>

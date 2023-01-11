@@ -14,7 +14,8 @@ export default function ContactPage() {
   });
 
   function handleChange(evt) {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    const { name, value } = evt.target;
+    setFormData({ ...formData, [name]: value })
   };
   
   const handleSubmit = (evt) => {
@@ -41,6 +42,8 @@ export default function ContactPage() {
                     name="name"
                     id="name"
                     type="text"
+                    onChange={handleChange}
+                    value={formData.name}
                     placeholder="Name:"
                     required
                   />
@@ -56,6 +59,8 @@ export default function ContactPage() {
                     name="email"
                     id="email"
                     type="email"
+                    onChange={handleChange}
+                    value={formData.email}
                     placeholder="Email:"
                     required
                   />
@@ -70,6 +75,8 @@ export default function ContactPage() {
                   name="subject"
                   id="subject"
                   placeholder="Subject:"
+                  onChange={handleChange}
+                  value={formData.subject}
                   required
                 />
               </SignupColumnFull>
@@ -82,6 +89,8 @@ export default function ContactPage() {
                   as="textarea"
                   name="comments"
                   id="comments"
+                  onChange={handleChange}
+                  value={formData.comments}
                   rows="4"
                   placeholder="Message:"
                 />

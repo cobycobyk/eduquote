@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navigation from "../Navigation/navigation";
 import { AccountColumn, AccountContainer, AccountLi, AccountLink, AccountLinkTitle, AccountPhoto, AccountPhotoContainer, AccountPhotoHello, AccountPhotoHelloContainer, AccountPhotoName, AccountRow, AccountUl } from "./AccountPage.styles";
 import * as Icon from "react-feather";
+import { signOutUser } from "../../utils/firebase";
+import { UserContext } from "../../context/user.context";
+import { Outlet } from "react-router-dom";
 
 const widgets = [
   { id: 1, icon: <Icon.User />, title: "Profile", link: "profile" },
@@ -10,20 +13,20 @@ const widgets = [
 ];
 
 export default function AccountPage() {
-  const photo = false;
+  const { currentUser, currentUserInfo } = useContext(UserContext);
 
-  const handleLogout = () => {
-    console.log('logout')
-  }
+  const handleLogOut = async () => {
+    await signOutUser();
+  };
   return (
     <React.Fragment>
       <AccountContainer>
         <AccountRow>
           <AccountColumn>
             <AccountPhotoContainer>
-              {photo ? (
+              {currentUser?.avatar ? (
                 <AccountPhoto
-                  src={photo ? photo : <Icon.User />}
+                  src={currentUser?.avatar ? currentUser?.avatar : <Icon.User />}
                   alt="account"
                 />
               ) : (
@@ -32,7 +35,7 @@ export default function AccountPage() {
               <AccountPhotoHelloContainer>
                 <AccountPhotoHello>Hello,</AccountPhotoHello>
                 <AccountPhotoName>
-                  {currentUser.displayName} {currentUser.lastName}
+                  {currentUser?.displayName || currentUserInfo?.firstName}
                 </AccountPhotoName>
               </AccountPhotoHelloContainer>
             </AccountPhotoContainer>
@@ -54,7 +57,7 @@ export default function AccountPage() {
             <AccountLi>
               <AccountLink
                 to="/"
-                onClick={handleLogout}
+                onClick={handleLogOut}
               >
                 <Icon.LogOut/>
                 <AccountLinkTitle>
