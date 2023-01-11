@@ -32,7 +32,7 @@ export default function DashClients() {
           <Th>Actions</Th>
         </Tr>
       </Thead>
-      {clients.length ? (
+      {clients?.length ? (
         <Tbody>
           {clients?.map((client, key) => {
             return (

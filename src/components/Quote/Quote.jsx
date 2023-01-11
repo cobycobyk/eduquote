@@ -20,8 +20,10 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Quote({products, cart, setCart}) {
   const [count, setCount] = useState(1);
-  const addToCart = (product) => {
-    setCart([...cart, product])
+  const addToCart = (product, qty) => {
+    const newItem = {...product, qty}
+    console.log(newItem)
+    setCart([...cart, newItem]);
   }
 
   return (
@@ -42,9 +44,10 @@ export default function Quote({products, cart, setCart}) {
         {products?.length ? (
           <Tbody>
             {products?.map((product, key) => {
+              const [qty, setQty] = useState(1);
               return (
                 <Tr key={key}>
-                  <Th>{product.image}</Th>
+                  <Th><img src={product.image} width={54}/></Th>
                   <Td>{product.name}</Td>
                   <Td>{product.sku}</Td>
                   <Td>{product.category}</Td>
@@ -52,10 +55,10 @@ export default function Quote({products, cart, setCart}) {
                   <Td>{priceFormatter.format(product.price)}</Td>
                   <Td>
                     <QuoteAddContainer>
-                      <QAButton onClick={() => setCount(count - 1)}>-</QAButton>
-                      <QAInput placeholder="1" />
-                      <QAButton onClick={() => setCount(count + 1)}>+</QAButton>
-                      <AddToQuoteButton onClick={() => addToCart(product)}>Add</AddToQuoteButton>
+                      <QAButton onClick={() => setQty(qty - 1)}>-</QAButton>
+                      <QAInput value={qty} onChange={(e) => setQty(e.target.value)}/>
+                      <QAButton onClick={() => setQty(qty + 1)}>+</QAButton>
+                      <AddToQuoteButton onClick={() => addToCart(product, qty)}>Add</AddToQuoteButton>
                     </QuoteAddContainer>
                   </Td>
                 </Tr>

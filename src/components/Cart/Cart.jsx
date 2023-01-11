@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import { CartCallToAction, CartCallToActionButton, CartSection, CartSh3, CartTableHead, CartTitle, CartTotal, CartTotalContainer } from "./Cart.styles";
+import { CartCallToAction, CartCallToActionButton, CartItem, CartItemImg, CartItemMiddle, CartItemRight, CartSection, CartSh3, CartTableHead, CartTitle, CartTotal, CartTotalContainer } from "./Cart.styles";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
-import { TextDividerSolid, TextDividerSolid2 } from "../../assets/css/custom.styles";
+import { TextDividerSolid2 } from "../../assets/css/custom.styles";
+import e3 from '../../assets/images/quote/roboe3.png'
 
 export default function Cart({ cart, setCart }) {
   
@@ -14,12 +15,23 @@ const cartTotal = cart.reduce(
     <CartSection>
       <CartTitle>Cart</CartTitle>
       <CartTableHead>
+        <div>Item</div>
         <div>sku</div>
-        <div>sku</div>
-        <div>sku</div>
+        <div>price</div>
       </CartTableHead>
       {cart.map((item, key) => {
-        return <div key={key}>{item.sku}</div>;
+        return (
+          <CartItem key={key}>
+            <CartItemImg src={item.image} alt="item" />
+            <CartItemMiddle>
+              <div>{item.sku}</div>
+              <div>{item.sku}</div>
+            </CartItemMiddle>
+            <CartItemRight>
+              {priceFormatter.format(item.price)}
+            </CartItemRight>
+          </CartItem>
+        );
       })}
       <TextDividerSolid2></TextDividerSolid2>
       <hr />

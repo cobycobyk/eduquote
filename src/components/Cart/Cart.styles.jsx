@@ -19,7 +19,35 @@ export const CartTitle = styled.div`
 `;
 export const CartTableHead = styled.div`
   display: flex;
+  align-self: stretch;
   justify-content: space-between;
+`;
+export const CartItem = styled.div`
+  display: flex;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  align-items: center;
+  margin: 0.5rem 0;
+`;
+export const CartItemImg = styled.img`
+  border-radius: 50%;
+  width: 2rem;
+  flex-basis: 20%;
+`;
+export const CartItemMiddle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%
+`;
+export const CartItemRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-basis: 30%;
 `;
 export const CartTableCol1 = styled.div`
 `;
