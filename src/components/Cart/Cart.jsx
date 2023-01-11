@@ -1,15 +1,12 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { CartCallToAction, CartCallToActionButton, CartItem, CartItemImg, CartItemMiddle, CartItemRight, CartQty, CartSection, CartSh3, CartTableHead, CartTitle, CartTotal, CartTotalContainer } from "./Cart.styles";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { TextDividerSolid2 } from "../../assets/css/custom.styles";
 import e3 from '../../assets/images/quote/roboe3.png'
+import { CartContext } from "../../context/cart.context";
 
-export default function Cart({ cart, setCart }) {
-  
-const cartTotal = cart.reduce(
-  (accumulator, item) => accumulator + (item.price * item.qty),
-  0
-);
+export default function Cart() {
+  const { cartItems, cartTotal } = useContext(CartContext);
 
   return (
     <CartSection>
@@ -20,7 +17,7 @@ const cartTotal = cart.reduce(
         <div>Price</div>
         <div>Qty</div>
       </CartTableHead>
-      {cart.map((item, key) => {
+      {cartItems.map((item, key) => {
         return (
           <CartItem key={key}>
             <CartItemImg src={item.image} alt="item" />
@@ -31,7 +28,7 @@ const cartTotal = cart.reduce(
             <CartItemRight>
               {priceFormatter.format(item.price)}
             </CartItemRight>
-            <CartQty>{item.qty}</CartQty>
+            <CartQty>{item.quantity}</CartQty>
           </CartItem>
         );
       })}
@@ -41,7 +38,7 @@ const cartTotal = cart.reduce(
         <CartSh3>Total:</CartSh3>
         <CartTotal>{priceFormatter.format(cartTotal)}</CartTotal>
       </CartTotalContainer>
-      {cart.length ? (
+      {cartItems.length ? (
         <CartCallToAction>
           <CartCallToActionButton>Send Quote</CartCallToActionButton>
         </CartCallToAction>

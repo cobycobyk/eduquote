@@ -60,12 +60,18 @@ function App() {
         <Route path="test" element={<TestPage />} />
         <Route path="casestudies">
           <Route index element={<CaseStudiesPage />} />
-          <Route path=":casestudyid" element={<CaseStudyPage />} />
+          <Route path=":casestudyId" element={<CaseStudyPage />} />
         </Route>
         <Route path="account">
           <Route index element={<AccountPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="myquotes" element={<MyQuotesPage />} />
+          <Route path="settings" element={<AccountSettingsPage />} />
+        </Route>
+        <Route path="quote" >
+          <Route index element={<QuotePage />} />
+          <Route path=":quoteId" element={<QuotePage />} />
+          <Route path=":quoteId/edit" element={<QuoteEditPage />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Route>
@@ -109,56 +115,6 @@ root.render(
 //         path: "/",
 //         element: <NavBarWrapper />,
 //         children: [
-//           { index: true, element: <HomePage /> },
-//           {
-//             path: "login",
-//             element: <LoginPage />,
-//           },
-//           {
-//             path: "signup",
-//             element: <SignupPage />,
-//           },
-//           {
-//             path: "contact",
-//             element: <ContactPage />,
-//           },
-//           {
-//             path: "about",
-//             element: <AboutPage />,
-//           },
-//           {
-//             path: "test",
-//             element: <TestPage />,
-//           },
-//           {
-//             path: "account",
-//             element: <AccountPage />,
-//             children: [
-//               { index: true, element: <ProfilePage /> },
-//               {
-//                 path: "/account/profile",
-//                 element: <ProfilePage />,
-//               },
-//               {
-//                 path: "/account/myquotes",
-//                 element: <MyQuotesPage />,
-//               },
-//               {
-//                 path: "/account/settings",
-//                 element: <AccountSettingsPage />,
-//               },
-//             ],
-//           },
-//           {
-//             path: "casestudies",
-//             element: <CaseStudiesPage />,
-//             children: [
-//               {
-//                 path: "casestudies/:casestudyid",
-//                 element: <CaseStudyPage />,
-//               },
-//             ],
-//           },
 //           {
 //             path: "quote",
 //             element: <ProductsContext />,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   AddToQuoteButton,
   QAButton,
@@ -16,17 +16,13 @@ import {
   Tr,
 } from "../../routes/DashboardPage/DashboardPage.styles";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
+import { CartContext } from "../../context/cart.context";
+import { ProductsContext } from "../../context/products.context";
 
 
-export default function Quote({products, cart, setCart, handleProductClick}) {
-  const [count, setCount] = useState(1);
-  
-
-  const addToCart = (product, qty) => {
-    const newItem = {...product, qty}
-    console.log(newItem)
-    setCart([...cart, newItem]);
-  }
+export default function Quote({ handleProductClick }) {
+  const { products } = useContext(ProductsContext);
+  const { cartItems, addItemToCart, cartTotal } = useContext(CartContext);
 
   return (
     <React.Fragment>
@@ -67,7 +63,7 @@ export default function Quote({products, cart, setCart, handleProductClick}) {
                         />
                         <QAButton onClick={() => setQty(qty + 1)}>+</QAButton>
                         <AddToQuoteButton
-                          onClick={() => addToCart(product, qty)}
+                          onClick={() => addItemToCart(product, qty)}
                         >
                           Add
                         </AddToQuoteButton>
