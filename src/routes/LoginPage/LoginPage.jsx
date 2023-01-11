@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import login from "../../assets/images/login/login.svg";
 import * as Icon from "react-feather";
 import { Danger, TextDivider } from "../../assets/css/custom.styles";
 import { AuthColumnLeft, AuthColumnRight, AuthContainer, AuthImg, AuthRow, CardTitlee, ErrorMessage, ForgotPass, FormInput, FormLabel, Formm, RegisterButton, RegisterExtraButton, RegisterExtraLink, ResetMessage, SignupCard, SignupColumnFull, SignupLabelRow, SignupLabelRowPass, SignupRow } from "../SignupPage/SignupPage.styles";
 import { createUserDocumentFromAuth, signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/user.context";
 
 const defaultFormData = {
   email: "",
@@ -12,7 +13,7 @@ const defaultFormData = {
 };
 
 export default function LoginPage() {
-  const [currentUser, setCurrentUser] = useOutletContext();
+  const {currentUser} = useContext(UserContext);
   const [formData, setFormData] = useState(defaultFormData);
   const {
     email,

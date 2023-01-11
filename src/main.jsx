@@ -1,22 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
-  createBrowserRouter,
-  RouterProvider,
   Outlet,
-  useOutletContext,
+  Routes,
+  Route,
 } from "react-router-dom";
 import "./index.css";
-import Root, {
-  loader as rootLoader,
-  action as rootAction,
-} from "./routes/root";
 import ErrorPage from "./error-page";
-import {
-  action as clientAction,
-  loader as clientLoader,
-  quoteLoader,
-} from "./routes/DashboardPage/DashboardPage";
 import Navigation from "./routes/Navigation/navigation";
 import HomePage from "./routes/HomePage/HomePage";
 import LoginPage from "./routes/LoginPage/LoginPage";
@@ -42,158 +32,207 @@ import QuotePage from "./routes/QuotePage/QuotePage";
 import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
 import TestPage from "./routes/TestPage/TestPage";
 import TestParent from "./routes/TestPage/TestParent";
-import { UserContext } from "./context/user.context.jsx";
+import { UserContext, UserProvider } from "./context/user.context.jsx";
 import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashCatalogs";
-import { ProductsContext } from "./context/products.context";
+import { ProductsContext, ProductsProvider } from "./context/products.context";
 import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 
-const NavBarWrapper = () => {
-  const [currentUser, setCurrentUser] = useOutletContext();
+import { BrowserRouter } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import { CartProvider } from "./context/cart.context";
+
+function App() {
   return (
-    <>
-      <Navigation />
-      <Outlet context={useOutletContext()} />
-    </>
+    <Routes>
+      <Route
+        element={
+          <>
+            <Navigation />
+            <Outlet />
+          </>
+        }
+      >
+        <Route index element={<HomePage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="test" element={<TestPage />} />
+        <Route path="casestudies">
+          <Route index element={<CaseStudiesPage />} />
+          <Route path=":casestudyid" element={<CaseStudyPage />} />
+        </Route>
+        <Route path="*" element={<Error />} />
+      </Route>
+    </Routes>
   );
-};
+}
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <UserContext />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/",
-        element: <NavBarWrapper />,
-        children: [
-          { index: true, element: <HomePage /> },
-          {
-            path: "login",
-            element: <LoginPage />,
-          },
-          {
-            path: "signup",
-            element: <SignupPage />,
-          },
-          {
-            path: "contact",
-            element: <ContactPage />,
-          },
-          {
-            path: "about",
-            element: <AboutPage />,
-          },
-          {
-            path: "test",
-            element: <TestPage />,
-          },
-          {
-            path: "account",
-            element: <AccountPage />,
-            children: [
-              { index: true, element: <ProfilePage /> },
-              {
-                path: "/account/profile",
-                element: <ProfilePage />,
-              },
-              {
-                path: "/account/myquotes",
-                element: <MyQuotesPage />,
-              },
-              {
-                path: "/account/settings",
-                element: <AccountSettingsPage />,
-              },
-            ],
-          },
-          {
-            path: "casestudies",
-            element: <CaseStudiesPage />,
-            children: [
-              {
-                path: "casestudies/:casestudyid",
-                element: <CaseStudyPage />,
-              },
-            ],
-          },
-          {
-            path: "quote",
-            element: <ProductsContext />,
-            children: [
-              { index: true, element: <QuotePage /> },
-              {
-                path: "quote/:quoteId",
-                element: <QuotePage />,
-              },
-              {
-                path: "quote/:quoteId/edit",
-                element: <QuoteEditPage />,
-              },
-            ],
-          },
-          {
-            path: "dashboard",
-            element: <DashboardPage />,
-            action: clientAction,
-            children: [
-              { index: true, element: <DashIndex /> },
-              {
-                path: "clients",
-                element: <DashClients />,
-              },
-              {
-                path: "client/new",
-                element: <DashClientNew />,
-                loader: clientLoader,
-              },
-              {
-                path: "clients/:clientId",
-                element: <DashClient />,
-              },
-              {
-                path: "clients/:clientId/edit",
-                element: <DashClientEdit />,
-                loader: clientLoader,
-              },
-              {
-                path: "quotes",
-                element: <DashQuotes />,
-                loader: quoteLoader,
-              },
-              {
-                path: "quotes/:quoteId",
-                element: <DashQuote />,
-              },
-              {
-                path: "quotes/:quoteId/edit",
-                element: <DashQuoteEdit />,
-                loader: quoteLoader,
-              },
-              {
-                path: "catalogs",
-                element: <DashCatalogs />,
-                loader: quoteLoader,
-              },
-              {
-                path: "catalogs/:catalogId",
-                element: <DashQuote />,
-              },
-              {
-                path: "catalogs/:catalogId/edit",
-                element: <DashQuoteEdit />,
-                loader: quoteLoader,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <UserProvider>
+        <ProductsProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </ProductsProvider>
+      </UserProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
+
+// const NavBarWrapper = () => {
+//   const [currentUser, setCurrentUser] = useOutletContext();
+//   return (
+//     <>
+//       <Navigation />
+//       <Outlet context={useOutletContext()} />
+//     </>
+//   );
+// };
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <UserContext />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         path: "/",
+//         element: <NavBarWrapper />,
+//         children: [
+//           { index: true, element: <HomePage /> },
+//           {
+//             path: "login",
+//             element: <LoginPage />,
+//           },
+//           {
+//             path: "signup",
+//             element: <SignupPage />,
+//           },
+//           {
+//             path: "contact",
+//             element: <ContactPage />,
+//           },
+//           {
+//             path: "about",
+//             element: <AboutPage />,
+//           },
+//           {
+//             path: "test",
+//             element: <TestPage />,
+//           },
+//           {
+//             path: "account",
+//             element: <AccountPage />,
+//             children: [
+//               { index: true, element: <ProfilePage /> },
+//               {
+//                 path: "/account/profile",
+//                 element: <ProfilePage />,
+//               },
+//               {
+//                 path: "/account/myquotes",
+//                 element: <MyQuotesPage />,
+//               },
+//               {
+//                 path: "/account/settings",
+//                 element: <AccountSettingsPage />,
+//               },
+//             ],
+//           },
+//           {
+//             path: "casestudies",
+//             element: <CaseStudiesPage />,
+//             children: [
+//               {
+//                 path: "casestudies/:casestudyid",
+//                 element: <CaseStudyPage />,
+//               },
+//             ],
+//           },
+//           {
+//             path: "quote",
+//             element: <ProductsContext />,
+//             children: [
+//               { index: true, element: <QuotePage /> },
+//               {
+//                 path: "quote/:quoteId",
+//                 element: <QuotePage />,
+//               },
+//               {
+//                 path: "quote/:quoteId/edit",
+//                 element: <QuoteEditPage />,
+//               },
+//             ],
+//           },
+//           {
+//             path: "dashboard",
+//             element: <DashboardPage />,
+//             action: clientAction,
+//             children: [
+//               { index: true, element: <DashIndex /> },
+//               {
+//                 path: "clients",
+//                 element: <DashClients />,
+//               },
+//               {
+//                 path: "client/new",
+//                 element: <DashClientNew />,
+//                 loader: clientLoader,
+//               },
+//               {
+//                 path: "clients/:clientId",
+//                 element: <DashClient />,
+//               },
+//               {
+//                 path: "clients/:clientId/edit",
+//                 element: <DashClientEdit />,
+//                 loader: clientLoader,
+//               },
+//               {
+//                 path: "quotes",
+//                 element: <DashQuotes />,
+//                 loader: quoteLoader,
+//               },
+//               {
+//                 path: "quotes/:quoteId",
+//                 element: <DashQuote />,
+//               },
+//               {
+//                 path: "quotes/:quoteId/edit",
+//                 element: <DashQuoteEdit />,
+//                 loader: quoteLoader,
+//               },
+//               {
+//                 path: "catalogs",
+//                 element: <DashCatalogs />,
+//                 loader: quoteLoader,
+//               },
+//               {
+//                 path: "catalogs/:catalogId",
+//                 element: <DashQuote />,
+//               },
+//               {
+//                 path: "catalogs/:catalogId/edit",
+//                 element: <DashQuoteEdit />,
+//                 loader: quoteLoader,
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]);
+
+// ReactDOM.createRoot(document.getElementById("root")).render(
+//   <React.StrictMode>
+//     <RouterProvider router={router} />
+//   </React.StrictMode>
+// );
+
+

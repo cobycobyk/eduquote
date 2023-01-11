@@ -1,16 +1,36 @@
-import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import { onAuthStateChangedListener } from "../utils/firebase";
+import { createContext, useState, useEffect } from "react";
+import { onAuthStateChangedListener, createUserDocumentFromAuth, getUserInfo } from "../utils/firebase";
 
-export const UserContext = () => {
+export const UserContext = createContext({
+  setCurrentUser: () => null,
+  currentUser: null,
+  currentUserInfo: null,
+  setCurrentUserInfo: () => {},
+});
+
+export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserInfo, setCurrentUserInfo] = useState(null);
+  const value = { currentUser, setCurrentUser, currentUserInfo };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
       setCurrentUser(user);
     });
-    return unsubscribe;
-  }, [])
 
-  return <Outlet context={[currentUser, setCurrentUser]} />;
-}
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const userInfo = async () => {
+      const response = await getUserInfo(currentUser);
+      setCurrentUserInfo(response);
+    }
+    currentUser !== null && userInfo();
+  }, [currentUser])
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};

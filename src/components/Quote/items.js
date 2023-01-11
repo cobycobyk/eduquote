@@ -1,6 +1,6 @@
 import e3 from '../../assets/images/quote/roboe3.png'
 import e3pro from '../../assets/images/quote/e3pro.png'
-export const items = [
+export const PRODUCTS = [
   { id: 1, image: e3, name: "Robo E3 Educational Printer", sku: "E3_3D Printer", category: "STEM", description: "description", price: 1261},
   { id: 2, image: e3pro, name: "Robo E3 Pro Professional Grade Education 3D Printer", sku: "E3_PRO_3D Printer", category: "STEM", description: "description", price: 2989},
   { id: 3, image: e3, name: "MyStemKits Teacher Plan Curriculum License", sku: "MY_STEM_KITS_TEACHER_GROUP", category: "STEM", description: "description", price: 499},

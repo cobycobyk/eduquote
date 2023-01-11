@@ -7,7 +7,7 @@ export const CartSection = styled.div`
   padding: 0 1rem 1rem;
   border: 1px solid black;
   border-radius: 1rem;
-  background-color: lightgrey;
+  background-color: white;
 `;
 
 export const CartTitle = styled.div`
@@ -25,7 +25,7 @@ export const CartTableHead = styled.div`
 export const CartItem = styled.div`
   display: flex;
   padding: 0.5rem;
-  background-color: white;
+  background-color: lightgrey;
   border-radius: 10px;
   width: 100%;
   align-items: center;
@@ -48,6 +48,9 @@ export const CartItemRight = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 30%;
+`;
+export const CartQty = styled.div`
+
 `;
 export const CartTableCol1 = styled.div`
 `;

@@ -1,9 +1,17 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { items } from "../components/Quote/items";
+import { createContext, useState } from "react";
 
-export const ProductsContext = () => {
-  const [products, setProducts] = useState(items);
+import {PRODUCTS} from "../components/Quote/items";
 
-  return <Outlet context={[products, setProducts]} />;
+export const ProductsContext = createContext({
+  products: [],
+});
+
+export const ProductsProvider = ({ children }) => {
+  const [products, setProducts] = useState(PRODUCTS);
+  const value = { products };
+  return (
+    <ProductsContext.Provider value={value}>
+      {children}
+    </ProductsContext.Provider>
+  );
 };

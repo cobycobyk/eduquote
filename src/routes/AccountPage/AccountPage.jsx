@@ -2,7 +2,6 @@ import React from "react";
 import Navigation from "../Navigation/navigation";
 import { AccountColumn, AccountContainer, AccountLi, AccountLink, AccountLinkTitle, AccountPhoto, AccountPhotoContainer, AccountPhotoHello, AccountPhotoHelloContainer, AccountPhotoName, AccountRow, AccountUl } from "./AccountPage.styles";
 import * as Icon from "react-feather";
-import { Outlet, useOutletContext } from "react-router-dom";
 
 const widgets = [
   { id: 1, icon: <Icon.User />, title: "Profile", link: "profile" },
@@ -11,7 +10,6 @@ const widgets = [
 ];
 
 export default function AccountPage() {
-  const [currentUser, setCurrentUser] = useOutletContext();
   const photo = false;
 
   const handleLogout = () => {

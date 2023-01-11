@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
 import qlogo from '../../assets/images/logos/qlogo.png';
+import { UserContext } from "../../context/user.context";
 import { signOutUser, getUserInfo } from "../../utils/firebase";
 import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
 
@@ -16,26 +16,15 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const [currentUser, setCurrentUser] = useOutletContext();
-  const [currentUserInfo, setCurrentUserInfo] = useState(null);
+  const {currentUser, currentUserInfo} = useContext(UserContext);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
 
   const handleLogOut = async () => {
     await signOutUser();
-    setCurrentUser(null);
   }
-
-  useEffect(() => {
-    if (currentUser === null) {
-      return setCurrentUserInfo(null);
-    }
-    const userInfo = async () => {
-      const info = await getUserInfo(currentUser);
-      setCurrentUserInfo(info);
-    }
-    userInfo();
-  }, [currentUser])
+  console.log(currentUser);
+  console.log(currentUserInfo);
 
   return (
     <React.Fragment>

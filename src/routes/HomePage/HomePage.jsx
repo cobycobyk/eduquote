@@ -1,7 +1,7 @@
 import React from "react";
 import homeshape from '../../assets/images/homepage/home-shape.png';
 import home from "../../assets/images/homepage/home.png";
-import { BackgroundImage, ButtonText, HomeActionLink, HomeBody1, HomeClientsContainer, HomeFCard, HomeFColumn, HomeFIcon, HomeFRow, HomeFSection, HomeFSub, HomeHeroImg, HomePartImg, HomePartImgColumn, HomePartSection, HomeSectionColumn, HomeSectionContainer, HomeSh1, HomeSh2, HomeSh3, HomeSh4 } from "./HomePage.styles";
+import { BackgroundImage, ButtonText, HomeActionLink, HomeBody1, HomeClientsContainer, HomeFCard, HomeFColumn, HomeFIcon, HomeFRow, HomeFSection, HomeFSub, HomeHeroImg, HomePartImg, HomePartImgColumn, HomePartSection, HomeSectionColumn, HomeSectionContainer, HomeSh1, HomeSh2, HomeSh4 } from "./HomePage.styles";
 import * as Icon from "react-feather";
 
 import img1 from '../../assets/images/partners/amazon.svg';

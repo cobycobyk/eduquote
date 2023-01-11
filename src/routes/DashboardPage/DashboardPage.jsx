@@ -1,35 +1,15 @@
-import React, {useState, useEffect} from "react";
-import { DisplayFlex, DisplayFlexJCenter, TextDivider, TextDividerSolid } from "../../assets/css/custom.styles";
+import React, {useState, useEffect, useContext} from "react";
+import { DisplayFlexJCenter, TextDivider, TextDividerSolid } from "../../assets/css/custom.styles";
 import { DAddButton, DAddLink, DashContainer, DMain, DMainNav, DMainNavLeft, DMainNavRight, DNavButton, DNavLink, DSH1, DSH3, DSidebar, DSImg, DSInfo } from "./DashboardPage.styles";
 import qlogo from '../../assets/images/logos/qlogo.png';
-import { Form, Outlet, redirect, useLoaderData, useFormAction, useOutletContext } from "react-router-dom";
-import { createClient, getClients } from "./client";
+import { Form, Outlet, useFormAction } from "react-router-dom";
 import * as Icon from "react-feather";
-import { createQuote, getQuotes } from "./DashQuotes/quote";
 import { getUserInfo } from "../../utils/firebase";
+import { UserContext } from "../../context/user.context";
 
-export async function action() {
-  const client = await createClient();
-  console.log('client')
-  return redirect(`/dashboard/clients/${client.id}/edit`);
-};
-
-export async function loader({request}) {
-  const clients = await getClients();
-  return clients;
-}
-export async function quoteLoader({request}) {
-  const quotes = await getQuotes();
-  return quotes;
-}
-export async function quoteAction() {
-  const quote = await createQuote();
-  console.log('quote action')
-  return redirect(`/dashboard/quotes/${quote.id}/edit`);
-}
 
 export default function DashboardPage() {
-  const [currentUser, setCurrentUser] = useOutletContext();
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [currentPage, setCurrentPage] = useState("Dashboard");
   const changePage = (e) => {
@@ -85,13 +65,12 @@ export default function DashboardPage() {
           <DNavLink to="quotes" onClick={(e) => setCurrentPage("Quotes")}>
             All Quotes
           </DNavLink>
-          <DAddButton
-            formAction={useFormAction("quoteAction")}
-            formMethod="post"
+          <DNavLink
+            to="/"
             onClick={(e) => setCurrentPage("New Quote")}
           >
             New Quote
-          </DAddButton>
+          </DNavLink>
           <TextDivider>Catalogues</TextDivider>
           <DNavLink
             to="catalogs"
