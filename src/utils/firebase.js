@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp } from 'firebase/firestore/lite';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 
 //webapp configuration
@@ -35,7 +35,6 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 //create user auth doc
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
   if (!userAuth) return;
-  console.log('userdoc creation')
   const userDocRef = doc(db, 'users', userAuth.uid);
   const userSnapshot = await getDoc(userDocRef);
   if (!userSnapshot.exists()) {
@@ -144,6 +143,12 @@ export const getAllClients = async (userCompany) => {
   });
   return clients;
 };
+//delete client
+export const deleteClient = async (formData) => {
+  if (!auth.currentUser) return;
+  const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
+  await deleteDoc(clientDocRef);
+};
 /*---Catalogs---*/
 //get catalogs
 export const getAllCatalogs = async (userCompany) => {
@@ -193,4 +198,12 @@ export const updateCatalog = async (formData) => {
     updatedBy: auth.currentUser.email,
     items: [],
   })
+  return console.log('Update Catalog Successfull')
+};
+//delete catalog
+export const deleteCatalog = async (formData) => {
+  if (!auth.currentUser) return;
+  const catalogDocRef = doc(db, 'companies', formData.company, 'catalogs', formData.id);
+  await deleteDoc(catalogDocRef);
+  return console.log('Delete Catalog Successfull')
 };

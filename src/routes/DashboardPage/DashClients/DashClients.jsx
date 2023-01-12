@@ -45,14 +45,21 @@ export default function DashClients() {
                 <Td>{client.email}</Td>
                 <Td>{client.status}</Td>
                 <Td>
-                {moment.unix(client.createdAt).subtract(1969, 'years').format("MMMM Do YYYY")}
+                  {moment
+                    .unix(client.createdAt)
+                    .subtract(1969, "years")
+                    .format("MMMM Do YYYY")}
                 </Td>
               </Tr>
             );
           })}
         </Tbody>
       ) : (
-        <h3>Loading</h3>
+        <Tbody>
+          <Tr>
+            <Th>Loading</Th>
+          </Tr>
+        </Tbody>
       )}
     </DTable>
   );

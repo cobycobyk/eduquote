@@ -22,18 +22,15 @@ import DashboardPage from "./routes/DashboardPage/DashboardPage";
 import DashIndex from "./routes/DashboardPage/DashIndex";
 import DashClients from "./routes/DashboardPage/DashClients/DashClients";
 import DashClientEdit from "./routes/DashboardPage/DashClients/DashClientEdit";
-import DashClient from "./routes/DashboardPage/DashClients/DashClient";
-import Index from "./routes";
 import DashQuotes from "./routes/DashboardPage/DashQuotes/DashQuotes";
 import DashQuote from "./routes/DashboardPage/DashQuotes/DashQuote";
 import DashQuoteEdit from "./routes/DashboardPage/DashQuotes/DashQuoteEdit";
 import QuotePage from "./routes/QuotePage/QuotePage";
 import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
 import TestPage from "./routes/TestPage/TestPage";
-import TestParent from "./routes/TestPage/TestParent";
 import { UserContext, UserProvider } from "./context/user.context.jsx";
 import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashCatalogs";
-import { ProductsContext, ProductsProvider } from "./context/products.context";
+import { ProductsProvider } from "./context/products.context";
 import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 
 import { BrowserRouter } from "react-router-dom";
@@ -130,16 +127,6 @@ root.render(
   </React.StrictMode>
 );
 
-// const NavBarWrapper = () => {
-//   const [currentUser, setCurrentUser] = useOutletContext();
-//   return (
-//     <>
-//       <Navigation />
-//       <Outlet context={useOutletContext()} />
-//     </>
-//   );
-// };
-
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -210,11 +197,4 @@ root.render(
 //     ],
 //   },
 // ]);
-
-// ReactDOM.createRoot(document.getElementById("root")).render(
-//   <React.StrictMode>
-//     <RouterProvider router={router} />
-//   </React.StrictMode>
-// );
-
 

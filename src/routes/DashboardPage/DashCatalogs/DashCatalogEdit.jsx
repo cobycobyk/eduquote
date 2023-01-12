@@ -13,7 +13,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger, SaveButton } from "../../../assets/css/custom.styles";
-import { updateCatalog } from "../../../utils/firebase";
+import { deleteCatalog, updateCatalog } from "../../../utils/firebase";
 
 export default function DashCatalogEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
@@ -36,6 +36,12 @@ export default function DashCatalogEdit({setCurrentPage}) {
     await updateCatalog(formData);
     navigate(`/dashboard/catalogs`);
   };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    await deleteCatalog(formData);
+    navigate("/dashboard/catalogs");
+  }
 
   return (
     <React.Fragment>
@@ -123,6 +129,9 @@ export default function DashCatalogEdit({setCurrentPage}) {
                 <SaveButton type="submit">Save and Exit</SaveButton>
                 <CancelButton onClick={() => navigate("/dashboard/catalogs")}>
                   Cancel
+                </CancelButton>
+                <CancelButton onClick={handleDelete}>
+                  Delete Catalog
                 </CancelButton>
               </SignupColumnFull>
             </SignupColumn>

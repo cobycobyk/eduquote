@@ -14,7 +14,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger } from "../../../assets/css/custom.styles";
-import { updateClient } from "../../../utils/firebase";
+import { deleteClient, updateClient } from "../../../utils/firebase";
 import { FormExButton } from "../../ContactPage/ContactPage.styles";
 
 export default function DashClientEdit({setCurrentPage}) {
@@ -37,6 +37,11 @@ export default function DashClientEdit({setCurrentPage}) {
     await updateClient(formData);
     navigate("/dashboard/clients");
   };
+  
+  const handleDelete = async () => {
+    await deleteClient(formData);
+    navigate("/dashboard/clients");
+  }
 
   return (
     <SignupCard>
@@ -163,6 +168,7 @@ export default function DashClientEdit({setCurrentPage}) {
             <SignupColumnFull>
               <RegisterButton type="submit">Save and Exit</RegisterButton>
               <CancelButton onClick={() => navigate('/dashboard/clients')}>Cancel</CancelButton>
+              <CancelButton onClick={handleDelete}>Delete Client</CancelButton>
             </SignupColumnFull>
           </SignupColumn>
         </SignupRow>

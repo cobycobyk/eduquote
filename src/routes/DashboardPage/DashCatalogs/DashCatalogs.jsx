@@ -58,7 +58,11 @@ export default function DashCatalogs() {
           })}
         </Tbody>
       ) : (
-        <div>No Catalogs</div>
+        <Tbody>
+          <Tr>
+            <Th>No Catalogs</Th>
+          </Tr>
+        </Tbody>
       )}
     </DTable>
   );
