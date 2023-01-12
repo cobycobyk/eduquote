@@ -20,7 +20,7 @@ export default function DashCatalogs() {
   }, [])
 
   const handleClick = (catalog) => {
-    navigate(`/dashboard/catalogs/${catalog.name}/edit`, {state:{data: catalog}})
+    navigate(`/dashboard/catalogs/${catalog.category}/edit`, {state:{data: catalog}})
   }
 
   return (

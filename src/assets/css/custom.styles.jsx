@@ -58,9 +58,52 @@ export const TextDividerSolid2 = styled.div`
 export const DisplayFlex = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 export const DisplayFlexJCenter = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
+export const CancelButton = styled.button`
+  border-radius: 30px;
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.5;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: red;
+  margin-top: 0.5rem;
+  margin-bottom: 0.05rem;
+  opacity: 0.8;
+
+  :hover {
+    color: white;
+    opacity: 1;
+  }
+`;
+export const SaveButton = styled.button`
+  border-radius: 30px;
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: lightgrey;
+  margin-top: 0.5rem;
+  margin-bottom: 0.05rem;
+
+  :hover {
+    color: white;
+    background-color: orange;
+  }
+`;

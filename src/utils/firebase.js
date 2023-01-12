@@ -56,7 +56,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     }
   }
   return userSnapshot;
-}
+};
 //sign out user
 export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
@@ -120,8 +120,8 @@ export const addClient = async (userCompany, formData) => {
     }
   }
   return clientSnapshot;
-}
-//edit client
+};
+//update client
 export const updateClient = async (formData) => {
   if (!auth.currentUser) return;
   const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
@@ -132,8 +132,8 @@ export const updateClient = async (formData) => {
     email: formData.email,
     institution: formData.institution,
     salesperson: formData.salesperson,
-  })
-}
+  });
+};
 //get clients
 export const getAllClients = async (userCompany) => {
   if (!auth.currentUser) return console.log('not authorized');
@@ -159,7 +159,8 @@ export const getAllCatalogs = async (userCompany) => {
 export const addCatalog = async (currentUser, formData) => {
   if (!auth.currentUser) return;
   const category = formData.category.toLowerCase();
-  const catalogDocRef = doc(db, 'companies', currentUser.company, 'catalogs', category);
+  const id = formData.id;
+  const catalogDocRef = doc(db, 'companies', currentUser.company, 'catalogs', id);
   const catalogSnapshot = await getDoc(catalogDocRef);
   if (!catalogSnapshot.exists()) {
     const createdAt = new Date();
@@ -172,10 +173,24 @@ export const addCatalog = async (currentUser, formData) => {
         createdBy: currentUser.email,
         status: "active",
         items: [],
-      })
+        id
+      });
     } catch (error) {
       console.log('error creating catalog')
     }
   }
-  return catalogSnapshot;
-}
+  return catalogDocRef;
+};
+//update catalog
+export const updateCatalog = async (formData) => {
+  if (!auth.currentUser) return;
+  const category = formData.category.toLowerCase();
+  const catalogDocRef = doc(db, 'companies', formData.company, 'catalogs', formData.id);
+  await updateDoc(catalogDocRef, {
+    updatedAt: serverTimestamp(),
+    category: category,
+    name: formData.name,
+    updatedBy: auth.currentUser.email,
+    items: [],
+  })
+};

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   CardTitlee,
   FormLabel,
@@ -16,21 +16,28 @@ import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
 import { addCatalog, addClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
+import moment from "moment";
 
 const defaultFormData = {
   name: "",
   company: "",
   category: "",
+  id: "",
 };
 
 export default function DashCatalogNew() {
   const [formData, setFormData] = useState(defaultFormData);
-  const navigate = useNavigate();
   const { currentUserInfo } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setFormData({ ...formData, company: currentUserInfo.company})
-  }, [])
+    const newDate = Date.now().toString();
+    setFormData({
+      ...formData,
+      company: currentUserInfo?.company,
+      id: newDate,
+    });
+  }, []);
 
   const resetFormData = () => {
     setFormData(defaultFormData);
@@ -45,7 +52,7 @@ export default function DashCatalogNew() {
     e.preventDefault();
     await addCatalog(currentUserInfo, formData);
     resetFormData();
-    navigate(`/dashboard/catalogs/${formData.name}/edit`);
+    navigate(`/dashboard/catalogs/${formData.category}/edit`, {state: {data: formData}});
   };
 
   return (

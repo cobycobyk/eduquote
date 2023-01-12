@@ -13,14 +13,12 @@ import {
   SignupRow,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
-import { Danger } from "../../../assets/css/custom.styles";
-import { addClient, updateClient } from "../../../utils/firebase";
+import { CancelButton, Danger } from "../../../assets/css/custom.styles";
+import { updateClient } from "../../../utils/firebase";
 import { FormExButton } from "../../ContactPage/ContactPage.styles";
 
 export default function DashClientEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
-  const [salespersons, setSalespersons] = useState([]);
-  const [salesperson, setSalesperson] = useState("");
   const location = useLocation();
   const clientInfo = location.state?.data;
   const navigate = useNavigate();
@@ -163,8 +161,8 @@ export default function DashClientEdit({setCurrentPage}) {
           </SignupColumn>
           <SignupColumn>
             <SignupColumnFull>
-              <RegisterButton type="submit">Save and Exit Client</RegisterButton>
-              <FormExButton onClick={() => navigate('/dashboard/clients')}>Cancel</FormExButton>
+              <RegisterButton type="submit">Save and Exit</RegisterButton>
+              <CancelButton onClick={() => navigate('/dashboard/clients')}>Cancel</CancelButton>
             </SignupColumnFull>
           </SignupColumn>
         </SignupRow>
