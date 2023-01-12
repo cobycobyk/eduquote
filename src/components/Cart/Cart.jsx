@@ -5,12 +5,12 @@ import { TextDividerSolid2 } from "../../assets/css/custom.styles";
 import e3 from '../../assets/images/quote/roboe3.png'
 import { CartContext } from "../../context/cart.context";
 
-export default function Cart() {
+export default function Cart({confirm, setConfirm}) {
   const { cartItems, cartTotal } = useContext(CartContext);
 
   return (
     <CartSection>
-      <CartTitle>Cart</CartTitle>
+      <CartTitle>Quote Summary</CartTitle>
       <CartTableHead>
         <div>Item</div>
         <div>Sku</div>
@@ -33,14 +33,13 @@ export default function Cart() {
         );
       })}
       <TextDividerSolid2></TextDividerSolid2>
-      <hr />
       <CartTotalContainer>
         <CartSh3>Total:</CartSh3>
         <CartTotal>{priceFormatter.format(cartTotal)}</CartTotal>
       </CartTotalContainer>
       {cartItems.length ? (
         <CartCallToAction>
-          <CartCallToActionButton>Send Quote</CartCallToActionButton>
+          <CartCallToActionButton onClick={() => setConfirm(true)}>Send Quote</CartCallToActionButton>
         </CartCallToAction>
       ): (
           null

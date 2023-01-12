@@ -1,15 +1,8 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useState } from "react";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
-import { getQuotes } from "./quote";
-
-export async function loader({ request }) {
-  const quotes = await getQuotes();
-  return quotes;
-}
 
 export default function DashQuotes() {
-  const quotes = useLoaderData();
+  const quotes = useState([]);
 
   return (
     <DTable>

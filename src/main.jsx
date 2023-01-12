@@ -1,5 +1,4 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import React, {useState} from "react";
 import {
   Outlet,
   Routes,
@@ -40,8 +39,15 @@ import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { CartProvider } from "./context/cart.context";
+import DashQuoteNew from "./routes/DashboardPage/DashQuotes/DashQuoteNew";
+import DashCatalogNew from "./routes/DashboardPage/DashCatalogs/DashCatalogNew";
+import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashCatalog";
+import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashCatalogEdit";
+import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState("Dashboard");
+
   return (
     <Routes>
       <Route
@@ -62,18 +68,47 @@ function App() {
           <Route index element={<CaseStudiesPage />} />
           <Route path=":casestudyId" element={<CaseStudyPage />} />
         </Route>
-        <Route path="account">
-          <Route index element={<AccountPage />} />
+        <Route path="account" element={<AccountPage />}>
+          <Route index element={<ProfilePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="myquotes" element={<MyQuotesPage />} />
           <Route path="settings" element={<AccountSettingsPage />} />
         </Route>
-        <Route path="quote" >
+        <Route path="quote">
           <Route index element={<QuotePage />} />
           <Route path=":quoteId" element={<QuotePage />} />
           <Route path=":quoteId/edit" element={<QuoteEditPage />} />
         </Route>
-        <Route path="*" element={<Error />} />
+        <Route
+          path="dashboard"
+          element={
+            <DashboardPage
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          }
+        >
+          <Route index element={<DashIndex />} />
+          <Route path="clients" element={<DashClients />} />
+          <Route
+            path="clients/:clientID/edit"
+            element={<DashClientEdit setCurrentPage={setCurrentPage} />}
+          />
+          <Route path="clients/new" element={<DashClientNew />} />
+          <Route path="quotes" element={<DashQuotes />} />
+          <Route path="quotes/new" element={<DashQuoteNew />} />
+          <Route path="quotes/:quoteId" element={<DashQuote />} />
+          <Route path="quotes/:quoteId/edit" element={<DashQuoteEdit />} />
+          <Route path="catalogs" element={<DashCatalogs />} />
+          <Route path="catalogs/new" element={<DashCatalogNew />} />
+          <Route path="catalogs/:catalogId" element={<DashCatalog />} />
+          <Route
+            path="catalogs/:catalogId/edit"
+            element={<DashCatalogEdit setCurrentPage={setCurrentPage} />}
+          />
+          <Route path="settings" element={<DashSettings />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
   );
@@ -137,22 +172,8 @@ root.render(
 //             children: [
 //               { index: true, element: <DashIndex /> },
 //               {
-//                 path: "clients",
-//                 element: <DashClients />,
-//               },
-//               {
-//                 path: "client/new",
-//                 element: <DashClientNew />,
-//                 loader: clientLoader,
-//               },
-//               {
 //                 path: "clients/:clientId",
 //                 element: <DashClient />,
-//               },
-//               {
-//                 path: "clients/:clientId/edit",
-//                 element: <DashClientEdit />,
-//                 loader: clientLoader,
 //               },
 //               {
 //                 path: "quotes",

@@ -22,7 +22,7 @@ import { ProductsContext } from "../../context/products.context";
 
 export default function Quote({ handleProductClick }) {
   const { products } = useContext(ProductsContext);
-  const { cartItems, addItemToCart, cartTotal } = useContext(CartContext);
+  const { addItemToCart } = useContext(CartContext);
 
   return (
     <React.Fragment>
@@ -45,11 +45,13 @@ export default function Quote({ handleProductClick }) {
               {products?.map((product, key) => {
                 const [qty, setQty] = useState(1);
                 return (
-                  <Tr key={key} onClick={() => handleProductClick(product)}>
+                  <Tr key={key}>
                     <Th>
                       <img src={product.image} width={54} />
                     </Th>
-                    <Td>{product.name}</Td>
+                    <Td onClick={() => handleProductClick(product)}>
+                      {product.name}
+                    </Td>
                     <Td>{product.sku}</Td>
                     <Td>{product.category}</Td>
                     <Td>{product.description}</Td>
@@ -78,7 +80,6 @@ export default function Quote({ handleProductClick }) {
           )}
         </DTable>
       </QuoteSection>
-      
     </React.Fragment>
   );
 }

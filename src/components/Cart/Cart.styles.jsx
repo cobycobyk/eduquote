@@ -63,18 +63,19 @@ export const CartTableCol4 = styled.div`
 
 export const CartTotal = styled.div`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
 `;
 
 export const CartSh3 = styled.div`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin-right: 1rem;
 `;
 export const CartTotalContainer = styled.div`
   display: flex;
   align-self: flex-end;
   padding: 1rem 0;
+  margin-right: 1rem;
 `;
 
 export const CartCallToAction = styled.div`
@@ -86,10 +87,10 @@ export const CartCallToActionButton = styled.button`
   border: 1px solid lightgrey;
   border-radius: 30px;
   padding: 7px 20px;
-  background-color: white;
+  background-color: orange;
+  font-weight: bold;
   :hover {
-    background-color: orange;
-    border: 1px solid orange;
+    transparency: 0.85%;
     color: black;
     cursor: pointer;
   }

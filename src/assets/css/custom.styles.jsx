@@ -53,6 +53,7 @@ export const TextDividerSolid2 = styled.div`
   width: 100%;
   height: 1px;
   background-color: black;
+  margin: 0.5rem;
 `;
 export const DisplayFlex = styled.div`
   display: flex;

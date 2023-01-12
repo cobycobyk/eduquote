@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   CardTitlee,
   FormLabel,
@@ -15,6 +15,7 @@ import {
 import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
 import { addClient } from "../../../utils/firebase";
+import { UserContext } from "../../../context/user.context";
 
 const defaultFormData = {
   firstName: "",
@@ -28,8 +29,7 @@ export default function DashClientNew() {
   const [formData, setFormData] = useState(defaultFormData);
   const [salespersons, setSalespersons] = useState([]);
   const [salesperson, setSalesperson] = useState("");
-  const location = useLocation();
-  const currentUserInfo = location.state?.data;
+  const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {

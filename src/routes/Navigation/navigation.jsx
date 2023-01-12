@@ -23,8 +23,6 @@ export default function Navigation() {
   const handleLogOut = async () => {
     await signOutUser();
   }
-  console.log(currentUser);
-  console.log(currentUserInfo);
 
   return (
     <React.Fragment>
@@ -62,7 +60,7 @@ export default function Navigation() {
                     Dashboard
                   </ProfileDropDownLink>
                   <ProfileDropDownLink
-                    to="/quotebuilder"
+                    to="/quote"
                     onClick={() => setToggleProfile(!toggleProfile)}
                   >
                     New Quote

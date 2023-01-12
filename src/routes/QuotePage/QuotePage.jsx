@@ -3,11 +3,13 @@ import Cart from "../../components/Cart/Cart"
 import Quote from "../../components/Quote/Quote"
 import { QuoteSectionContainer, QuoteSectionLeft, QuoteSectionRight } from "./QuotePage.styles"
 import ProductModal from "../../components/ProductModal/ProductModal";
+import ConfirmQuoteModal from "../../components/ConfirmQuoteModal/ConfirmQuoteModal";
 
 
 export default function QuotePage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modal, setModal] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const handleProductClick = (product) => {
     setModalOpen(!modalOpen);
@@ -23,7 +25,7 @@ export default function QuotePage() {
           />
         </QuoteSectionLeft>
         <QuoteSectionRight>
-          <Cart />
+          <Cart confirm={confirm} setConfirm={setConfirm}/>
         </QuoteSectionRight>
       </QuoteSectionContainer>
       <ProductModal
@@ -31,6 +33,10 @@ export default function QuotePage() {
         setModalOpen={setModalOpen}
         modal={modal}
         setModal={setModal}
+      />
+      <ConfirmQuoteModal
+        confirm={confirm}
+        setConfirm={setConfirm}
       />
     </React.Fragment>
   );

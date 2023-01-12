@@ -97,13 +97,12 @@ export const sendPasswordReset = async (email) => {
   // }
 
 /*-----------Database-----------*/
+/*---Clients---*/
 //add client
 export const addClient = async (userCompany, formData) => {
   if (!auth.currentUser) return;
   const clientDocRef = doc(db, 'companies', userCompany, 'clients', formData.email);
   const clientSnapshot = await getDoc(clientDocRef);
-  console.log('add')
-  console.log(clientSnapshot)
   if (!clientSnapshot.exists()) {
     const createdAt = new Date();
     try {
@@ -137,7 +136,7 @@ export const updateClient = async (formData) => {
 }
 //get clients
 export const getAllClients = async (userCompany) => {
-  if (auth.currentUser) return;
+  if (!auth.currentUser) return console.log('not authorized');
   const clientDocRef = await getDocs(collection(db, 'companies', userCompany, 'clients'))
   const clients = []
   clientDocRef.forEach((doc) => {
@@ -145,4 +144,38 @@ export const getAllClients = async (userCompany) => {
   });
   return clients;
 };
-
+/*---Catalogs---*/
+//get catalogs
+export const getAllCatalogs = async (userCompany) => {
+  if (!auth.currentUser) return console.log('not authorized');
+  const catalogDocRef = await getDocs(collection(db, 'companies', userCompany, 'catalogs'))
+  const catalogs = []
+  catalogDocRef.forEach((doc) => {
+    catalogs.push(doc.data());
+  });
+  return catalogs;
+};
+//add catalog
+export const addCatalog = async (currentUser, formData) => {
+  if (!auth.currentUser) return;
+  const category = formData.category.toLowerCase();
+  const catalogDocRef = doc(db, 'companies', currentUser.company, 'catalogs', category);
+  const catalogSnapshot = await getDoc(catalogDocRef);
+  if (!catalogSnapshot.exists()) {
+    const createdAt = new Date();
+    try {
+      await setDoc(catalogDocRef, {
+        createdAt,
+        company: formData.company,
+        category: category,
+        name: formData.name,
+        createdBy: currentUser.email,
+        status: "active",
+        items: [],
+      })
+    } catch (error) {
+      console.log('error creating catalog')
+    }
+  }
+  return catalogSnapshot;
+}

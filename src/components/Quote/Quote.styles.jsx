@@ -23,12 +23,27 @@ export const QuoteAddContainer = styled.div`
 
 export const QAButton = styled.button`
   margin: 0 0.5rem;
+  border: none;
+  background: transparent;
+  :hover {
+    color: orange;
+  }
 `;
 export const QAInput = styled.input`
   display: flex;
   justify-content: center;
+  text-align: center;
   width: 1rem;
+  border: none;
+  background-color: lightgrey;
 `;
 export const AddToQuoteButton = styled.button`
   margin-left: 1rem;
+  border: none;
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  background-color: lightgrey;
+  :hover{
+    background-color: orange;
+  }
 `;

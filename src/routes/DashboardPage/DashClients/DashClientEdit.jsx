@@ -17,7 +17,7 @@ import { Danger } from "../../../assets/css/custom.styles";
 import { addClient, updateClient } from "../../../utils/firebase";
 import { FormExButton } from "../../ContactPage/ContactPage.styles";
 
-export default function DashClientEdit() {
+export default function DashClientEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
   const [salespersons, setSalespersons] = useState([]);
   const [salesperson, setSalesperson] = useState("");
@@ -25,7 +25,8 @@ export default function DashClientEdit() {
   const clientInfo = location.state?.data;
   const navigate = useNavigate();
   useEffect(() => {
-    setFormData(clientInfo)
+    setFormData(clientInfo);
+    setCurrentPage("Edit Client");
   }, []);
 
   const handleChange = (e) => {
@@ -41,7 +42,7 @@ export default function DashClientEdit() {
 
   return (
     <SignupCard>
-      <CardTitlee>Add Client</CardTitlee>
+      <CardTitlee>Edit Client</CardTitlee>
       <Formm onSubmit={handleSubmit}>
         <SignupRow>
           <SignupColumn>

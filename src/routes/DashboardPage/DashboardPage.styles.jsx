@@ -45,6 +45,9 @@ export const DSH2 = styled.h2`
 export const DSH3 = styled.h3`
   font-weight: bold;
 `;
+export const DSH5 = styled.h5`
+  font-weight: bold;
+`;
 export const DIContainer = styled.div`
   display: flex;
   margin: 75px 100px;
@@ -146,6 +149,10 @@ export const Tr = styled.tr`
   border-style: solid;
   border-width: 0;
   border-bottom: 1px solid lightgrey;
+  :hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 export const Th = styled.th`
   border-color: inherit;
