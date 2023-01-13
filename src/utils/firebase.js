@@ -207,3 +207,40 @@ export const deleteCatalog = async (formData) => {
   await deleteDoc(catalogDocRef);
   return console.log('Delete Catalog Successfull')
 };
+/*---Quotes---*/
+//get all quotes
+export const getAllQuotes = async (user) => {
+  if (!auth.currentUser) return console.log('not authorized');
+  const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
+  const quotes = []
+  quoteDecRef.forEach((doc) => {
+    if (doc.data().salesperson === user.email) {
+      quotes.push(doc.data());
+    }
+  });
+  return quotes;
+};
+//add quote
+export const addQuote = async (currentUser, formData) => {
+  if (!auth.currentUser) return;
+  const id = formData.id;
+  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (!quoteSnapshot.exists()) {
+    const createdAt = new Date();
+    try {
+      await setDoc(quoteDocRef, {
+        createdAt,
+        createdBy: currentUser.email,
+        status: "active",
+        cartTotal,
+        cartCount,
+        cartItems: [],
+        id,
+      });
+    } catch (error) {
+      console.log('error creating catalog')
+    }
+  }
+  return catalogDocRef;
+}

@@ -23,19 +23,32 @@ export default function ConfirmTable({cartItems, cartTotal}) {
                     style={{ minWidth: "150px" }}
                   >
                     {" "}
-                    Title{" "}
+                    Name{" "}
+                  </th>
+                  <th
+                    className="py-3 border-bottom"
+                    style={{ minWidth: "150px" }}
+                  >
+                    {" "}
+                    Sku{" "}
                   </th>
                   <th
                     className="py-3 border-bottom"
                     style={{ minWidth: "100px" }}
                   >
-                    SKU
+                    Quantity
                   </th>
                   <th
                     className=" py-3 border-bottom"
                     style={{ minWidth: "100px" }}
                   >
                     Price
+                  </th>
+                  <th
+                    className=" py-3 border-bottom"
+                    style={{ minWidth: "100px" }}
+                  >
+                    Remove
                   </th>
                 </tr>
               </thead>

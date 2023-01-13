@@ -2,6 +2,6 @@ import { DIContainer } from "./DashboardPage.styles";
 
 export default function DashIndex() {
   return (
-    <DIContainer>Dash Index</DIContainer>
+    <DIContainer>All the cool stuff goes here in the dash index page</DIContainer>
   )
 }
