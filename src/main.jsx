@@ -1,9 +1,5 @@
-import React, {useState} from "react";
-import {
-  Outlet,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, Routes, Route } from "react-router-dom";
 import "./index.css";
 import ErrorPage from "./error-page";
 import Navigation from "./routes/Navigation/navigation";
@@ -19,7 +15,7 @@ import ProfilePage from "./routes/AccountPage/ProfilePage";
 import MyQuotesPage from "./routes/AccountPage/MyQuotesPage";
 import AccountSettingsPage from "./routes/AccountPage/AccountSettingsPage";
 import DashboardPage from "./routes/DashboardPage/DashboardPage";
-import DashIndex from "./routes/DashboardPage/DashIndex";
+import DashIndex from "./routes/DashboardPage/DashIndex/DashIndex";
 import DashClients from "./routes/DashboardPage/DashClients/DashClients";
 import DashClientEdit from "./routes/DashboardPage/DashClients/DashClientEdit";
 import DashQuotes from "./routes/DashboardPage/DashQuotes/DashQuotes";
@@ -111,7 +107,7 @@ function App() {
   );
 }
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
@@ -197,4 +193,3 @@ root.render(
 //     ],
 //   },
 // ]);
-

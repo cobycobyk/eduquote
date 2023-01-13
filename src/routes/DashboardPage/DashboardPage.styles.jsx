@@ -48,11 +48,6 @@ export const DSH3 = styled.h3`
 export const DSH5 = styled.h5`
   font-weight: bold;
 `;
-export const DIContainer = styled.div`
-  display: flex;
-  margin: 75px 100px;
-  flex-basis: 75%;
-`;
 export const DMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,7 +58,7 @@ export const DMain = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 6rem;
+  height: 3.5rem;
 `;
 export const DMainNavLeft = styled.h1`
   font-weight: bold;
@@ -85,6 +80,35 @@ export const DNavButton = styled.div`
   padding: 0.75rem 0.5rem 0.75rem 0.25rem;
   display: flex;
   align-items: center;
+`;
+
+export const DCreateDropdown = styled.div`
+  swidth: 200px;
+  position: absolute;
+  inset: 90px 20px auto auto;
+  transform: translate3d(-20px, 60px, 0px);
+  background-color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  visibility: ${({ open }) => (open ? "visible" : "collapse")}
+`;
+export const DCreateDropdownLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+`;
+export const DCreateDropdownLink = styled(Link)`
+  width: 100%;
+  padding: 0.25rem 1rem;
+  margin-bottom: 0.25rem;
+  font-weight: 400;
+  color: black;
+  text-decoration: none;
+  :hover {
+    background-color: orange;
+    color: white;
+  }
 `;
 export const DAddButton = styled.button`
   display: flex;
