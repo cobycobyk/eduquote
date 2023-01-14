@@ -20,8 +20,8 @@ export default function Cart({confirm, setConfirm}) {
         </CartTableHead>}
         {cartItems.map((item, key) => {
           return (
-            <React.Fragment>
-              <CartItem key={key}>
+            <React.Fragment key={key}>
+              <CartItem>
                 <CartTableCol1>
                   <CartItemImg src={item.image} alt="item" />
                 </CartTableCol1>
@@ -33,7 +33,9 @@ export default function Cart({confirm, setConfirm}) {
                 <CartTableCol4>
                   {priceFormatter.format(item.price)}
                 </CartTableCol4>
-                <CartTableCol5 onClick={() => handleRemoveItem(item) }>X</CartTableCol5>
+                <CartTableCol5 onClick={() => handleRemoveItem(item)}>
+                  X
+                </CartTableCol5>
               </CartItem>
             </React.Fragment>
           );

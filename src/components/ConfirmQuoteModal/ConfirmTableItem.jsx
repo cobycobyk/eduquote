@@ -1,21 +1,25 @@
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
+import { Td, TdCenter, TdImg, Th, Tr } from "./ConfirmQuoteModal.styles";
+import * as Icon from "react-feather";
 
 export default function ConfirmTableItem({ cartItem }) {
   return (
-    <tr className="shop-list">
-      <th>
-        <img
+    <Tr>
+      <Th>
+        <TdImg
           src={cartItem.image}
-          className="img-fluid avatar avatar-small rounded shadow"
-          style={{ height: "10rem" }}
           alt="product image"
         />
-      </th>
-      <td>{cartItem.name}</td>
-      <td>{cartItem.sku}</td>
-      <td>{cartItem.quantity}</td>
-      <td>{priceFormatter.format(cartItem.price)}</td>
-      <td>X</td>
-    </tr>
+      </Th>
+      <Td>{cartItem.name}</Td>
+      <Td>{cartItem.sku}</Td>
+      <Td>
+        <Icon.ChevronLeft />
+        {cartItem.quantity}
+        <Icon.ChevronRight />
+      </Td>
+      <Td>{priceFormatter.format(cartItem.price)}</Td>
+      <Td>X</Td>
+    </Tr>
   );
 }
