@@ -36,7 +36,7 @@ export default function DashboardPage({currentPage, setCurrentPage}) {
             Dashboard
           </DNavLink>
           <TextDivider>Clients</TextDivider>
-          <DNavLink to="clients" onClick={() => setCurrentPage("Clients")}>
+          <DNavLink to="clients" onClick={() => setCurrentPage("All Clients")}>
             All Clients
           </DNavLink>
           <DAddLink
@@ -46,7 +46,7 @@ export default function DashboardPage({currentPage, setCurrentPage}) {
             Add Client
           </DAddLink>
           <TextDivider>Quotes</TextDivider>
-          <DNavLink to="quotes" onClick={() => setCurrentPage("Quotes")}>
+          <DNavLink to="quotes" onClick={() => setCurrentPage("All Quotes")}>
             All Quotes
           </DNavLink>
           <DNavLink to="quotes/new" onClick={() => setCurrentPage("New Quote")}>

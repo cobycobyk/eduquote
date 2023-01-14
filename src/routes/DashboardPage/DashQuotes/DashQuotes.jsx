@@ -19,6 +19,12 @@ export default function DashQuotes() {
     getQuotes();
   }, []);
 
+  const handleClick = (quote) => {
+    navigate(`/dashboard/quotes/${quote.id}/edit`, {
+      state: { data: quote },
+    });
+  }
+
   return (
     <DTable>
       <Thead>
@@ -37,7 +43,7 @@ export default function DashQuotes() {
         <Tbody>
           {quotes?.map((quote, key) => {
             return (
-              <Tr key={key}>
+              <Tr key={key} onClick={() => handleClick(quote)}>
                 <Th>{quote.id}</Th>
                 <Td>{quote.salesperson}</Td>
                 <Td>{quote.salesperson}</Td>

@@ -167,9 +167,15 @@ export default function DashClientEdit({setCurrentPage}) {
           <SignupColumn>
             <SignupColumnFull>
               <RegisterButton type="submit">Save and Exit</RegisterButton>
-              <CancelButton onClick={() => navigate('/dashboard/clients')}>Cancel</CancelButton>
-              <CancelButton onClick={handleDelete}>Delete Client</CancelButton>
             </SignupColumnFull>
+          </SignupColumn>
+        </SignupRow>
+        <SignupRow>
+          <SignupColumn>
+              <CancelButton onClick={() => navigate('/dashboard/clients')}>Cancel</CancelButton>
+            </SignupColumn>
+            <SignupColumn>
+              <CancelButton onClick={handleDelete}>Delete Client</CancelButton>
           </SignupColumn>
         </SignupRow>
       </Formm>

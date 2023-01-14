@@ -24,6 +24,7 @@ export const CartTableHead = styled.div`
 `;
 export const CartItem = styled.div`
   display: flex;
+  justify-content: space-between;
   padding: 0.5rem;
   background-color: lightgrey;
   border-radius: 10px;
@@ -32,33 +33,52 @@ export const CartItem = styled.div`
   margin: 0.5rem 0;
 `;
 export const CartItemImg = styled.img`
-  border-radius: 50%;
-  width: 2rem;
-  flex-basis: 20%;
-`;
-export const CartItemMiddle = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 1rem;
-  justify-content: center;
-  align-items: center;
-  flex-basis: 50%
-`;
-export const CartItemRight = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 30%;
-`;
-export const CartQty = styled.div`
-
+  max-width: 5vw;
 `;
 export const CartTableCol1 = styled.div`
-`;
-export const CartTableCol2 = styled.div`
-`;
-export const CartTableCol3 = styled.div`
-`;
-export const CartTableCol4 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  `;
+  export const CartTableCol2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 60%;
+  `;
+  export const CartItemName = styled.div`
+  font-size: 0.9vw;
+  `;
+  export const CartItemSku = styled.div`
+  font-size: 0.75vw;
+  `;
+  export const CartTableCol3 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  font-size: 0.8vw;
+  flex-grow: 1;
+  `;
+  export const CartTableCol4 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  font-size: 0.8vw;
+  flex-grow: 1;
+  `;
+  export const CartTableCol5 = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 5%;
+  font-size: 0.8vw;
+  color: red;
+  cursor: pointer;
+  flex-grow: 1;
 `;
 
 export const CartTotal = styled.div`
@@ -94,4 +114,18 @@ export const CartCallToActionButton = styled.button`
     color: black;
     cursor: pointer;
   }
+`;
+export const CartTdImg = styled.td`
+  min-width: 90px;
+  max-width: 90px;
+  vertical-align: middle;
+  line-height: 1.42857143;
+  text-align: center;
+  color: rgba(105, 105, 115, 1);
+  padding: 6px 6px 6px 0;
+`;
+export const CartThumbnail = styled.img`
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
 `;

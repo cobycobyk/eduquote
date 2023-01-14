@@ -1,49 +1,56 @@
-import React, {useContext, useState} from "react";
-import { CartCallToAction, CartCallToActionButton, CartItem, CartItemImg, CartItemMiddle, CartItemRight, CartQty, CartSection, CartSh3, CartTableHead, CartTitle, CartTotal, CartTotalContainer } from "./Cart.styles";
+import React, {useContext} from "react";
+import { CartCallToAction, CartCallToActionButton, CartItem, CartItemImg, CartItemName, CartItemSku, CartSection, CartSh3, CartTableCol1, CartTableCol2, CartTableCol3, CartTableCol4, CartTableCol5, CartTableHead, CartTitle, CartTotal, CartTotalContainer } from "./Cart.styles";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { TextDividerSolid2 } from "../../assets/css/custom.styles";
-import e3 from '../../assets/images/quote/roboe3.png'
 import { CartContext } from "../../context/cart.context";
 
 export default function Cart({confirm, setConfirm}) {
-  const { cartItems, cartTotal } = useContext(CartContext);
+  const { cartItems, cartTotal, clearItemFromCart } = useContext(CartContext);
+
+  const handleRemoveItem = (cartItem) => {
+    clearItemFromCart(cartItem);
+  }
 
   return (
-    <CartSection>
-      <CartTitle>Quote Summary</CartTitle>
-      <CartTableHead>
-        <div>Item</div>
-        <div>Sku</div>
-        <div>Price</div>
-        <div>Qty</div>
-      </CartTableHead>
-      {cartItems.map((item, key) => {
-        return (
-          <CartItem key={key}>
-            <CartItemImg src={item.image} alt="item" />
-            <CartItemMiddle>
-              <div>{item.sku}</div>
-              <div>{item.sku}</div>
-            </CartItemMiddle>
-            <CartItemRight>
-              {priceFormatter.format(item.price)}
-            </CartItemRight>
-            <CartQty>{item.quantity}</CartQty>
-          </CartItem>
-        );
-      })}
-      <TextDividerSolid2></TextDividerSolid2>
-      <CartTotalContainer>
-        <CartSh3>Total:</CartSh3>
-        <CartTotal>{priceFormatter.format(cartTotal)}</CartTotal>
-      </CartTotalContainer>
-      {cartItems.length ? (
-        <CartCallToAction>
-          <CartCallToActionButton onClick={() => setConfirm(true)}>Send Quote</CartCallToActionButton>
-        </CartCallToAction>
-      ): (
-          null
-      )}
-    </CartSection>
+    <React.Fragment>
+      <CartSection>
+        <CartTitle>Quote Summary</CartTitle>
+        {!cartItems.length && <CartTableHead>
+          Add an item to start
+        </CartTableHead>}
+        {cartItems.map((item, key) => {
+          return (
+            <React.Fragment>
+              <CartItem key={key}>
+                <CartTableCol1>
+                  <CartItemImg src={item.image} alt="item" />
+                </CartTableCol1>
+                <CartTableCol2>
+                  <CartItemName>{item.name}</CartItemName>
+                  <CartItemSku>{item.sku}</CartItemSku>
+                </CartTableCol2>
+                <CartTableCol3>x{item.quantity}</CartTableCol3>
+                <CartTableCol4>
+                  {priceFormatter.format(item.price)}
+                </CartTableCol4>
+                <CartTableCol5 onClick={() => handleRemoveItem(item) }>X</CartTableCol5>
+              </CartItem>
+            </React.Fragment>
+          );
+        })}
+        <TextDividerSolid2></TextDividerSolid2>
+        <CartTotalContainer>
+          <CartSh3>Total:</CartSh3>
+          <CartTotal>{priceFormatter.format(cartTotal)}</CartTotal>
+        </CartTotalContainer>
+        {cartItems.length ? (
+          <CartCallToAction>
+            <CartCallToActionButton onClick={() => setConfirm(true)}>
+              Send Quote
+            </CartCallToActionButton>
+          </CartCallToAction>
+        ) : null}
+      </CartSection>
+    </React.Fragment>
   );
 }
