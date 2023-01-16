@@ -3,21 +3,23 @@ import Cart from "../../../components/Cart/Cart";
 import ConfirmQuoteModal from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal";
 import Quote from "../../../components/Quote/Quote";
 import { QuoteSectionContainer, QuoteSectionLeft, QuoteSectionRight } from "../../QuotePage/QuotePage.styles";
+import DashQuoteConfirmModal from "./DashQuoteConfirmModal";
+import { DQNewContainer } from "./DashQuotes.styles";
 
 export default function DashQuoteNew() {
   const [confirm, setConfirm] = useState(false);
 
   return (
     <React.Fragment>
-      <QuoteSectionContainer>
+      <DQNewContainer>
         <QuoteSectionLeft>
           <Quote />
         </QuoteSectionLeft>
         <QuoteSectionRight>
           <Cart confirm={confirm} setConfirm={setConfirm} />
         </QuoteSectionRight>
-      </QuoteSectionContainer>
-      <ConfirmQuoteModal confirm={confirm} setConfirm={setConfirm} />
+      </DQNewContainer>
+      <DashQuoteConfirmModal confirm={confirm} setConfirm={setConfirm} />
     </React.Fragment>
   );
 }

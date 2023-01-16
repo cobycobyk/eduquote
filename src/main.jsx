@@ -37,6 +37,7 @@ import DashCatalogNew from "./routes/DashboardPage/DashCatalogs/DashCatalogNew";
 import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashCatalog";
 import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashCatalogEdit";
 import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -46,8 +47,11 @@ function App() {
       <Route
         element={
           <>
-            <Navigation />
-            <Outlet />
+            <>
+              <Navigation />
+              <Outlet />
+            </>
+            <Footer />
           </>
         }
       >

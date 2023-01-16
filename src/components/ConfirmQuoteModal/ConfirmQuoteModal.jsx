@@ -5,6 +5,10 @@ import { CartContext } from "../../context/cart.context";
 import { CartCallToActionButton } from "../Cart/Cart.styles";
 import ConfirmTable from "./ConfirmTable";
 
+const handleConfirmQuote = () => {
+  console.log('submitted')
+}
+
 export default function ConfirmQuoteModal({ confirm, setConfirm }) {
   const { cartItems, cartTotal } = useContext(CartContext);
   return (
@@ -22,7 +26,7 @@ export default function ConfirmQuoteModal({ confirm, setConfirm }) {
         
       </ModalBody>
       <ModalFooter>
-        <CartCallToActionButton>Confirm and Send</CartCallToActionButton>
+        <CartCallToActionButton onClick={handleConfirmQuote} >Confirm and Send</CartCallToActionButton>
       </ModalFooter>
     </Modal>
   );
