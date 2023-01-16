@@ -221,9 +221,10 @@ export const getAllQuotes = async (user) => {
   return quotes;
 };
 //add quote
-export const addQuoteFromSalesperson = async (currentUser, formData) => {
+export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');
   console.log('add quote from salesperson')
+  console.log(formData,cartCount, cartTotal, cartItems)
   const id = formData.id;
   const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
@@ -235,9 +236,9 @@ export const addQuoteFromSalesperson = async (currentUser, formData) => {
         createdBy: currentUser.email,
         salesperson: currentUser.email,
         status: "active",
-        cartTotal: formData.cartTotal,
-        cartCount: formData.cartCount,
-        cartItems: formData.cartItems,
+        cartTotal,
+        cartCount,
+        cartItems,
         createdFor: formData.recipientEmail,
         id,
       });

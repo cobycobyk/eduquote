@@ -9,14 +9,11 @@ import { addQuoteFromSalesperson } from "../../../utils/firebase";
 import { Formm, SignupInput } from "../../SignupPage/SignupPage.styles";
 
 export default function DashQuoteConfirmModal({confirm, setConfirm}) {
-  const { cartTotal, cartCount, cartItems } = useContext(CartContext);
+  const { cartTotal, cartCount, cartItems, clearCart } = useContext(CartContext);
   const { currentUserInfo } = useContext(UserContext);
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    cartTotal,
-    cartCount,
-    cartItems,
     recipientEmail: "",
     id: "",
   })
@@ -27,13 +24,15 @@ export default function DashQuoteConfirmModal({confirm, setConfirm}) {
       ...formData,
       id: newDate,
     });
-  }, [cartItems]);
+  }, []);
 
   const handleConfirm = async (e) => {
     e.preventDefault();
+    if (!cartCount) return setMessage("No Cart Items");
     if (!formData.recipientEmail) return setMessage("Enter Recipient Email");
-    console.log('submitted')
-    await addQuoteFromSalesperson(currentUserInfo, formData);
+    console.log(formData)
+    await addQuoteFromSalesperson(currentUserInfo, formData, cartCount, cartTotal, cartItems);
+    clearCart();
     setConfirm(false);
     navigate('/dashboard/quotes');
   }
