@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const FooterWrapper = styled.footer`
   width: 100%;
+  margin-top: 50px;
 `;
 
 export const FooterContainer = styled.div`
@@ -104,8 +105,11 @@ export const FooterLinks = styled.div`
 `;
 
 export const FooterLink = styled(Link)`
-  color: white;
+  color: black;
   margin-right: 1rem;
+  :hover {
+    color: orange;
+  }
 `;
 
 export const FooterSocials = styled.div`

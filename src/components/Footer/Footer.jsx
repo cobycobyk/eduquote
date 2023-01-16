@@ -60,25 +60,25 @@ export default function Footer() {
           <FooterButton to="/contact">Contact us here</FooterButton>
           <FooterSocials>
             <FooterSocialIcon
-              href="https://www.facebook.com/stardamimages/"
+              href="https://www.facebook.com"
               target="_blank"
             >
               <Icon.Facebook />
             </FooterSocialIcon>
             <FooterSocialIcon
-              href="https://www.instagram.com/stardammedia/"
+              href="https://www.instagram.com"
               target="_blank"
             >
               <Icon.Instagram />
             </FooterSocialIcon>
             <FooterSocialIcon
-              href="https://twitter.com/StardamImages"
+              href="https://twitter.com"
               target="_blank"
             >
               <Icon.Twitter />
             </FooterSocialIcon>
             <FooterSocialIcon
-              href="https://www.linkedin.com/company/stardam-images/"
+              href="https://www.linkedin.com"
               target="_blank"
             >
               <Icon.Linkedin />

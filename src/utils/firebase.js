@@ -221,10 +221,37 @@ export const getAllQuotes = async (user) => {
   return quotes;
 };
 //add quote
-export const addQuote = async (currentUser, formData) => {
-  if (!auth.currentUser) return;
+export const addQuoteFromSalesperson = async (currentUser, formData) => {
+  if (!auth.currentUser) return console.log('No authorized user');
+  console.log('add quote from salesperson')
   const id = formData.id;
   const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (!quoteSnapshot.exists()) {
+    const createdAt = new Date();
+    try {
+      await setDoc(quoteDocRef, {
+        createdAt,
+        createdBy: currentUser.email,
+        salesperson: currentUser.email,
+        status: "active",
+        cartTotal: formData.cartTotal,
+        cartCount: formData.cartCount,
+        cartItems: formData.cartItems,
+        createdFor: formData.recipientEmail,
+        id,
+      });
+    } catch (error) {
+      console.log('error creating quote from salesperson')
+    }
+  }
+  return quoteDocRef;
+}
+
+/*---UserQuotes---*/
+export const addQuoteFromEndUser = async (cartItems, cartTotal, cartCount, currentUserInfo) => {
+  if (!auth.currentUser) return;
+  const quoteDocRef = doc(db, 'users', auth.user.id, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
   if (!quoteSnapshot.exists()) {
     const createdAt = new Date();
@@ -242,5 +269,4 @@ export const addQuote = async (currentUser, formData) => {
       console.log('error creating catalog')
     }
   }
-  return catalogDocRef;
-}
+}; 

@@ -46,7 +46,7 @@ export default function DashQuotes() {
               <Tr key={key} onClick={() => handleClick(quote)}>
                 <Th>{quote.id}</Th>
                 <Td>{quote.salesperson}</Td>
-                <Td>{quote.salesperson}</Td>
+                <Td>{quote.createdBy}</Td>
                 <Td>{quote.cartCount}</Td>
                 <Td>{priceFormatter.format(quote.cartTotal)}</Td>
                 <Td>

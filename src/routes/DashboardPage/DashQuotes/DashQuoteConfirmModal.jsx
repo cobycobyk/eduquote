@@ -1,17 +1,41 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { CancelButton } from "../../../assets/css/custom.styles";
 import { CartCallToActionButton } from "../../../components/Cart/Cart.styles";
 import { CartContext } from "../../../context/cart.context";
+import { UserContext } from "../../../context/user.context";
+import { addQuoteFromSalesperson } from "../../../utils/firebase";
 import { Formm, SignupInput } from "../../SignupPage/SignupPage.styles";
 
 export default function DashQuoteConfirmModal({confirm, setConfirm}) {
-  const { cartTotal } = useContext(CartContext);
-  const [formData, setFormData] = useState({})
+  const { cartTotal, cartCount, cartItems } = useContext(CartContext);
+  const { currentUserInfo } = useContext(UserContext);
+  const [message, setMessage] = useState(false);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    cartTotal,
+    cartCount,
+    cartItems,
+    recipientEmail: "",
+    id: "",
+  })
 
-  const handleConfirm = () => {
+  useEffect(() => {
+    const newDate = Date.now().toString();
+    setFormData({
+      ...formData,
+      id: newDate,
+    });
+  }, [cartItems]);
+
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    if (!formData.recipientEmail) return setMessage("Enter Recipient Email");
+    console.log('submitted')
+    await addQuoteFromSalesperson(currentUserInfo, formData);
     setConfirm(false);
-    console.log('confirmed')
+    navigate('/dashboard/quotes');
   }
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -31,12 +55,12 @@ export default function DashQuoteConfirmModal({confirm, setConfirm}) {
       <ModalBody>
         <Formm onSubmit={handleConfirm}>
           <SignupInput
-            value={formData.email}
+            value={formData.recipientEmail}
             onChange={handleChange}
             type="email"
-            name="email"
+            name="recipientEmail"
             id="email"
-            placeholder="Enter Email"
+            placeholder="Enter Recipient Email"
             required
             errorMessage=""
             validate={{
@@ -50,6 +74,7 @@ export default function DashQuoteConfirmModal({confirm, setConfirm}) {
               },
             }}
           />
+          {message && <div>{message}</div>}
           <CartCallToActionButton type="submit">
             Confirm and Send
           </CartCallToActionButton>
