@@ -224,7 +224,6 @@ export const getAllQuotes = async (user) => {
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');
   console.log('add quote from salesperson')
-  console.log(formData,cartCount, cartTotal, cartItems)
   const id = formData.id;
   const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);

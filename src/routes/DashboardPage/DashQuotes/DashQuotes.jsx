@@ -20,10 +20,10 @@ export default function DashQuotes() {
   }, []);
 
   const handleClick = (quote) => {
-    navigate(`/dashboard/quotes/${quote.id}/edit`, {
+    navigate(`/dashboard/quotes/${quote.id}`, {
       state: { data: quote },
     });
-  }
+  };
 
   return (
     <DTable>

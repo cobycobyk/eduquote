@@ -30,7 +30,6 @@ export default function DashQuoteConfirmModal({confirm, setConfirm}) {
     e.preventDefault();
     if (!cartCount) return setMessage("No Cart Items");
     if (!formData.recipientEmail) return setMessage("Enter Recipient Email");
-    console.log(formData)
     await addQuoteFromSalesperson(currentUserInfo, formData, cartCount, cartTotal, cartItems);
     clearCart();
     setConfirm(false);
