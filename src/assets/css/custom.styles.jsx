@@ -4,6 +4,14 @@ export const Danger = styled.span`
   --bs-text-opacity: 1;
   color: red !important;
 `;
+export const Bold = styled.span`
+  font-weight: bold;
+`;
+export const HoverOrange = styled.span`
+  :hover {
+    color: orange;
+  }
+`;
 export const TextDivider = styled.div`
   display: flex;
   align-items: center;
@@ -107,3 +115,11 @@ export const SaveButton = styled.button`
     background-color: orange;
   }
 `;
+
+export const HoverPointer = styled.div`
+  text-align: center;
+  :hover {
+    color: red;
+    cursor: pointer;
+  }
+`

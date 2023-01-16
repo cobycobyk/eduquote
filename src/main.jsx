@@ -101,6 +101,7 @@ function App() {
           />
           <Route path="settings" element={<DashSettings />} />
         </Route>
+        <Route path="test" element={<TestPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>

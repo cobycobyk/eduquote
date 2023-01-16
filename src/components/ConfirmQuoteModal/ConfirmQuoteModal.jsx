@@ -19,6 +19,7 @@ export default function ConfirmQuoteModal({ confirm, setConfirm }) {
       </ModalHeader>
       <ModalBody>
         <ConfirmTable cartItems={cartItems} cartTotal={cartTotal} />
+        
       </ModalBody>
       <ModalFooter>
         <CartCallToActionButton>Confirm and Send</CartCallToActionButton>

@@ -50,3 +50,7 @@ export const Tbody = styled.tbody`
     width: 100%;
   }
 `;
+export const TableTotal = styled.div`
+  display: flex;
+  justify-content: end;
+`;
