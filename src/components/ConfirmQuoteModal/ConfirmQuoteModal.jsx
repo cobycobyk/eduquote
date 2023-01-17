@@ -10,16 +10,16 @@ import { addQuoteFromEndUser } from '../../utils/firebase.js';
 export default function ConfirmQuoteModal({ confirm, setConfirm }) {
   const { cartItems, cartTotal, cartCount } = useContext(CartContext);
   const { currentUserInfo, currentUser } = useContext(UserContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(false);
 
   const handleConfirmQuote = async () => {
     if (!currentUserInfo) return setMessage("Please Sign In to Send a Quote");
     try {
       await addQuoteFromEndUser(
+        currentUserInfo,
         cartItems,
         cartTotal,
         cartCount,
-        currentUserInfo,
       );
     } catch (error) {
       console.log(error);

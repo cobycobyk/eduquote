@@ -2,7 +2,7 @@ import React,{ useState } from "react";
 import Cart from "../../../components/Cart/Cart";
 import ConfirmQuoteModal from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal";
 import Quote from "../../../components/Quote/Quote";
-import { QuoteSectionContainer, QuoteSectionLeft, QuoteSectionRight } from "../../QuotePage/QuotePage.styles";
+import { QuoteSectionLeft, QuoteSectionRight } from "../../QuotePage/QuotePage.styles";
 import DashQuoteConfirmModal from "./DashQuoteConfirmModal";
 import { DQNewContainer } from "./DashQuotes.styles";
 

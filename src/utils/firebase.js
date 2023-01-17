@@ -213,14 +213,17 @@ export const getAllQuotes = async (user) => {
   if (!auth.currentUser) return console.log('not authorized');
   const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
   const quotes = []
+  const otherQuotes = []
   quoteDecRef.forEach((doc) => {
     if (doc.data().salesperson === user.email) {
       quotes.push(doc.data());
+    } else {
+      otherQuotes.push(doc.data());
     }
   });
-  return quotes;
+  return {quotes, otherQuotes};
 };
-//add quote
+//add quote from salesperson
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');
   console.log('add quote from salesperson')
@@ -247,9 +250,31 @@ export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, 
   }
   return quoteDocRef;
 }
+//update quote from salesperson
+export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
+  if (!auth.currentUser) return console.log('No authorized user');
+  console.log('update quote from salesperson')
+  const id = quote.id;
+  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (quoteSnapshot.exists()) {
+    try {
+      await updateDoc(quoteDocRef, {
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.email,
+        cartCount,
+        cartTotal,
+        cartItems,
+      })
+    } catch (error) {
+      console.log('error updating quote from salesperson')
+    }
+  }
+  return console.log('Update Quote Successfull')
+};
 
 /*---UserQuotes---*/
-export const addQuoteFromEndUser = async (cartItems, cartTotal, cartCount, currentUserInfo) => {
+export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, cartCount) => {
   if (!auth.currentUser) return;
   const quoteDocRef = doc(db, 'users', auth.user.id, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
@@ -262,7 +287,7 @@ export const addQuoteFromEndUser = async (cartItems, cartTotal, cartCount, curre
         status: "active",
         cartTotal,
         cartCount,
-        cartItems: [],
+        cartItems,
         id,
       });
     } catch (error) {
