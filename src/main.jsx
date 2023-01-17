@@ -38,6 +38,8 @@ import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashCatalog";
 import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashCatalogEdit";
 import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
 import Footer from "./components/Footer/Footer";
+import HowToPage from "./routes/HowToPage/HowToPage";
+import PricingPage from "./routes/PricingPage/PricingPage";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -60,6 +62,8 @@ function App() {
         <Route path="signup" element={<SignupPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="howto" element={<HowToPage />} />
+        <Route path="pricing" element={<PricingPage />} />
         <Route path="test" element={<TestPage />} />
         <Route path="casestudies">
           <Route index element={<CaseStudiesPage />} />

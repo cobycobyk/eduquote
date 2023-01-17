@@ -28,6 +28,7 @@ export default function DashClients() {
         <Tr>
           <Th>Name</Th>
           <Th>Email</Th>
+          <Th>Salesperson</Th>
           <Th>Status</Th>
           <Th>Created</Th>
           <Th>Actions</Th>
@@ -43,6 +44,7 @@ export default function DashClients() {
                   {client.lastName}
                 </Th>
                 <Td>{client.email}</Td>
+                <Td>{client.salesperson}</Td>
                 <Td>{client.status}</Td>
                 <Td>
                   {moment
