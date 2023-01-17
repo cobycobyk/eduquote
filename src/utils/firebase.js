@@ -204,7 +204,25 @@ export const addCatalogItem = async (currentUser, catalog, formData) => {
   }
   return console.log('added item to catalog')
 }
-//update catalog
+//delete catalog item
+export const deleteCatalogItem = async (currentUser, catalog, item, index) => {
+  if (!auth.currentUser) return console.log('Not authorized to add catalog items');
+  if (currentUser.company !== catalog.company) return console.log('Not authorized to add catalog items');
+  const id = catalog.id;
+  const catalogDocRef = doc(db, 'companies', catalog.company, 'catalogs', id);
+  const catalogSnapshot = await getDoc(catalogDocRef);
+  const items = catalogSnapshot.data().items;
+  items.splice(index, 1);
+  if (catalogSnapshot.exists()) {
+    await updateDoc(catalogDocRef, {
+      updatedAt: serverTimestamp(),
+      updatedBy: auth.currentUser.email,
+      items,
+    })
+  }
+  return console.log('added item to catalog')
+}
+//update catalog information
 export const updateCatalog = async (formData) => {
   if (!auth.currentUser) return;
   const category = formData.category.toLowerCase();

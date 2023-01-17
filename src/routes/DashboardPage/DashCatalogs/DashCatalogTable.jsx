@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react"
 import { Tbody, Td, Th, Thead, Tr } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { QAButton, QAInput, QuoteAddContainer, QuoteSection, QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { UserContext } from "../../../context/user.context";
-import { addCatalogItem } from "../../../utils/firebase";
+import { addCatalogItem, deleteCatalogItem } from "../../../utils/firebase";
 import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 import { DTable } from "../DashboardPage.styles";
 import { DashCatalogTableInput, DashCatalogTableSection, DTButton } from "./DashCatalogs.styles";
@@ -31,7 +31,11 @@ export default function DashCatalogTable({ catalog }) {
     await addCatalogItem(currentUserInfo, catalog, formData);
     setFormData(defaultFormData);
   }
-  const handleDeleteProduct = () => {
+  const handleDeleteProduct = async (item, index) => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+    await deleteCatalogItem(currentUserInfo, catalog, item, index);
     console.log('delete product')
   }
 
@@ -70,7 +74,7 @@ export default function DashCatalogTable({ catalog }) {
                     <Td>{priceFormatter.format(item.price)}</Td>
                     <Td>
                       <QuoteAddContainer>
-                        <DTButton onClick={handleDeleteProduct}>
+                        <DTButton onClick={() => handleDeleteProduct(item, key)}>
                           Delete
                         </DTButton>
                       </QuoteAddContainer>
