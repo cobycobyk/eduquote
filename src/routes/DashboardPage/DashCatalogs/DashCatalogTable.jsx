@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react"
-import { Tbody, Td, Th, Thead, Tr } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
+import { Tbody, Td, TdImg, Th, Thead, Tr } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { QAButton, QAInput, QuoteAddContainer, QuoteSection, QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { UserContext } from "../../../context/user.context";
 import { addCatalogItem, deleteCatalogItem } from "../../../utils/firebase";
@@ -65,7 +65,7 @@ export default function DashCatalogTable({ catalog }) {
                 return (
                   <Tr key={key}>
                     <Th>
-                      <img src={item.image} width={54} />
+                      <TdImg src={item?.image} width={54} />
                     </Th>
                     <Td>{item.name}</Td>
                     <Td>{item.sku}</Td>
