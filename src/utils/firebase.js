@@ -186,6 +186,24 @@ export const addCatalog = async (currentUser, formData) => {
   }
   return catalogDocRef;
 };
+//add catalog item
+export const addCatalogItem = async (currentUser, catalog, formData) => {
+  if (!auth.currentUser) return console.log('Not authorized to add catalog items');
+  if (currentUser.company !== catalog.company) return console.log('Not authorized to add catalog items');
+  const id = catalog.id;
+  const catalogDocRef = doc(db, 'companies', catalog.company, 'catalogs', id);
+  const catalogSnapshot = await getDoc(catalogDocRef);
+  const items = catalogSnapshot.data().items;
+  console.log(items);
+  if (catalogSnapshot.exists()) {
+    await updateDoc(catalogDocRef, {
+      updatedAt: serverTimestamp(),
+      updatedBy: auth.currentUser.email,
+      items: [...items, formData]
+    })
+  }
+  return console.log('added item to catalog')
+}
 //update catalog
 export const updateCatalog = async (formData) => {
   if (!auth.currentUser) return;
@@ -196,7 +214,6 @@ export const updateCatalog = async (formData) => {
     category: category,
     name: formData.name,
     updatedBy: auth.currentUser.email,
-    items: [],
   })
   return console.log('Update Catalog Successfull')
 };

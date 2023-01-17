@@ -2,11 +2,8 @@ import React, {useState} from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bold, HoverOrange, HoverPointer } from "../../../assets/css/custom.styles";
 import { CheckoutTable, TableColumn, TdImg } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
-import ConfirmTable from "../../../components/ConfirmQuoteModal/ConfirmTable";
-import ConfirmTableItem from "../../../components/ConfirmQuoteModal/ConfirmTableItem";
 import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 import { Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
-import * as Icon from "react-feather";
 import { CartCallToActionButton } from "../../../components/Cart/Cart.styles";
 
 export default function DashQuote() {

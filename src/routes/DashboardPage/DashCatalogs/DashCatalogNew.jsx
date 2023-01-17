@@ -52,7 +52,7 @@ export default function DashCatalogNew() {
     e.preventDefault();
     await addCatalog(currentUserInfo, formData);
     resetFormData();
-    navigate(`/dashboard/catalogs/${formData.category}/edit`, {state: {data: formData}});
+    navigate(`/dashboard/catalogs/${formData.category}`, {state: {data: formData}});
   };
 
   return (
