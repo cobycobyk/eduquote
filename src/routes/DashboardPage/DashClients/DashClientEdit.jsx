@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   CardTitlee,
@@ -16,11 +16,13 @@ import * as Icon from "react-feather";
 import { CancelButton, Danger } from "../../../assets/css/custom.styles";
 import { deleteClient, updateClient } from "../../../utils/firebase";
 import { FormExButton } from "../../ContactPage/ContactPage.styles";
+import { UserContext } from "../../../context/user.context";
 
 export default function DashClientEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
   const location = useLocation();
   const clientInfo = location.state?.data;
+  const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     setFormData(clientInfo);
@@ -39,7 +41,7 @@ export default function DashClientEdit({setCurrentPage}) {
   };
   
   const handleDelete = async () => {
-    await deleteClient(formData);
+    await deleteClient(currentUserInfo, formData);
     navigate("/dashboard/clients");
   }
 

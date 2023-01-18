@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllClients } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
+import sortBy from "sort-by";
 
 export default function DashClients() {
   const { currentUserInfo } = useContext(UserContext);
@@ -13,7 +14,7 @@ export default function DashClients() {
   useEffect(() => {
     const getClients = async () => {
       const allClients = await getAllClients(currentUserInfo.company);
-      setClients(allClients);
+      setClients(allClients.sort(sortBy("firstName")));
     }
     currentUserInfo && getClients();
   }, []);

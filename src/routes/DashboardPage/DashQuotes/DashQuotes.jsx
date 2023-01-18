@@ -17,7 +17,7 @@ export default function DashQuotes() {
   useEffect(() => {
     const getQuotes = async () => {
       const allQuotes = await getAllQuotes(currentUserInfo);
-      setQuotes(allQuotes.quotes.sortBy("createdAt"));
+      setQuotes(allQuotes.quotes.sort(sortBy("-createdAt")));
       setOtherQuotes(allQuotes.otherQuotes)
     };
     getQuotes();

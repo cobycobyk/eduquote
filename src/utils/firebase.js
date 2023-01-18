@@ -99,7 +99,9 @@ export const sendPasswordReset = async (email) => {
 /*---Clients---*/
 //add client
 export const addClient = async (userCompany, formData) => {
-  if (!auth.currentUser) return;
+  if (!auth.currentUser) return console.log("Not an authorized user");
+  formData.firstName = formData.firstName[0].toUpperCase() + formData.firstName.slice(1).toLowerCase(); 
+  formData.lastName = formData.lastName[0].toUpperCase() + formData.lastName.slice(1).toLowerCase(); 
   const clientDocRef = doc(db, 'companies', userCompany, 'clients', formData.email);
   const clientSnapshot = await getDoc(clientDocRef);
   if (!clientSnapshot.exists()) {
@@ -144,10 +146,10 @@ export const getAllClients = async (userCompany) => {
   return clients;
 };
 //delete client
-export const deleteClient = async (formData) => {
+export const deleteClient = async (currentUser, formData) => {
   if (!auth.currentUser) return;
-  const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
-  await deleteDoc(clientDocRef);
+  const clientDocRef = doc(db, 'companies', currentUser.company, 'clients', formData.email);
+  return await deleteDoc(clientDocRef);
 };
 
 /*---Catalogs---*/
