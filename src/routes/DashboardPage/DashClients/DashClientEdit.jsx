@@ -15,7 +15,6 @@ import {
 import * as Icon from "react-feather";
 import { CancelButton, Danger } from "../../../assets/css/custom.styles";
 import { deleteClient, updateClient } from "../../../utils/firebase";
-import { FormExButton } from "../../ContactPage/ContactPage.styles";
 import { UserContext } from "../../../context/user.context";
 
 export default function DashClientEdit({setCurrentPage}) {

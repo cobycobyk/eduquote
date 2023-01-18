@@ -39,6 +39,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   const userSnapshot = await getDoc(userDocRef);
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
+    if (displayName === null) displayName = additionalInformation.firstName + additionalInformation.lastName;
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
@@ -336,7 +337,7 @@ export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, car
         id,
       });
     } catch (error) {
-      console.log('error creating catalog')
+      console.log('error creating quote from end user')
     }
   }
 }; 
@@ -357,7 +358,7 @@ export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cart
         cartItems,
       })
     } catch (error) {
-      console.log('error updating quote from salesperson')
+      console.log('error updating quote from end user')
     }
   }
   return console.log('Update Quote Successfull')
