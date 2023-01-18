@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { CancelButton } from "../../assets/css/custom.styles";
 import { CartContext } from "../../context/cart.context";
@@ -11,12 +11,24 @@ export default function ConfirmQuoteModal({ confirm, setConfirm }) {
   const { cartItems, cartTotal, cartCount } = useContext(CartContext);
   const { currentUserInfo, currentUser } = useContext(UserContext);
   const [message, setMessage] = useState(false);
+  const [formData, setFormData] = useState(null);
 
-  const handleConfirmQuote = async () => {
+  useEffect(() => {
+    const newDate = Date.now().toString();
+    setFormData({
+      ...formData,
+      id: newDate,
+    });
+  }, [])
+
+  const handleConfirmQuote = async (e) => {
+    e.preventDefault();
+    console.log(formData);
     if (!currentUserInfo) return setMessage("Please Sign In to Send a Quote");
     try {
       await addQuoteFromEndUser(
         currentUserInfo,
+        formData,
         cartItems,
         cartTotal,
         cartCount,

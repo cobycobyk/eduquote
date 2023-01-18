@@ -37,6 +37,7 @@ export default function DashQuotes() {
             <Th>ID</Th>
             <Th>Salesperson</Th>
             <Th>Created By</Th>
+            <Th>Created For</Th>
             <Th>Total Items</Th>
             <Th>Total Price</Th>
             <Th>Created At</Th>
@@ -52,6 +53,7 @@ export default function DashQuotes() {
                   <Th>{quote.id}</Th>
                   <Td>{quote.salesperson}</Td>
                   <Td>{quote.createdBy}</Td>
+                  <Td>{quote.createdFor}</Td>
                   <Td>{quote.cartCount}</Td>
                   <Td>{priceFormatter.format(quote.cartTotal)}</Td>
                   <Td>

@@ -250,10 +250,10 @@ export const deleteCatalog = async (formData) => {
 //get all quotes
 export const getAllQuotes = async (user) => {
   if (!auth.currentUser) return console.log('not authorized');
-  const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
+  const quoteDocRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
   const quotes = []
   const otherQuotes = []
-  quoteDecRef.forEach((doc) => {
+  quoteDocRef.forEach((doc) => {
     if (doc.data().salesperson === user.email) {
       quotes.push(doc.data());
     } else {
@@ -282,7 +282,7 @@ export const getQuoteForClient = async (user, clientInfo) => {
 //add quote from salesperson
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');
-  console.log('add quote from salesperson')
+  console.log('add quote from salesperson');
   const id = formData.id;
   const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
@@ -331,14 +331,22 @@ export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, 
 
 /*---UserQuotes---*/
 //get end user quotes
-export const getUserQuotes = async (user) => {
-  const quotes = [1, 2];
+export const getUserQuotes = async () => {
+  if (!auth.currentUser) return console.log("not an authorized user");
+  const quoteDocRef = await getDocs(collection(db, 'users', auth.currentUser.uid, 'quotes'))
+  const quotes = [];
+  quoteDocRef.forEach((doc) => {
+    quotes.push(doc.data());
+  });
   return quotes;
 }
 //add quote from end user
-export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, cartCount) => {
-  if (!auth.currentUser) return;
-  const quoteDocRef = doc(db, 'users', auth.user.id, 'quotes', id);
+export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cartTotal, cartCount) => {
+  if (!auth.currentUser) return console.log("not an authorized user");
+  console.log('add quote from end user');
+  console.log(formData)
+  const id = formData.id;
+  const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
   if (!quoteSnapshot.exists()) {
     const createdAt = new Date();
@@ -346,6 +354,7 @@ export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, car
       await setDoc(quoteDocRef, {
         createdAt,
         createdBy: currentUser.email,
+        salesperson: null,
         status: "active",
         cartTotal,
         cartCount,
