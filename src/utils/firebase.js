@@ -149,6 +149,7 @@ export const deleteClient = async (formData) => {
   const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
   await deleteDoc(clientDocRef);
 };
+
 /*---Catalogs---*/
 //get catalogs
 export const getAllCatalogs = async (userCompany) => {
@@ -242,6 +243,7 @@ export const deleteCatalog = async (formData) => {
   await deleteDoc(catalogDocRef);
   return console.log('Delete Catalog Successfull')
 };
+
 /*---Quotes---*/
 //get all quotes
 export const getAllQuotes = async (user) => {
@@ -309,6 +311,12 @@ export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, 
 };
 
 /*---UserQuotes---*/
+//get end user quotes
+export const getUserQuotes = async (user) => {
+  const quotes = [1, 2];
+  return quotes;
+}
+//add quote from end user
 export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, cartCount) => {
   if (!auth.currentUser) return;
   const quoteDocRef = doc(db, 'users', auth.user.id, 'quotes', id);
@@ -330,3 +338,25 @@ export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, car
     }
   }
 }; 
+//*******not working */update quote from end user
+export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
+  if (!auth.currentUser) return console.log('No authorized user');
+  console.log('update quote from salesperson')
+  const id = quote.id;
+  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (quoteSnapshot.exists()) {
+    try {
+      await updateDoc(quoteDocRef, {
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.email,
+        cartCount,
+        cartTotal,
+        cartItems,
+      })
+    } catch (error) {
+      console.log('error updating quote from salesperson')
+    }
+  }
+  return console.log('Update Quote Successfull')
+};

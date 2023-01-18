@@ -6,6 +6,7 @@ import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import moment from "moment";
 import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 import { TextDividerSolid2 } from "../../../assets/css/custom.styles";
+import sortBy from "sort-by";
 
 export default function DashQuotes() {
   const [quotes, setQuotes] = useState([]);
@@ -16,7 +17,7 @@ export default function DashQuotes() {
   useEffect(() => {
     const getQuotes = async () => {
       const allQuotes = await getAllQuotes(currentUserInfo);
-      setQuotes(allQuotes.quotes);
+      setQuotes(allQuotes.quotes.sortBy("createdAt"));
       setOtherQuotes(allQuotes.otherQuotes)
     };
     getQuotes();

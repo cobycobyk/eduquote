@@ -75,3 +75,14 @@ export const AccountLinkTitle = styled.div`
   align-self: center;
   margin-left: 0.5rem;
 `;
+export const ProfileSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 66.66%;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding: 1rem;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
