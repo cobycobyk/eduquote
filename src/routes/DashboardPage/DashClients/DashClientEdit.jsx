@@ -25,7 +25,7 @@ export default function DashClientEdit({setCurrentPage}) {
   const navigate = useNavigate();
   useEffect(() => {
     setFormData(clientInfo);
-    setCurrentPage("Edit Client");
+    setCurrentPage(`Edit Client ${clientInfo.email}`);
   }, []);
 
   const handleChange = (e) => {

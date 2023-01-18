@@ -23,7 +23,7 @@ export default function DashCatalogEdit({setCurrentPage}) {
 
   useEffect(() => {
     setFormData(catalog);
-    setCurrentPage("Edit Catalog");
+    setCurrentPage(`Edit ${catalog.name} Catalog`);
   }, []);
 
   const handleChange = (e) => {

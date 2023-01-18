@@ -1,20 +1,24 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { CardTitlee, FormLabel, Formm, SignupCard, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupRow } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, SaveButton } from "../../../assets/css/custom.styles";
 import DashCatalogTable from "./DashCatalogTable";
 
-export default function DashCatalog() {
+export default function DashCatalog({setCurrentPage}) {
   const location = useLocation();
   const catalog = location.state?.data;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCurrentPage(`${catalog.name} Catalog`)
+  }, [])
 
   const handleClick = () => {
     console.log('edit')
     navigate(`/dashboard/catalogs/${catalog.category}/edit`, {state: {data: catalog},})
   }
-console.log(catalog)
+
   return (
     <React.Fragment>
       <SignupCard>

@@ -17,6 +17,11 @@ export default function MyQuotesPage() {
     getAllUserQuotes();
   }, [])
 
+  const handleClick = (quote) => {
+    navigate(`/quotes/${quote.id}`, {
+      state: { data: quote },
+    });
+  };
   return (
     <React.Fragment>
       <DTable>

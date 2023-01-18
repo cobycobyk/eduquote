@@ -12,7 +12,7 @@ import Quote from "../../../components/Quote/Quote";
 import { DQNewContainer } from "./DashQuotes.styles";
 import { QuoteSectionLeft, QuoteSectionRight } from "../../QuotePage/QuotePage.styles";
 
-export default function DashQuoteEdit() {
+export default function DashQuoteEdit({setCurrentPage}) {
   const location = useLocation();
   const quote = location.state?.data;
   const { replaceCartItems, cartItems, cartTotal, cartCount, removeItemToCart, addItemToCart, clearItemFromCart, clearCart } = useContext(CartContext);
@@ -22,6 +22,7 @@ export default function DashQuoteEdit() {
 
   useEffect(() => {
     replaceCartItems(quote.cartItems);
+    setCurrentPage(`Edit Quote ${quote.id}`)
   }, [])
 
   const handleSubmit = async (e) => {

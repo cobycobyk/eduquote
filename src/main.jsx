@@ -41,6 +41,7 @@ import Footer from "./components/Footer/Footer";
 import HowToPage from "./routes/HowToPage/HowToPage";
 import PricingPage from "./routes/PricingPage/PricingPage";
 import DashClient from "./routes/DashboardPage/DashClients/DashClient";
+import MyQuoteEditPage from "./routes/AccountPage/MyQuoteEditPage";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -73,7 +74,10 @@ function App() {
         <Route path="account" element={<AccountPage />}>
           <Route index element={<ProfilePage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="myquotes" element={<MyQuotesPage />} />
+          <Route path="myquotes">
+            <Route index element={<MyQuotesPage />} />
+            <Route path=":quoteId/edit" element={<MyQuoteEditPage />} />
+          </Route>
           <Route path="settings" element={<AccountSettingsPage />} />
         </Route>
         <Route path="quote">
@@ -103,11 +107,20 @@ function App() {
           <Route path="clients/new" element={<DashClientNew />} />
           <Route path="quotes" element={<DashQuotes />} />
           <Route path="quotes/new" element={<DashQuoteNew />} />
-          <Route path="quotes/:quoteId" element={<DashQuote />} />
-          <Route path="quotes/:quoteId/edit" element={<DashQuoteEdit />} />
+          <Route
+            path="quotes/:quoteId"
+            element={<DashQuote setCurrentPage={setCurrentPage} />}
+          />
+          <Route
+            path="quotes/:quoteId/edit"
+            element={<DashQuoteEdit setCurrentPage={setCurrentPage} />}
+          />
           <Route path="catalogs" element={<DashCatalogs />} />
           <Route path="catalogs/new" element={<DashCatalogNew />} />
-          <Route path="catalogs/:catalogId" element={<DashCatalog />} />
+          <Route
+            path="catalogs/:catalogId"
+            element={<DashCatalog setCurrentPage={setCurrentPage} />}
+          />
           <Route
             path="catalogs/:catalogId/edit"
             element={<DashCatalogEdit setCurrentPage={setCurrentPage} />}

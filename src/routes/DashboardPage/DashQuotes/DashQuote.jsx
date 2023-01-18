@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bold } from "../../../assets/css/custom.styles";
 import { CheckoutTable, TableColumn, TdImg } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
@@ -6,10 +6,14 @@ import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 import { Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import { CartCallToActionButton } from "../../../components/Cart/Cart.styles";
 
-export default function DashQuote() {
+export default function DashQuote({setCurrentPage}) {
   const location = useLocation();
   const quote = location.state?.data;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCurrentPage(`Quote ${quote.id}`)
+  }, [])
 
   const handleClick = () => {
     navigate(`/dashboard/quotes/${quote.id}/edit`, {
