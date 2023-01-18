@@ -20,7 +20,7 @@ export default function DashClients() {
   }, []);
 
   const handleClick = (client) => {
-    navigate(`/dashboard/clients/${client.email}/edit`, {state: {data: client}})
+    navigate(`/dashboard/clients/${client.email}`, {state: {data: client}})
   }
   
   return (

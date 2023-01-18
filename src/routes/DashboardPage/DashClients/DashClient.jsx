@@ -1,27 +1,255 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  CardTitlee,
+  FormLabel,
+  Formm,
+  RegisterButton,
+  SignupCard,
+  SignupColumn,
+  SignupColumnFull,
+  SignupInput,
+  SignupLabelRow,
+  SignupRow,
+} from "../../SignupPage/SignupPage.styles";
+import * as Icon from "react-feather";
+import { CancelButton, Danger, TextDividerSolid2 } from "../../../assets/css/custom.styles";
+import { deleteClient, getQuoteForClient, updateClient } from "../../../utils/firebase";
+import { UserContext } from "../../../context/user.context";
+import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
+import moment from "moment";
+import sortBy from "sort-by";
+import { QuoteTitle } from "../../../components/Quote/Quote.styles";
+import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 
-export async function action({ request, params }) {
-  let formData = await request.formData();
-  return updateContact(params.contactId, {
-    favorite: formData.get("favorite") === "true",
-  });
-}
+export default function DashClient({ setCurrentPage }) {
+  const [formData, setFormData] = useState({});
+  const location = useLocation();
+  const clientInfo = location.state?.data;
+  const { currentUserInfo } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [quotes, setQuotes] = useState([]);
+  const [otherQuotes, setOtherQuotes] = useState([]);
 
-export async function loader({ params }) {
-  const contact = await getContact(params.contactId);
-  if (!contact) {
-    throw new Response("", {
-      status: 404,
-      statusText: "Not Found",
+  useEffect(() => {
+    const getQuotes = async () => {
+      const allQuotes = await getQuoteForClient(currentUserInfo, clientInfo);
+      setQuotes(allQuotes.quotes.sort(sortBy("-createdAt")));
+      setOtherQuotes(allQuotes.otherQuotes.sort(sortBy("-createdAt")));
+    };
+    getQuotes();
+    setFormData(clientInfo);
+    setCurrentPage(clientInfo.email);
+  }, []);
+
+  const handleClick = () => {
+    navigate(`/dashboard/clients/${clientInfo.email}/edit`, {
+      state: { data: clientInfo },
+    });
+  };
+  const handleClickQuote = (quote) => {
+    navigate(`/dashboard/quotes/${quote.id}`, {
+      state: { data: quote },
     });
   }
-  return contact;
-}
 
-export default function DashClient() {
+
+
   return (
-    <div>
-      <div>Dashboard Client</div>
-    </div>
+    <SignupCard>
+      <CardTitlee>Edit Client</CardTitlee>
+      <SignupRow>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.User />
+            <FormLabel>
+              First Name <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            type="text"
+            value={formData.firstName}
+            name="firstName"
+            id="firstName"
+            placeholder={clientInfo.firstName}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.UserCheck />
+            <FormLabel>
+              Last name <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            id="lastName"
+            placeholder={clientInfo.lastName}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+      </SignupRow>
+      <SignupRow>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.AtSign />
+            <FormLabel>
+              Email <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            value={formData.email}
+            type="email"
+            name="email"
+            id="email"
+            placeholder={clientInfo.email}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.Phone />
+            <FormLabel>
+              Institution <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            type="text"
+            placeholder={clientInfo.institution}
+            name="institution"
+            value={formData.institution}
+            id="institution"
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+      </SignupRow>
+      <SignupRow>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.AtSign />
+            <FormLabel>
+              Salesperson <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            value={formData.salesperson}
+            type="text"
+            name="salesperson"
+            id="salesperson"
+            placeholder={clientInfo.salesperson}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+        <SignupColumn>
+          <SignupColumnFull>
+            <RegisterButton onClick={handleClick}>Edit</RegisterButton>
+          </SignupColumnFull>
+        </SignupColumn>
+      </SignupRow>
+      <TextDividerSolid2></TextDividerSolid2>
+      <QuoteTitle>Client Quotes</QuoteTitle>
+      <div>Quotes made by me</div>
+      <DTable>
+        <Thead>
+          <Tr>
+            <Th>ID</Th>
+            <Th>Salesperson</Th>
+            <Th>Created By</Th>
+            <Th>Total Items</Th>
+            <Th>Total Price</Th>
+            <Th>Created At</Th>
+            <Th>Status</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        {quotes.length ? (
+          <Tbody>
+            {quotes?.map((quote, key) => {
+              return (
+                <Tr key={key} onClick={() => handleClickQuote(quote)}>
+                  <Th>{quote.id}</Th>
+                  <Td>{quote.salesperson}</Td>
+                  <Td>{quote.createdBy}</Td>
+                  <Td>{quote.cartCount}</Td>
+                  <Td>{priceFormatter.format(quote.cartTotal)}</Td>
+                  <Td>
+                    {moment
+                      .unix(quote.createdAt)
+                      .subtract(1969, "years")
+                      .format("MMMM Do YYYY")}
+                  </Td>
+                  <Td>{quote.status}</Td>
+                  <Td>Actions</Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        ) : (
+          <Tbody>
+            <Tr>
+              <Th>No Quotes</Th>
+            </Tr>
+          </Tbody>
+        )}
+      </DTable>
+      <TextDividerSolid2></TextDividerSolid2>
+      <div>Quotes from other salespersons</div>
+      <DTable>
+        <Thead>
+          <Tr>
+            <Th>ID</Th>
+            <Th>Salesperson</Th>
+            <Th>Created By</Th>
+            <Th>Total Items</Th>
+            <Th>Total Price</Th>
+            <Th>Created At</Th>
+            <Th>Status</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        {otherQuotes.length ? (
+          <Tbody>
+            {otherQuotes?.map((quote, key) => {
+              return (
+                <Tr key={key} onClick={() => handleClickQuote(quote)}>
+                  <Th>{quote.id}</Th>
+                  <Td>{quote.salesperson}</Td>
+                  <Td>{quote.createdBy}</Td>
+                  <Td>{quote.cartCount}</Td>
+                  <Td>{priceFormatter.format(quote.cartTotal)}</Td>
+                  <Td>
+                    {moment
+                      .unix(quote.createdAt)
+                      .subtract(1969, "years")
+                      .format("MMMM Do YYYY")}
+                  </Td>
+                  <Td>{quote.status}</Td>
+                  <Td>Actions</Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        ) : (
+          <Tbody>
+            <Tr>
+              <Th>No Other Quotes</Th>
+            </Tr>
+          </Tbody>
+        )}
+      </DTable>
+    </SignupCard>
   );
 }

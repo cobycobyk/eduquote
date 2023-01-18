@@ -39,7 +39,6 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   const userSnapshot = await getDoc(userDocRef);
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
-    if (displayName === null) displayName = additionalInformation.firstName + additionalInformation.lastName;
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
@@ -263,6 +262,23 @@ export const getAllQuotes = async (user) => {
   });
   return {quotes, otherQuotes};
 };
+//get quotes from client
+export const getQuoteForClient = async (user, clientInfo) => {
+  if (!auth.currentUser) return console.log('not authorized');
+  const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
+  const quotes = []
+  const otherQuotes = []
+  quoteDecRef.forEach((doc) => {
+    if (doc.data().createdFor === clientInfo.email) {
+      if (doc.data().salesperson === user.email) {
+        quotes.push(doc.data());
+      } else {
+        otherQuotes.push(doc.data());
+      }
+    }
+  });
+  return {quotes, otherQuotes};
+}
 //add quote from salesperson
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');

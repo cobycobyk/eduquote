@@ -40,6 +40,7 @@ import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
 import Footer from "./components/Footer/Footer";
 import HowToPage from "./routes/HowToPage/HowToPage";
 import PricingPage from "./routes/PricingPage/PricingPage";
+import DashClient from "./routes/DashboardPage/DashClients/DashClient";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -91,6 +92,10 @@ function App() {
         >
           <Route index element={<DashIndex />} />
           <Route path="clients" element={<DashClients />} />
+          <Route
+            path="clients/:clientID"
+            element={<DashClient setCurrentPage={setCurrentPage} />}
+          />
           <Route
             path="clients/:clientID/edit"
             element={<DashClientEdit setCurrentPage={setCurrentPage} />}
