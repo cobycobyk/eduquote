@@ -371,7 +371,7 @@ export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cart
   if (!auth.currentUser) return console.log('No authorized user');
   console.log('update quote from salesperson')
   const id = quote.id;
-  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
   const quoteSnapshot = await getDoc(quoteDocRef);
   if (quoteSnapshot.exists()) {
     try {

@@ -1,13 +1,13 @@
+import React, {useState, useEffect} from "react";
 import moment from "moment";
-import React, {useState, useEffect, useContext} from "react";
-import { UserContext } from "../../context/user.context";
 import { getUserQuotes } from "../../utils/firebase";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage/DashboardPage.styles";
+import MyQuoteModal from "./MyQuoteModal";
 
 export default function MyQuotesPage() {
-  const { currentUserInfo } = useContext(UserContext);
   const [quotes, setQuotes] = useState([]);
+  const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     const getAllUserQuotes = async () => {
@@ -18,10 +18,9 @@ export default function MyQuotesPage() {
   }, [])
 
   const handleClick = (quote) => {
-    navigate(`/quotes/${quote.id}`, {
-      state: { data: quote },
-    });
+    setConfirm(true);
   };
+
   return (
     <React.Fragment>
       <DTable>
@@ -42,22 +41,25 @@ export default function MyQuotesPage() {
           <Tbody>
             {quotes?.map((quote, key) => {
               return (
-                <Tr key={key} onClick={() => handleClick(quote)}>
-                  <Th>{quote.id}</Th>
-                  <Td>{quote.salesperson}</Td>
-                  <Td>{quote.createdBy}</Td>
-                  <Td>{quote.createdFor}</Td>
-                  <Td>{quote.cartCount}</Td>
-                  <Td>{priceFormatter.format(quote.cartTotal)}</Td>
-                  <Td>
-                    {moment
-                      .unix(quote.createdAt)
-                      .subtract(1969, "years")
-                      .format("MMMM Do YYYY")}
-                  </Td>
-                  <Td>{quote.status}</Td>
-                  <Td>Actions</Td>
-                </Tr>
+                <React.Fragment>
+                  <Tr key={key} onClick={() => handleClick(quote)}>
+                    <Th>{quote.id}</Th>
+                    <Td>{quote.salesperson}</Td>
+                    <Td>{quote.createdBy}</Td>
+                    <Td>{quote.createdFor}</Td>
+                    <Td>{quote.cartCount}</Td>
+                    <Td>{priceFormatter.format(quote.cartTotal)}</Td>
+                    <Td>
+                      {moment
+                        .unix(quote.createdAt)
+                        .subtract(1969, "years")
+                        .format("MMMM Do YYYY")}
+                    </Td>
+                    <Td>{quote.status}</Td>
+                    <Td>Actions</Td>
+                  </Tr>
+                  <MyQuoteModal confirm={confirm} setConfirm={setConfirm} quote={quote}/>
+                </React.Fragment>
               );
             })}
           </Tbody>
@@ -69,6 +71,6 @@ export default function MyQuotesPage() {
           </Tbody>
         )}
       </DTable>
-      </React.Fragment>
+    </React.Fragment>
   )
 }
