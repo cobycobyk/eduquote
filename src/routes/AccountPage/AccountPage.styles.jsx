@@ -12,11 +12,14 @@ export const AccountContainer = styled.section`
 export const AccountRow = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const AccountColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 2rem;
-  flex-basis: 33.33%;
   @media only screen and (max-width: 600px) {
     flex-basis: 100%;
   }
@@ -48,7 +51,6 @@ export const AccountPhotoName = styled.div`
 `;
 export const AccountUl = styled.ul`
   display: flex;
-  flex-direction: column;
   border: 1px solid lightgrey;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -57,7 +59,8 @@ export const AccountUl = styled.ul`
 `;
 
 export const AccountLi = styled.li`
-  margin-top: 0.5rem;
+  margin: 0 1rem;
+  width: 10rem;
 `;
 
 export const AccountLink = styled(Link)`

@@ -22,6 +22,7 @@ const defaultFormData = {
   name: "",
   company: "",
   category: "",
+  subCategory: null,
   id: "",
 };
 
@@ -135,6 +136,24 @@ export default function DashCatalogNew() {
               }}
             />
           </SignupColumn>
+          <SignupColumn>
+            <SignupLabelRow>
+              <Icon.UserCheck />
+              <FormLabel>
+                Sub Category <Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupInput
+              type="text"
+              name="subCategory"
+              value={formData.subCategory}
+              onChange={handleChange}
+              id="subCategory"
+              placeholder="Sub Category"
+            />
+          </SignupColumn>
+        </SignupRow>
+        <SignupRow>
           <SignupColumn>
             <SignupColumnFull>
               <RegisterButton type="submit">Add Catalog</RegisterButton>

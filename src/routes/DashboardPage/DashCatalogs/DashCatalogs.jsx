@@ -30,6 +30,7 @@ export default function DashCatalogs() {
           <Th>Name</Th>
           <Th>Company</Th>
           <Th>Category</Th>
+          <Th>Sub Category</Th>
           <Th>Item Count</Th>
           <Th>Status</Th>
           <Th>Created</Th>
@@ -44,6 +45,7 @@ export default function DashCatalogs() {
                 <Th>{catalog.name}</Th>
                 <Td>{catalog.company}</Td>
                 <Td>{catalog.category}</Td>
+                <Td>{catalog?.subCategory}</Td>
                 <Td>{catalog.items.length}</Td>
                 <Td>{catalog.status}</Td>
                 <Td>

@@ -17,7 +17,7 @@ export default function MyQuotesPage() {
     getAllUserQuotes();
   }, [])
 
-  const handleClick = (quote) => {
+  const handleClick = () => {
     setConfirm(true);
   };
 
@@ -41,8 +41,8 @@ export default function MyQuotesPage() {
           <Tbody>
             {quotes?.map((quote, key) => {
               return (
-                <React.Fragment>
-                  <Tr key={key} onClick={() => handleClick(quote)}>
+                <React.Fragment key={key}>
+                  <Tr onClick={() => handleClick(quote)}>
                     <Th>{quote.id}</Th>
                     <Td>{quote.salesperson}</Td>
                     <Td>{quote.createdBy}</Td>

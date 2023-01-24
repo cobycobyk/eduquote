@@ -1,9 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AddToQuoteButton,
+  FilterBarDropdown,
+  FilterBarOption,
+  FilterBarOptions,
   QAButton,
   QAInput,
   QuoteAddContainer,
+  QuoteFilterBar,
   QuoteSection,
   QuoteTitle,
 } from "./Quote.styles";
@@ -21,13 +25,71 @@ import { ProductsContext } from "../../context/products.context";
 
 
 export default function Quote({ handleProductClick }) {
-  const { products } = useContext(ProductsContext);
+  const { products, catalogCategories } = useContext(ProductsContext);
   const { addItemToCart } = useContext(CartContext);
+  const [categories, setCategories] = useState(false);
+  const [categorySelection, setCategorySelection] = useState(false);
+  const [subCategorySelection, setSubCategorySelection] = useState(false);
+  const [subCategories, setSubCategories] = useState(false);
+
+  useEffect(() => {
+    const cats = catalogCategories.map((cat) => {
+      return cat.name;
+    })
+    catalogCategories && setCategories(cats);
+  }, [])
+
+  useEffect(() => {
+    const setSubcats = () => {
+      catalogCategories.filter(catalog => {
+        if (catalog.name === categorySelection) {
+          setSubCategories(catalog.subCategories.map((sub) => sub.name))
+        };
+      });
+    }
+    categorySelection && setSubcats();
+  }, [categorySelection])
+
+  const handleChangeCategory = (e) => {
+    setCategorySelection(e.target.value);
+  }
+  const handleChangeSubCategory = (e) => {
+    console.log(e.target.value)
+    setSubCategorySelection(e.target.value);
+  }
 
   return (
     <React.Fragment>
       <QuoteSection>
         <QuoteTitle>Build A Quote</QuoteTitle>
+        <QuoteFilterBar>
+          <FilterBarOptions>
+            <FilterBarOption>
+              Catalog:
+            </FilterBarOption>
+            <FilterBarDropdown
+              onChange={handleChangeCategory}
+            >
+              {categories && categories?.map((category, key) => {
+                return <option value={category} key={key}>{category}</option>
+              })}
+            </FilterBarDropdown>
+            {categorySelection && 
+              <React.Fragment>
+                <FilterBarOption>
+                  Sub Catalog:
+                </FilterBarOption>
+                <FilterBarDropdown
+                  onChange={handleChangeSubCategory}
+                >
+                  {subCategories && subCategories?.map((subCategory, key) => {
+                    return <option value={subCategory} key={key}>{subCategory}</option>
+                  })}
+                </FilterBarDropdown>
+              </React.Fragment>
+            }
+          </FilterBarOptions>
+        </QuoteFilterBar>
         <DTable>
           <Thead>
             <Tr>

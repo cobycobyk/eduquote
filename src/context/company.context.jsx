@@ -8,6 +8,8 @@ export const CompanyContext = createContext({
 export const CompanyProvider = ({ children }) => {
   const [currentUserCompany, setCurrentUserCompany] = useState(null);
 
+  
+
   const value = { currentUserCompany, setCurrentUserCompany };
 
   return (

@@ -47,3 +47,20 @@ export const AddToQuoteButton = styled.button`
     background-color: orange;
   }
 `;
+
+export const QuoteFilterBar = styled.div`
+  display: flex;
+  height: 3rem;
+  background-color: lightgrey;
+  margin: 0 0 1rem 0;
+  align-items: center;
+`;
+export const FilterBarOptions = styled.div`
+  display: flex;
+`;
+export const FilterBarOption = styled.div`
+  display: flex;
+`;
+export const FilterBarDropdown = styled.select`
+  display: flex;
+`;

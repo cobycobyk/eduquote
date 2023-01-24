@@ -84,6 +84,27 @@ export default function DashCatalog({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
+              <SignupLabelRow>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Sub Category <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRow>
+              <SignupInput
+                type="text"
+                name="subCategory"
+                value={catalog?.subCategory}
+                id="sku"
+                placeholder={catalog?.subCategory}
+                required
+                disabled
+                errorMessage=""
+                readOnly
+              />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
               <SignupColumnFull>
                 <SaveButton onClick={handleClick}>Edit Catalog Info</SaveButton>
               </SignupColumnFull>

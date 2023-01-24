@@ -125,6 +125,24 @@ export default function DashCatalogEdit({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
+              <SignupLabelRow>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Sub Category <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRow>
+              <SignupInput
+                type="text"
+                name="subCategory"
+                value={formData?.subCategory}
+                onChange={handleChange}
+                id="sku"
+                placeholder={formData?.subCategory}
+              />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
               <SignupColumnFull>
                 <SaveButton type="submit">Save and Exit</SaveButton>
                 <CancelButton onClick={() => navigate("/dashboard/catalogs")}>

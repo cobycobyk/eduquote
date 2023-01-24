@@ -21,12 +21,14 @@ export default function AccountPage() {
   return (
     <React.Fragment>
       <AccountContainer>
-        <AccountRow>
-          <AccountColumn>
+        <AccountColumn>
+          <AccountRow>
             <AccountPhotoContainer>
               {currentUser?.avatar ? (
                 <AccountPhoto
-                  src={currentUser?.avatar ? currentUser?.avatar : <Icon.User />}
+                  src={
+                    currentUser?.avatar ? currentUser?.avatar : <Icon.User />
+                  }
                   alt="account"
                 />
               ) : (
@@ -40,35 +42,24 @@ export default function AccountPage() {
               </AccountPhotoHelloContainer>
             </AccountPhotoContainer>
             <AccountUl>
-            {widgets.map((widget, key) => (
-              <AccountLi
-                key={widget.title}
-              >
-                <AccountLink
-                  to={`/account/${widget.link}`}
-                >
-                  {widget.icon}
-                  <AccountLinkTitle>
-                    {widget.title}
-                  </AccountLinkTitle>
+              {widgets.map((widget, key) => (
+                <AccountLi key={widget.title}>
+                  <AccountLink to={`/account/${widget.link}`}>
+                    {widget.icon}
+                    <AccountLinkTitle>{widget.title}</AccountLinkTitle>
+                  </AccountLink>
+                </AccountLi>
+              ))}
+              <AccountLi>
+                <AccountLink to="/" onClick={handleLogOut}>
+                  <Icon.LogOut />
+                  <AccountLinkTitle>Log Out</AccountLinkTitle>
                 </AccountLink>
               </AccountLi>
-            ))}
-            <AccountLi>
-              <AccountLink
-                to="/"
-                onClick={handleLogOut}
-              >
-                <Icon.LogOut/>
-                <AccountLinkTitle>
-                  Log Out
-                </AccountLinkTitle>
-              </AccountLink>
-            </AccountLi>
-          </AccountUl>
-          </AccountColumn>
+            </AccountUl>
+          </AccountRow>
           <Outlet />
-        </AccountRow>
+        </AccountColumn>
       </AccountContainer>
     </React.Fragment>
   );

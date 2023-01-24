@@ -87,7 +87,7 @@ export const HomeBody1 = styled.div`
     font-size: 40px;
   }
 `;
-export const ButtonText = styled.p`
+export const ButtonText = styled.div`
   margin-right: 10px;
   text-decoration: none;
 `;

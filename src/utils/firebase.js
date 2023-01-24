@@ -177,6 +177,7 @@ export const addCatalog = async (currentUser, formData) => {
         createdAt,
         company: formData.company,
         category: category,
+        subCategory: formData.subCategory,
         name: formData.name,
         createdBy: currentUser.email,
         status: "active",
@@ -233,6 +234,7 @@ export const updateCatalog = async (formData) => {
   await updateDoc(catalogDocRef, {
     updatedAt: serverTimestamp(),
     category: category,
+    subCategory: formData.subCategory,
     name: formData.name,
     updatedBy: auth.currentUser.email,
   })
@@ -245,7 +247,15 @@ export const deleteCatalog = async (formData) => {
   await deleteDoc(catalogDocRef);
   return console.log('Delete Catalog Successfull')
 };
-
+//get catalog categories
+export const getCatalogCategories = async () => {
+  // if (!auth.currentUser) return console.log('not authorized to get product categories');
+  const categoriesDocRef = doc(db, 'companies', 'boxlight')
+  const categorySnapshot = await getDoc(categoriesDocRef);
+  console.log(categorySnapshot.data().catalogCategories)
+  console.log('retrieve categories');
+  if (categorySnapshot) return categorySnapshot.data().catalogCategories;
+};
 /*---Quotes---*/
 //get all quotes
 export const getAllQuotes = async (user) => {
@@ -366,7 +376,7 @@ export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cart
     }
   }
 }; 
-//*******not working */update quote from end user
+//update quote from end user
 export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
   if (!auth.currentUser) return console.log('No authorized user');
   console.log('update quote from salesperson')
