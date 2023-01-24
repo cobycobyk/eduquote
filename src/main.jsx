@@ -42,6 +42,7 @@ import HowToPage from "./routes/HowToPage/HowToPage";
 import PricingPage from "./routes/PricingPage/PricingPage";
 import DashClient from "./routes/DashboardPage/DashClients/DashClient";
 import MyQuoteEditPage from "./routes/AccountPage/MyQuoteEditPage";
+import DashCatalogsSettings from "./routes/DashboardPage/DashCatalogs/DashCatalogsSettings";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -117,6 +118,7 @@ function App() {
           />
           <Route path="catalogs" element={<DashCatalogs />} />
           <Route path="catalogs/new" element={<DashCatalogNew />} />
+          <Route path="catalogs/settings" element={<DashCatalogsSettings />} />
           <Route
             path="catalogs/:catalogId"
             element={<DashCatalog setCurrentPage={setCurrentPage} />}

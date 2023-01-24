@@ -52,18 +52,24 @@ export default function DashboardPage({currentPage, setCurrentPage}) {
           <DNavLink to="quotes/new" onClick={() => setCurrentPage("New Quote")}>
             New Quote
           </DNavLink>
-          <TextDivider>Catalogues</TextDivider>
+          <TextDivider>Catalogs</TextDivider>
           <DNavLink
             to="catalogs"
-            onClick={() => setCurrentPage("All Catalogues")}
+            onClick={() => setCurrentPage("All Catalogs")}
           >
             All Catalogs
           </DNavLink>
           <DNavLink
             to="catalogs/new"
-            onClick={() => setCurrentPage("New Catalogue")}
+            onClick={() => setCurrentPage("New Catalog")}
           >
             New Catalog
+          </DNavLink>
+          <DNavLink
+            to="catalogs/settings"
+            onClick={() => setCurrentPage("New Catalog")}
+          >
+            {currentUserInfo?.company} Catalog Settings
           </DNavLink>
           <TextDivider>Settings</TextDivider>
           <DNavLink to="settings" onClick={() => setCurrentPage("Settings")}>

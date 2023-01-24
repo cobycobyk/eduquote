@@ -252,10 +252,31 @@ export const getCatalogCategories = async () => {
   // if (!auth.currentUser) return console.log('not authorized to get product categories');
   const categoriesDocRef = doc(db, 'companies', 'boxlight')
   const categorySnapshot = await getDoc(categoriesDocRef);
-  console.log(categorySnapshot.data().catalogCategories)
-  console.log('retrieve categories');
   if (categorySnapshot) return categorySnapshot.data().catalogCategories;
 };
+export const addCatalogCategory = async (currentUser, formData) => {
+if (!auth.currentUser) return;
+  // const category = formData.category.toLowerCase();
+  const catalogDocRef = doc(db, 'companies', currentUser.company);
+  const catalogSnapshot = await getDoc(catalogDocRef);
+  console.log(catalogSnapshot.data())
+  if (catalogSnapshot.exists()) {
+    catalogSnapshot.catalogCategories.map((category) => {
+      if (category.name === formData.category) {
+
+      }
+    })
+    // try {
+    //   await updateDoc(catalogDocRef, {
+    //     updatedAt: serverTimestamp(),
+
+    //   });
+    // } catch (error) {
+    //   console.log('error creating catalog')
+    // }
+  }
+  return catalogDocRef;
+}
 /*---Quotes---*/
 //get all quotes
 export const getAllQuotes = async (user) => {
