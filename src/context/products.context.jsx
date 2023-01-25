@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 import {PRODUCTS} from "../components/Quote/items";
 import { getCatalogCategories } from "../utils/firebase";
+import sortBy from "sort-by";
 
 export const ProductsContext = createContext({
   products: [],
@@ -11,7 +12,7 @@ export const ProductsContext = createContext({
 //helper functions
 const getAllSubCategories = (category) => {
   const subs = category?.subCategories.map((subCategory) => {
-    return subCategory?.name;
+    return subCategory;
   })
   return subs;
 }
@@ -30,14 +31,11 @@ export const ProductsProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // console.log(catalogCategories[0])
     const a = []
     catalogCategories.forEach((category) => {
-      a.push(getAllSubCategories(category))
+      a.push(getAllSubCategories(category).sort(sortBy("name")))
     });
     setCatalogSubCategories(a.flat(1));
-    // console.log(getAllSubCategories(catalogCategories[0]))
-    // setCatalogSubCategories(catalogCategories.map((sub) => sub.name))
   }, [catalogCategories])
   
   const value = { products, catalogCategories, catalogSubCategories };

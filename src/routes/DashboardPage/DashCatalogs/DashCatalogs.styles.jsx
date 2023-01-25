@@ -16,3 +16,15 @@ export const DashCatalogTableInput = styled.input`
 export const DTButton = styled.button`
   
 `;
+
+export const DCSRow = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const DCSColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;

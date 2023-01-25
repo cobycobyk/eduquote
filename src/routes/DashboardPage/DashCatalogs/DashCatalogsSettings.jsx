@@ -1,64 +1,91 @@
 import React, { useContext, useState } from "react"
-import { Bold, DisplayFlex } from "../../../assets/css/custom.styles";
-import { QuoteAddContainer, QuoteTitle } from "../../../components/Quote/Quote.styles";
+import { Bold, DisplayFlex, TextDividerSolid2 } from "../../../assets/css/custom.styles";
+import { QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context"
-import { addCatalogCategory } from "../../../utils/firebase";
-import { DTable, Th, Thead, Tr } from "../DashboardPage.styles";
-import { DashCatalogTableSection, DTButton } from "./DashCatalogs.styles";
+import { addCatalogCategory, addCatalogSubCategory } from "../../../utils/firebase";
+import { DashCatalogTableSection, DCSColumn, DCSRow, DTButton } from "./DashCatalogs.styles";
 
 
 export default function DashCatalogsSettings() {
   const { currentUserInfo } = useContext(UserContext);
   const { catalogCategories, catalogSubCategories } = useContext(ProductsContext);
-  const [category, setCategory] = useState(null);
-  const [subCategory, setSubCategory] = useState(null);
+  const [message, setMessage] = useState(false);
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState({
+    name: "",
+    parent: "",
+  });
   
   const handleAddCategory = async (e) => {
     e.preventDefault();
-    if (category === null) return;
-    await addCatalogCategory(currentUserInfo);
-    setCategory(null);
+    if (!category.length) return setMessage('Please enter category name');
+    if (catalogCategories.some((cat) => cat.name === category)) return setMessage('Category already exists');
+    await addCatalogCategory(currentUserInfo, category);
+    setCategory("");
+  }
+  const handleAddSubCategory = async (e) => {
+    e.preventDefault();
+    if (!subCategory.name.length) return setMessage('please enter a sub cateogry name');
+    if (!subCategory.parent.length) return setMessage('no category parent found');
+    await addCatalogSubCategory(currentUserInfo, subCategory);
+    setSubCategory({name: "", parent: ""});
   }
 
-  const handleChange = (e) => {
+  const handleChangeCategory = (e) => {
     setCategory(e.target.value)
-    console.log(category)
   }
-  console.log(catalogSubCategories)
+  const handleChangeSubCategory = (e) => {
+    const { name, value } = e.target;
+    setSubCategory({ ...subCategory, [name]: value})
+  }
   return (
     <React.Fragment>
       <DashCatalogTableSection>
-        <QuoteTitle>Catalog Categories</QuoteTitle>
-          <DisplayFlex>
-            <Bold> Catalog Category</Bold>
-          </DisplayFlex>
-          {catalogCategories?.length ? (
-              catalogCategories?.map((category, key) => {
-                return (
-                  <DisplayFlex key={key}>
-                    <div>
-                      {category.name}
-                    </div>
-                  </DisplayFlex>
-                );
-              })
-          ) : (
-            <div>No Categories Yet</div>
-          )}
-          <DisplayFlex>
-              <div>
-                <input
-                  placeholder="Category"
-                  type="text"
-                  value={category}
-                  onChange={handleChange}
+        <QuoteTitle>Catalog Categories Settings</QuoteTitle>
+        {message && <div>{message}</div>}
+        <DCSRow>
+          <DCSColumn>
+            <Bold>Categories</Bold>
+            <TextDividerSolid2></TextDividerSolid2>
+            {catalogCategories?.map((cat, key) => {
+              return <div key={key}>{cat.name}</div>;
+            })}
+            <DisplayFlex>
+              <input
+                type="text"
+                value={category}
+                onChange={handleChangeCategory}
+                placeholder="New Category"
                 />
-              </div>
-                <QuoteAddContainer>
-                  <DTButton onClick={handleAddCategory}>Add Category</DTButton>
-                </QuoteAddContainer>
-          </DisplayFlex>
+              <button onClick={handleAddCategory}>Add Main Category</button>
+            </DisplayFlex>
+          </DCSColumn>
+          <DCSColumn>
+            <Bold>Sub Categories</Bold>
+            <TextDividerSolid2></TextDividerSolid2>
+            {catalogSubCategories?.map((cat, key) => {
+              return <div key={key}>{cat}</div>;
+            })}
+            <DisplayFlex>
+              <div>Parent:</div>
+              <select value={subCategory.parent} name="parent" onChange={handleChangeSubCategory}>
+                <option>-</option>
+                {catalogCategories?.map((cat, key) => {
+                  return <option key={key}>{cat.name}</option>;
+                })}
+              </select>
+              <input
+                type="text"
+                name="name"
+                value={subCategory.name}
+                onChange={handleChangeSubCategory}
+                placeholder="New Sub Category"
+              />
+              <button onClick={handleAddSubCategory}>Add Sub Category</button>
+            </DisplayFlex>
+          </DCSColumn>
+        </DCSRow>
       </DashCatalogTableSection>
     </React.Fragment>
   );

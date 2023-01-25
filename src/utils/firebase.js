@@ -259,22 +259,38 @@ if (!auth.currentUser) return;
   // const category = formData.category.toLowerCase();
   const catalogDocRef = doc(db, 'companies', currentUser.company);
   const catalogSnapshot = await getDoc(catalogDocRef);
+  const cats = catalogSnapshot.data().catalogCategories;
   console.log(catalogSnapshot.data())
-  if (catalogSnapshot.exists()) {
-    catalogSnapshot.catalogCategories.map((category) => {
-      if (category.name === formData.category) {
-
+    try {
+      await updateDoc(catalogDocRef, {
+        updatedAt: serverTimestamp(),
+        catalogCategories: [...cats, {name: formData, subCategories: []} ]
+      });
+    } catch (error) {
+      console.log('error creating catalog')
+    }
+  return catalogDocRef;
+}
+export const addCatalogSubCategory = async (currentUser, formData) => {
+if (!auth.currentUser) return;
+  const catalogDocRef = doc(db, 'companies', currentUser.company);
+  const catalogSnapshot = await getDoc(catalogDocRef);
+  const cats = catalogSnapshot.data().catalogCategories;
+  cats.forEach(async (cat, index) => {
+    if (cat.name === formData.parent) {
+      const subs = cat.subCategories;
+      subs.push(formData.name)
+      cats[index].subCategories = subs;
+      try {
+        await updateDoc(catalogDocRef, {
+          updatedAt: serverTimestamp(),
+          catalogCategories: cats,
+        });
+      } catch (error) {
+        console.log('error creating catalog')
+      }
       }
     })
-    // try {
-    //   await updateDoc(catalogDocRef, {
-    //     updatedAt: serverTimestamp(),
-
-    //   });
-    // } catch (error) {
-    //   console.log('error creating catalog')
-    // }
-  }
   return catalogDocRef;
 }
 /*---Quotes---*/

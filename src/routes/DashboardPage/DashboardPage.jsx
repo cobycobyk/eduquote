@@ -67,7 +67,7 @@ export default function DashboardPage({currentPage, setCurrentPage}) {
           </DNavLink>
           <DNavLink
             to="catalogs/settings"
-            onClick={() => setCurrentPage("New Catalog")}
+            onClick={() => setCurrentPage("Catalog Settings")}
           >
             {currentUserInfo?.company} Catalog Settings
           </DNavLink>
