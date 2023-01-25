@@ -11,25 +11,30 @@ import {
   SignupInput,
   SignupLabelRow,
   SignupRow,
+  SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
-import { addCatalog, addClient } from "../../../utils/firebase";
+import { addCatalog, addCatalogCategory, addClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
+import { ProductsContext } from "../../../context/products.context";
 
 const defaultFormData = {
   name: "",
   company: "",
   category: "",
-  subCategory: null,
+  subCategory: "",
   id: "",
 };
 
 export default function DashCatalogNew() {
   const [formData, setFormData] = useState(defaultFormData);
   const { currentUserInfo } = useContext(UserContext);
+  const { catalogCategories } = useContext(ProductsContext);
+  const [newCategory, setNewCategory] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState(false)
 
   useEffect(() => {
     const newDate = Date.now().toString();
@@ -46,11 +51,20 @@ export default function DashCatalogNew() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "category" && value === "new") {
+      setFormData({ ...formData, [name]: "" });
+      return setNewCategory(true);
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.category.length) return setMessage("Please enter category name");
+    if (catalogCategories.some((cat) => cat.name === formData.category))
+      return setMessage("Category already exists");
+    await addCatalogCategory(currentUserInfo, formData.category)
     await addCatalog(currentUserInfo, formData);
     resetFormData();
     navigate(`/dashboard/catalogs/${formData.category}`, {state: {data: formData}});
@@ -59,6 +73,7 @@ export default function DashCatalogNew() {
   return (
     <SignupCard>
       <CardTitlee>New Catalog</CardTitlee>
+      {message && <div>{message}</div>}
       <Formm onSubmit={handleSubmit}>
         <SignupRow>
           <SignupColumn>
@@ -92,22 +107,41 @@ export default function DashCatalogNew() {
                 Category <Danger>*</Danger>
               </FormLabel>
             </SignupLabelRow>
-            <SignupInput
-              type="text"
-              name="category"
+
+            <SignupSelect
               value={formData.category}
+              name="category"
               onChange={handleChange}
-              id="category"
-              placeholder="Category"
-              required
+              id="catgeory"
+              placeholder="New Category Name"
               errorMessage=""
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter a category",
-                },
-              }}
-            />
+            >
+              <option value="" selected>
+                {newCategory ? ("Type new Category below"):("Choose Parent Here")}
+              </option>
+              {catalogCategories?.map((cat, key) => {
+                return <option key={key}>{cat.name}</option>;
+              })}
+              <option value="new">Enter New Category</option>
+            </SignupSelect>
+            {newCategory &&
+              <SignupInput
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                id="category"
+                placeholder="Category"
+                required
+                errorMessage=""
+                validate={{
+                  required: {
+                    value: true,
+                    errorMessage: "Please enter a category",
+                  },
+                }}
+              />
+            }
           </SignupColumn>
         </SignupRow>
         <SignupRow>

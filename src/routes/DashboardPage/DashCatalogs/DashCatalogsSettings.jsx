@@ -57,7 +57,7 @@ export default function DashCatalogsSettings() {
                 value={category}
                 onChange={handleChangeCategory}
                 placeholder="New Category"
-                />
+              />
               <button onClick={handleAddCategory}>Add Main Category</button>
             </DisplayFlex>
           </DCSColumn>
@@ -69,8 +69,14 @@ export default function DashCatalogsSettings() {
             })}
             <DisplayFlex>
               <div>Parent:</div>
-              <select value={subCategory.parent} name="parent" onChange={handleChangeSubCategory}>
-                <option>-</option>
+              <select
+                value={subCategory.parent}
+                name="parent"
+                onChange={handleChangeSubCategory}
+              >
+                <option value="" selected disabled hidden>
+                  Choose Parent Here
+                </option>
                 {catalogCategories?.map((cat, key) => {
                   return <option key={key}>{cat.name}</option>;
                 })}
