@@ -255,7 +255,7 @@ export const getCatalogCategories = async () => {
   if (categorySnapshot) return categorySnapshot.data().catalogCategories;
 };
 export const addCatalogCategory = async (currentUser, formData) => {
-if (!auth.currentUser) return;
+  if (!auth.currentUser) return;
   // const category = formData.category.toLowerCase();
   const catalogDocRef = doc(db, 'companies', currentUser.company);
   const catalogSnapshot = await getDoc(catalogDocRef);
@@ -272,7 +272,8 @@ if (!auth.currentUser) return;
   return catalogDocRef;
 }
 export const addCatalogSubCategory = async (currentUser, formData) => {
-if (!auth.currentUser) return;
+  if (!auth.currentUser) return;
+  if (!formData.name.length) return;
   const catalogDocRef = doc(db, 'companies', currentUser.company);
   const catalogSnapshot = await getDoc(catalogDocRef);
   const cats = catalogSnapshot.data().catalogCategories;

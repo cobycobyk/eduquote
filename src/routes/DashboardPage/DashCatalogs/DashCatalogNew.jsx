@@ -15,7 +15,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
-import { addCatalog, addCatalogCategory, addClient } from "../../../utils/firebase";
+import { addCatalog, addCatalogCategory, addCatalogSubCategory, addClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
 import { ProductsContext } from "../../../context/products.context";
@@ -33,6 +33,7 @@ export default function DashCatalogNew() {
   const { currentUserInfo } = useContext(UserContext);
   const { catalogCategories } = useContext(ProductsContext);
   const [newCategory, setNewCategory] = useState(false);
+  const [newSubCategory, setNewSubCategory] = useState({name: "", parent: ""})
   const navigate = useNavigate();
   const [message, setMessage] = useState(false)
 
@@ -54,6 +55,9 @@ export default function DashCatalogNew() {
     if (name === "category" && value === "new") {
       setFormData({ ...formData, [name]: "" });
       return setNewCategory(true);
+    } else if (name === "subCategory") {
+      setNewSubCategory({...newSubCategory, "name": value, "parent": formData.category})
+      setFormData({ ...formData, [name]: value });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -65,9 +69,16 @@ export default function DashCatalogNew() {
     if (catalogCategories.some((cat) => cat.name === formData.category))
       return setMessage("Category already exists");
     await addCatalogCategory(currentUserInfo, formData.category)
-    await addCatalog(currentUserInfo, formData);
-    resetFormData();
-    navigate(`/dashboard/catalogs/${formData.category}`, {state: {data: formData}});
+    if (newSubCategory.name.length) {
+      await addCatalogSubCategory(currentUserInfo, newSubCategory);
+      await addCatalog(currentUserInfo, formData);
+      resetFormData();
+      navigate(`/dashboard/catalogs/${formData.category}`, {state: {data: formData}});
+    } else {
+      await addCatalog(currentUserInfo, formData);
+      resetFormData();
+      navigate(`/dashboard/catalogs/${formData.category}`, {state: {data: formData}});
+    }
   };
 
   return (
