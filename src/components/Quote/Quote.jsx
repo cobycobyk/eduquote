@@ -19,75 +19,102 @@ import {
   Thead,
   Tr,
 } from "../../routes/DashboardPage/DashboardPage.styles";
-import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
-import { CartContext } from "../../context/cart.context";
 import { ProductsContext } from "../../context/products.context";
+import QuoteItem from "./QuoteItem";
 
 
 export default function Quote({ handleProductClick }) {
   const { products, catalogCategories } = useContext(ProductsContext);
-  const { addItemToCart } = useContext(CartContext);
-  const [categories, setCategories] = useState(false);
+  const [displayedProducts, setDisplayedProducts] = useState([...products]);
+  
   const [categorySelection, setCategorySelection] = useState(false);
-  const [subCategorySelection, setSubCategorySelection] = useState(false);
-  const [subCategories, setSubCategories] = useState(false);
+  const [subCategorySelection, setSubCategorySelection] = useState("");
+  const [subCategories, setSubCategories] = useState([]);
+
+  // useEffect(() => {
+  //   const filter = () => {
+  //     const filterProductsOnCategory = products.filter((product) => {
+  //       return (
+  //         product?.category.toLowerCase() === categorySelection?.toLowerCase()
+  //       );
+  //     });
+  //     console.log(filterProductsOnCategory);
+  //     setDisplayedProducts(filterProductsOnCategory);
+  //   };
+  //   categorySelection.length && filter();
+  // }, [categorySelection]);
+
 
   useEffect(() => {
-    const cats = catalogCategories.map((cat) => {
-      return cat.name;
-    })
-    catalogCategories && setCategories(cats);
-  }, [])
-
-  useEffect(() => {
-    const setSubcats = () => {
-      catalogCategories.filter(catalog => {
-        if (catalog.name === categorySelection) {
-          setSubCategories(catalog.subCategories.map((sub) => sub.name))
-        };
+    if (categorySelection.length) {
+      const filtered = catalogCategories?.filter(catalog => catalog.name === categorySelection);
+      const subs = filtered[0]?.subCategories;
+      const filterProductsOnCategory = products.filter((product) => {
+        return (
+          product?.category.toLowerCase() === categorySelection?.toLowerCase()
+        );
       });
+      setSubCategories(subs);
+      setDisplayedProducts(filterProductsOnCategory);
     }
-    categorySelection && setSubcats();
-  }, [categorySelection])
+    if (!categorySelection.length) {
+      setDisplayedProducts([...products])
+      categorySelection && setSubCategories([])
+    }
+  }, [categorySelection]);
 
   const handleChangeCategory = (e) => {
-    setCategorySelection(e.target.value);
-  }
+    setCategorySelection(e.target.value)
+  };
   const handleChangeSubCategory = (e) => {
-    console.log(e.target.value)
     setSubCategorySelection(e.target.value);
-  }
-
+  };
+  console.log(displayedProducts)
   return (
     <React.Fragment>
       <QuoteSection>
         <QuoteTitle>Build A Quote</QuoteTitle>
         <QuoteFilterBar>
           <FilterBarOptions>
-            <FilterBarOption>
-              Catalog:
-            </FilterBarOption>
+            <FilterBarOption>Filter by Catalog:</FilterBarOption>
             <FilterBarDropdown
+              value={categorySelection}
               onChange={handleChangeCategory}
+              placeholder="Category Selection"
             >
-              {categories && categories?.map((category, key) => {
-                return <option value={category} key={key}>{category}</option>
+              <option value="" selected>
+                {categorySelection ? categorySelection.name : "All"}
+              </option>
+              {catalogCategories?.map((cat, key) => {
+                return (
+                  <option key={key}>
+                    {cat.name}
+                  </option>
+                );
               })}
             </FilterBarDropdown>
-            {categorySelection && 
+            {subCategories.length ? (
               <React.Fragment>
-                <FilterBarOption>
-                  Sub Catalog:
-                </FilterBarOption>
+                <FilterBarOption>Sub Catalog:</FilterBarOption>
                 <FilterBarDropdown
+                  value={subCategorySelection}
+                  name="subCategorySelection"
                   onChange={handleChangeSubCategory}
+                  id="subCatgeorySelection"
+                  placeholder="Sub Category Selection"
+                  errorMessage=""
                 >
-                  {subCategories && subCategories?.map((subCategory, key) => {
-                    return <option value={subCategory} key={key}>{subCategory}</option>
+                  <option value="" selected>All</option>
+                  {subCategories?.map((cat, key) => {
+                    return (
+                      <option key={key}>
+                        {cat}
+                      </option>
+                    );
                   })}
                 </FilterBarDropdown>
               </React.Fragment>
-            }
+            ):(null)}
           </FilterBarOptions>
         </QuoteFilterBar>
         <DTable>
@@ -102,39 +129,10 @@ export default function Quote({ handleProductClick }) {
               <Th>Add To Quote</Th>
             </Tr>
           </Thead>
-          {products?.length ? (
+          {displayedProducts?.length ? (
             <Tbody>
-              {products?.map((product, key) => {
-                const [qty, setQty] = useState(1);
-                return (
-                  <Tr key={key}>
-                    <Th>
-                      <img src={product.image} width={54} />
-                    </Th>
-                    <Td onClick={() => handleProductClick(product)}>
-                      {product.name}
-                    </Td>
-                    <Td>{product.sku}</Td>
-                    <Td>{product.category}</Td>
-                    <Td>{product.description}</Td>
-                    <Td>{priceFormatter.format(product.price)}</Td>
-                    <Td>
-                      <QuoteAddContainer>
-                        <QAButton onClick={() => setQty(qty - 1)}>-</QAButton>
-                        <QAInput
-                          value={qty}
-                          onChange={(e) => setQty(e.target.value)}
-                        />
-                        <QAButton onClick={() => setQty(qty + 1)}>+</QAButton>
-                        <AddToQuoteButton
-                          onClick={() => addItemToCart(product, qty)}
-                        >
-                          Add
-                        </AddToQuoteButton>
-                      </QuoteAddContainer>
-                    </Td>
-                  </Tr>
-                );
+              {displayedProducts?.map((product, key) => {
+                return <QuoteItem product={product} key={key} />
               })}
             </Tbody>
           ) : (

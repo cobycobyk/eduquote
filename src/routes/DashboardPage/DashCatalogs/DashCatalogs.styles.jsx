@@ -28,3 +28,7 @@ export const DCSColumn = styled.div`
   align-items: center;
   width: 100%;
 `;
+export const DCSLeft = styled.div`
+  display: flex;
+  justify-content: 
+`;

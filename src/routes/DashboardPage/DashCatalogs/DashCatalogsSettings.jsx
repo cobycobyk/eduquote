@@ -4,7 +4,7 @@ import { QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context"
 import { addCatalogCategory, addCatalogSubCategory } from "../../../utils/firebase";
-import { DashCatalogTableSection, DCSColumn, DCSRow, DTButton } from "./DashCatalogs.styles";
+import { DashCatalogTableSection, DCSColumn, DCSRow } from "./DashCatalogs.styles";
 
 
 export default function DashCatalogsSettings() {
@@ -21,6 +21,7 @@ export default function DashCatalogsSettings() {
     e.preventDefault();
     if (!category.length) return setMessage('Please enter category name');
     if (catalogCategories.some((cat) => cat.name === category)) return setMessage('Category already exists');
+    catalogCategories.push({name: category, subCategories: []})
     await addCatalogCategory(currentUserInfo, category);
     setCategory("");
   }
@@ -28,6 +29,7 @@ export default function DashCatalogsSettings() {
     e.preventDefault();
     if (!subCategory.name.length) return setMessage('please enter a sub cateogry name');
     if (!subCategory.parent.length) return setMessage('no category parent found');
+    catalogSubCategories.push(subCategory.name);
     await addCatalogSubCategory(currentUserInfo, subCategory);
     setSubCategory({name: "", parent: ""});
   }
@@ -37,19 +39,27 @@ export default function DashCatalogsSettings() {
   }
   const handleChangeSubCategory = (e) => {
     const { name, value } = e.target;
-    setSubCategory({ ...subCategory, [name]: value})
+    setSubCategory({ ...subCategory, [name]: value });
   }
+  console.log(catalogCategories)
   return (
     <React.Fragment>
       <DashCatalogTableSection>
         <QuoteTitle>Catalog Categories Settings</QuoteTitle>
         {message && <div>{message}</div>}
         <DCSRow>
+          <DCSColumn></DCSColumn>
+        </DCSRow>
+        <DCSRow>
           <DCSColumn>
             <Bold>Categories</Bold>
             <TextDividerSolid2></TextDividerSolid2>
             {catalogCategories?.map((cat, key) => {
-              return <div key={key}>{cat.name}</div>;
+              return (
+                <DisplayFlex key={key}>
+                    {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+                </DisplayFlex>
+              );
             })}
             <DisplayFlex>
               <input
@@ -65,7 +75,11 @@ export default function DashCatalogsSettings() {
             <Bold>Sub Categories</Bold>
             <TextDividerSolid2></TextDividerSolid2>
             {catalogSubCategories?.map((cat, key) => {
-              return <div key={key}>{cat}</div>;
+              return (
+                <div key={key}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </div>
+              );
             })}
             <DisplayFlex>
               <div>Parent:</div>
@@ -74,11 +88,11 @@ export default function DashCatalogsSettings() {
                 name="parent"
                 onChange={handleChangeSubCategory}
               >
-                <option value="" selected disabled hidden>
+                <option value="" disabled hidden>
                   Choose Parent Here
                 </option>
                 {catalogCategories?.map((cat, key) => {
-                  return <option key={key}>{cat.name}</option>;
+                  return <option key={key}>{cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}</option>;
                 })}
               </select>
               <input
