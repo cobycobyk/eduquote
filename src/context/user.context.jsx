@@ -25,11 +25,15 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const userInfo = async () => {
-      const response = await getUserInfo(currentUser);
-      setCurrentUserInfo(response);
+    if (currentUser) {
+      const userInfo = async () => {
+        const response = await getUserInfo(currentUser);
+        setCurrentUserInfo(response);
+      }
+      userInfo();
+    } else {
+      setCurrentUserInfo(null);
     }
-    currentUser !== null && userInfo();
   }, [currentUser])
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

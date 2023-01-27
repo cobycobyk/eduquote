@@ -5,7 +5,7 @@ import { Td, Th, Tr } from "../ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { AddToQuoteButton, QAButton, QAInput, QuoteAddContainer } from "./Quote.styles";
 
 
-export default function QuoteItem({ product }) {
+export default function QuoteItem({ product, handleProductClick }) {
   const { addItemToCart } = useContext(CartContext);
   const [qty, setQty] = useState(1);
   return (
@@ -16,6 +16,7 @@ export default function QuoteItem({ product }) {
       <Td onClick={() => handleProductClick(product)}>{product.name}</Td>
       <Td>{product.sku}</Td>
       <Td>{product.category}</Td>
+      <Td>{product.subCategory}</Td>
       <Td>{product.description}</Td>
       <Td>{priceFormatter.format(product.price)}</Td>
       <Td>

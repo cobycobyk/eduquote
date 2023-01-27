@@ -21,29 +21,38 @@ import {
 } from "../../routes/DashboardPage/DashboardPage.styles";
 import { ProductsContext } from "../../context/products.context";
 import QuoteItem from "./QuoteItem";
+import { getAllCatalogs } from "../../utils/firebase";
+import { UserContext } from "../../context/user.context";
 
 
 export default function Quote({ handleProductClick }) {
   const { products, catalogCategories } = useContext(ProductsContext);
   const [displayedProducts, setDisplayedProducts] = useState([...products]);
-  
+  const { currentUserInfo } = useContext(UserContext);
   const [categorySelection, setCategorySelection] = useState(false);
   const [subCategorySelection, setSubCategorySelection] = useState("");
   const [subCategories, setSubCategories] = useState([]);
+  const [catalogs, setCatalogs] = useState([]);
+  const [catalogSelection, setCatalogSelection] = useState(false)
 
-  // useEffect(() => {
-  //   const filter = () => {
-  //     const filterProductsOnCategory = products.filter((product) => {
-  //       return (
-  //         product?.category.toLowerCase() === categorySelection?.toLowerCase()
-  //       );
-  //     });
-  //     console.log(filterProductsOnCategory);
-  //     setDisplayedProducts(filterProductsOnCategory);
-  //   };
-  //   categorySelection.length && filter();
-  // }, [categorySelection]);
+  useEffect(() => {
+    const getCatalogs = async () => {
+      const company = currentUserInfo.company;
+      const allCatalogs = await getAllCatalogs(company);
+      setCatalogs(allCatalogs);
+    };
+    getCatalogs();
+  }, []);
 
+  useEffect(() => {
+    if (catalogSelection.length) {
+      const filtered = catalogs?.filter(catalog => catalog.name === catalogSelection);
+      setDisplayedProducts(filtered[0].items)
+    }
+    if (!catalogSelection.length) {
+      setDisplayedProducts([...products])
+    }
+  }, [catalogSelection])
 
   useEffect(() => {
     if (categorySelection.length) {
@@ -69,6 +78,9 @@ export default function Quote({ handleProductClick }) {
   const handleChangeSubCategory = (e) => {
     setSubCategorySelection(e.target.value);
   };
+  const handleChangeCatalog = (e) => {
+    setCatalogSelection(e.target.value);
+  };
   console.log(displayedProducts)
   return (
     <React.Fragment>
@@ -77,6 +89,23 @@ export default function Quote({ handleProductClick }) {
         <QuoteFilterBar>
           <FilterBarOptions>
             <FilterBarOption>Filter by Catalog:</FilterBarOption>
+            <FilterBarDropdown
+              value={catalogSelection.name}
+              onChange={handleChangeCatalog}
+              placeholder="Catalog Selection"
+            >
+              <option value="" selected>
+                {catalogSelection ? catalogSelection.name : "All"}
+              </option>
+              {catalogs?.map((cat, key) => {
+                return (
+                  <option key={key}>
+                    {cat.name}
+                  </option>
+                );
+              })}
+            </FilterBarDropdown>
+            <FilterBarOption>Filter by Category:</FilterBarOption>
             <FilterBarDropdown
               value={categorySelection}
               onChange={handleChangeCategory}
@@ -124,6 +153,7 @@ export default function Quote({ handleProductClick }) {
               <Th>Name</Th>
               <Th>SKU</Th>
               <Th>Category</Th>
+              <Th>Sub Category</Th>
               <Th>Description</Th>
               <Th>Price</Th>
               <Th>Add To Quote</Th>
@@ -132,7 +162,7 @@ export default function Quote({ handleProductClick }) {
           {displayedProducts?.length ? (
             <Tbody>
               {displayedProducts?.map((product, key) => {
-                return <QuoteItem product={product} key={key} />
+                return <QuoteItem product={product} key={key} handleProductClick={handleProductClick} />
               })}
             </Tbody>
           ) : (

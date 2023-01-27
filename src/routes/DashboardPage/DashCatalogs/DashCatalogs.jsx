@@ -6,9 +6,9 @@ import { getAllCatalogs } from "../../../utils/firebase";
 import { useNavigate } from "react-router-dom";
 
 export default function DashCatalogs() {
-  const [catalogs, setCatalogs] = useState([]);
   const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
+  const [catalogs, setCatalogs] = useState([]);
 
   useEffect(() => {
     const getCatalogs = async () => {

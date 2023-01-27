@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import qlogo from '../../assets/images/logos/qlogo.png';
 import { UserContext } from "../../context/user.context";
-import { signOutUser, getUserInfo } from "../../utils/firebase";
+import { signOutUser } from "../../utils/firebase";
 import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
 
 
@@ -16,7 +16,7 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const {currentUser, currentUserInfo} = useContext(UserContext);
+  const { currentUser, currentUserInfo } = useContext(UserContext);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
 
