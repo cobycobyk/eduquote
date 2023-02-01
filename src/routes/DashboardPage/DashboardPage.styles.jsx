@@ -149,6 +149,7 @@ export const DTable = styled.table`
   vertical-align: top;
   border-collapse: collapse;
   border-color: #dee2e6;
+  margin-bottom: 10px;
 `;
 export const Thead = styled.thead`
   border-color: inherit;

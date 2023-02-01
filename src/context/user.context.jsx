@@ -5,7 +5,6 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
   currentUser: null,
   currentUserInfo: null,
-  setCurrentUserInfo: () => {},
 });
 
 export const UserProvider = ({ children }) => {
@@ -16,25 +15,24 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
-        createUserDocumentFromAuth(user);
+        const user2 = createUserDocumentFromAuth(user);
+        if (user2) {
+          const info = async () => {
+            const response = await getUserInfo(user);
+            setCurrentUserInfo(response);
+          }
+          info();
+        }
       }
       setCurrentUser(user);
+      if (!user) {
+        setCurrentUserInfo(null);
+      }
     });
 
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (currentUser) {
-      const userInfo = async () => {
-        const response = await getUserInfo(currentUser);
-        setCurrentUserInfo(response);
-      }
-      userInfo();
-    } else {
-      setCurrentUserInfo(null);
-    }
-  }, [currentUser])
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

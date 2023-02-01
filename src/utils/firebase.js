@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc } from 'firebase/firestore/lite';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc, query, where, arrayUnion } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 
 //webapp configuration
@@ -33,7 +33,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 //create user auth doc
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
   if (!userAuth) return;
   const userDocRef = doc(db, 'users', userAuth.uid);
   const userSnapshot = await getDoc(userDocRef);
@@ -47,6 +47,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         createdAt,
         role: "client",
         company: null,
+        status: "active",
         ...additionalInformation,
       });
     } catch (error) {
@@ -61,13 +62,15 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 //getCurrentUser
 export const getUserInfo = async (currentUser) => {
-    if (auth.currentUser !== currentUser) return 'User not logged in';
-    const userSnapshot = await getDoc(doc(db, `users`, auth.currentUser.uid));
-    if (userSnapshot.exists()) {
-        return userSnapshot.data();
-    } else {
-        console.log('no data');
-    };
+  if (!currentUser) return null;
+  if (auth.currentUser !== currentUser) return console.log('User not logged in');
+  const userSnapshot = await getDoc(doc(db, `users`, auth.currentUser.uid));
+  if (userSnapshot.exists()) {
+      return userSnapshot.data();
+  } else {
+    console.log('no data');
+    return null
+  };
 };
 //send password reset email
 export const sendPasswordReset = async (email) => {
@@ -99,340 +102,297 @@ export const sendPasswordReset = async (email) => {
 /*---Clients---*/
 //add client
 export const addClient = async (userCompany, formData) => {
-  if (!auth.currentUser) return console.log("Not an authorized user");
-  formData.firstName = formData.firstName[0].toUpperCase() + formData.firstName.slice(1).toLowerCase(); 
-  formData.lastName = formData.lastName[0].toUpperCase() + formData.lastName.slice(1).toLowerCase(); 
-  const clientDocRef = doc(db, 'companies', userCompany, 'clients', formData.email);
-  const clientSnapshot = await getDoc(clientDocRef);
-  if (!clientSnapshot.exists()) {
-    const createdAt = new Date();
-    try {
-      await setDoc(clientDocRef, {
-        createdAt,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        institution: formData.institution,
-        salesperson: formData.salesperson,
-        status: "active",
-      })
-    } catch (error) {
-      console.log('error creating client')
-    }
-  }
-  return clientSnapshot;
+  return console.log('add client')
+  // if (!auth.currentUser) return console.log("Not an authorized user");
+  // formData.firstName = formData.firstName[0].toUpperCase() + formData.firstName.slice(1).toLowerCase(); 
+  // formData.lastName = formData.lastName[0].toUpperCase() + formData.lastName.slice(1).toLowerCase(); 
+  // const clientDocRef = doc(db, 'companies', userCompany, 'clients', formData.email);
+  // const clientSnapshot = await getDoc(clientDocRef);
+  // if (!clientSnapshot.exists()) {
+  //   const createdAt = new Date();
+  //   try {
+  //     await setDoc(clientDocRef, {
+  //       createdAt,
+  //       firstName: formData.firstName,
+  //       lastName: formData.lastName,
+  //       email: formData.email,
+  //       institution: formData.institution,
+  //       salesperson: formData.salesperson,
+  //       status: "active",
+  //     })
+  //   } catch (error) {
+  //     console.log('error creating client')
+  //   }
+  // }
+  // return clientSnapshot;
 };
 //update client
 export const updateClient = async (formData) => {
-  if (!auth.currentUser) return;
-  const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
-  await updateDoc(clientDocRef, {
-    updatedAt: serverTimestamp(),
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    email: formData.email,
-    institution: formData.institution,
-    salesperson: formData.salesperson,
-  });
+  return console.log('update client')
+  // if (!auth.currentUser) return;
+  // const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
+  // await updateDoc(clientDocRef, {
+  //   updatedAt: serverTimestamp(),
+  //   firstName: formData.firstName,
+  //   lastName: formData.lastName,
+  //   email: formData.email,
+  //   institution: formData.institution,
+  //   salesperson: formData.salesperson,
+  // });
 };
-//get clients
+//get clients *working
 export const getAllClients = async (userCompany) => {
+  console.log('get all clients');
   if (!auth.currentUser) return console.log('not authorized');
-  const clientDocRef = await getDocs(collection(db, 'companies', userCompany, 'clients'))
-  const clients = []
-  clientDocRef.forEach((doc) => {
-    clients.push(doc.data());
-  });
-  return clients;
+  const usersRef = collection(db, 'users');
+  const q = query(usersRef, where("company", "==", userCompany));
+  const querySnapshop = await getDocs(q);
+  const companyUsers = []
+  querySnapshop.forEach((doc) => {
+    companyUsers.push(doc.data());
+  })
+  return companyUsers;
 };
 //delete client
 export const deleteClient = async (currentUser, formData) => {
-  if (!auth.currentUser) return;
-  const clientDocRef = doc(db, 'companies', currentUser.company, 'clients', formData.email);
-  return await deleteDoc(clientDocRef);
+  return console.log('delete client')
+  // if (!auth.currentUser) return;
+  // const clientDocRef = doc(db, 'companies', currentUser.company, 'clients', formData.email);
+  // return await deleteDoc(clientDocRef);
 };
 
-/*---Catalogs---*/
-//get catalogs
-export const getAllCatalogs = async (userCompany) => {
+/*---Products---*/
+//get products *working
+export const getAllProducts = async (userCompany) => {
+  console.log('get all catalogs')
   if (!auth.currentUser) return console.log('not authorized');
-  const catalogDocRef = await getDocs(collection(db, 'companies', userCompany, 'catalogs'))
-  const catalogs = []
-  catalogDocRef.forEach((doc) => {
-    catalogs.push(doc.data());
+  const productsDocsRef = await getDocs(collection(db, 'companies', userCompany, 'products'))
+  const products = []
+  productsDocsRef.forEach((doc) => {
+      products.push(doc.data());
   });
-  return catalogs;
-};
-//add catalog
-export const addCatalog = async (currentUser, formData) => {
-  if (!auth.currentUser) return;
-  const category = formData.category.toLowerCase();
-  const id = formData.id;
-  const catalogDocRef = doc(db, 'companies', currentUser.company, 'catalogs', id);
-  const catalogSnapshot = await getDoc(catalogDocRef);
-  if (!catalogSnapshot.exists()) {
-    const createdAt = new Date();
-    try {
-      await setDoc(catalogDocRef, {
-        createdAt,
-        company: formData.company,
-        category: category,
-        subCategory: formData.subCategory,
-        name: formData.name,
-        createdBy: currentUser.email,
-        status: "active",
-        items: [],
-        id
-      });
-    } catch (error) {
-      console.log('error creating catalog')
-    }
-  }
-  return catalogDocRef;
-};
-//add catalog item
-export const addCatalogItem = async (currentUser, catalog, formData) => {
-  if (!auth.currentUser) return console.log('Not authorized to add catalog items');
-  if (currentUser.company !== catalog.company) return console.log('Not authorized to add catalog items');
-  const id = catalog.id;
-  const catalogDocRef = doc(db, 'companies', catalog.company, 'catalogs', id);
-  const catalogSnapshot = await getDoc(catalogDocRef);
-  const items = catalogSnapshot.data().items;
-  console.log(items);
-  if (catalogSnapshot.exists()) {
-    await updateDoc(catalogDocRef, {
-      updatedAt: serverTimestamp(),
-      updatedBy: auth.currentUser.email,
-      items: [...items, formData]
-    })
-  }
-  return console.log('added item to catalog')
-}
-//delete catalog item
-export const deleteCatalogItem = async (currentUser, catalog, item, index) => {
-  if (!auth.currentUser) return console.log('Not authorized to add catalog items');
-  if (currentUser.company !== catalog.company) return console.log('Not authorized to add catalog items');
-  const id = catalog.id;
-  const catalogDocRef = doc(db, 'companies', catalog.company, 'catalogs', id);
-  const catalogSnapshot = await getDoc(catalogDocRef);
-  const items = catalogSnapshot.data().items;
-  items.splice(index, 1);
-  if (catalogSnapshot.exists()) {
-    await updateDoc(catalogDocRef, {
-      updatedAt: serverTimestamp(),
-      updatedBy: auth.currentUser.email,
-      items,
-    })
-  }
-  return console.log('added item to catalog')
-}
-//update catalog information
-export const updateCatalog = async (formData) => {
-  if (!auth.currentUser) return;
-  const category = formData.category.toLowerCase();
-  const catalogDocRef = doc(db, 'companies', formData.company, 'catalogs', formData.id);
-  await updateDoc(catalogDocRef, {
-    updatedAt: serverTimestamp(),
-    category: category,
-    subCategory: formData.subCategory,
-    name: formData.name,
-    updatedBy: auth.currentUser.email,
+  return products;
+  };
+  //add product *working
+export const addProduct = async (currentUser, formData) => {
+  console.log('add product')
+  if (!auth.currentUser) return console.log('user not authorized');
+  const companyDocRef = doc(db, 'companies', currentUser.company)
+  await updateDoc(companyDocRef, {
+    categories: arrayUnion(formData.category),
+    subCategories: arrayUnion(formData.subCategory),    
+    groups: arrayUnion(formData.group),
   })
-  return console.log('Update Catalog Successfull')
-};
-//delete catalog
-export const deleteCatalog = async (formData) => {
-  if (!auth.currentUser) return;
-  const catalogDocRef = doc(db, 'companies', formData.company, 'catalogs', formData.id);
-  await deleteDoc(catalogDocRef);
-  return console.log('Delete Catalog Successfull')
-};
-//get catalog categories
-export const getCatalogCategories = async () => {
-  // if (!auth.currentUser) return console.log('not authorized to get product categories');
-  const categoriesDocRef = doc(db, 'companies', 'boxlight')
-  const categorySnapshot = await getDoc(categoriesDocRef);
-  if (categorySnapshot) return categorySnapshot.data().catalogCategories;
-};
-export const addCatalogCategory = async (currentUser, formData) => {
-  if (!auth.currentUser) return;
-  // const category = formData.category.toLowerCase();
-  const catalogDocRef = doc(db, 'companies', currentUser.company);
-  const catalogSnapshot = await getDoc(catalogDocRef);
-  const cats = catalogSnapshot.data().catalogCategories;
-  console.log(catalogSnapshot.data())
+  const productDocRef = doc(db, 'companies', currentUser.company, 'products', formData.sku);
+  const productSnapshot = await getDoc(productDocRef);
+  if (!productSnapshot.exists()) {
     try {
-      await updateDoc(catalogDocRef, {
-        updatedAt: serverTimestamp(),
-        catalogCategories: [...cats, {name: formData, subCategories: []} ]
+      await setDoc(productDocRef, {
+        category: formData.category,
+        createdAt: serverTimestamp(),
+        createdBy: auth.currentUser.uid,
+        description: formData.description,
+        group: formData.group,
+        name: formData.name,
+        price: formData.price,
+        sku: formData.sku,
+        subCategory: formData.subCategory,
+        status: "active",
       });
     } catch (error) {
-      console.log('error creating catalog')
+      console.log('error creating product')
     }
-  return catalogDocRef;
-}
-export const addCatalogSubCategory = async (currentUser, formData) => {
-  if (!auth.currentUser) return;
-  if (!formData.name.length) return;
-  const catalogDocRef = doc(db, 'companies', currentUser.company);
-  const catalogSnapshot = await getDoc(catalogDocRef);
-  const cats = catalogSnapshot.data().catalogCategories;
-  cats.forEach(async (cat, index) => {
-    if (cat.name === formData.parent) {
-      const subs = cat.subCategories;
-      subs.push(formData.name)
-      cats[index].subCategories = subs;
-      try {
-        await updateDoc(catalogDocRef, {
-          updatedAt: serverTimestamp(),
-          catalogCategories: cats,
-        });
-      } catch (error) {
-        console.log('error creating catalog')
-      }
-      }
+  }
+  return console.log('Product added succesfully');
+};
+//update product information *working
+export const updateProduct = async (currentUser, formData) => {
+  console.log('update catalog')
+  if (!auth.currentUser) return console.log('user not authorized');
+  const companyDocRef = doc(db, 'companies', currentUser.company)
+  await updateDoc(companyDocRef, {
+    categories: arrayUnion(formData.category),
+    subCategories: arrayUnion(formData.subCategory),    
+    groups: arrayUnion(formData.group),
+  })
+  const productDocRef = doc(db, 'companies', currentUser.company, 'products', formData.sku);
+  const productSnapshot = await getDoc(productDocRef);
+  if (productSnapshot.exists()) {
+    await updateDoc(productDocRef, {
+      category: formData.category,
+      updatedAt: serverTimestamp(),
+      updatedBy: auth.currentUser.email,
+      description: formData.description,
+      group: formData.group,
+      name: formData.name,
+      price: formData.price,
+      subCategory: formData.subCategory,
     })
-  return catalogDocRef;
-}
+  }
+  return console.log('Update Product Successfull')
+};
+//delete product *working
+export const deleteProduct = async (currentUser, formData) => {
+  console.log('delete product')
+  if (!auth.currentUser) return console.log('User not authorized');
+  const productDocRef = doc(db, 'companies', currentUser.company, 'products', formData.sku);
+  await deleteDoc(productDocRef);
+  return console.log('Delete Product Successfull')
+};
+//get catalog categories *working
+export const getProductsCategories = async (currentUser) => {
+  // if (!auth.currentUser) return console.log('not authorized to get product categories');
+  const categoriesDocRef = doc(db, 'companies', currentUser.company);
+  const categorySnapshot = await getDoc(categoriesDocRef);
+  const { categories, subCategories, groups } = categorySnapshot.data();
+  if (categorySnapshot) return {categories, subCategories, groups};
+};
 /*---Quotes---*/
 //get all quotes
 export const getAllQuotes = async (user) => {
-  if (!auth.currentUser) return console.log('not authorized');
-  const quoteDocRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
-  const quotes = []
-  const otherQuotes = []
-  quoteDocRef.forEach((doc) => {
-    if (doc.data().salesperson === user.email) {
-      quotes.push(doc.data());
-    } else {
-      otherQuotes.push(doc.data());
-    }
-  });
-  return {quotes, otherQuotes};
+  return console.log('get all quotes')
+  // if (!auth.currentUser) return console.log('not authorized');
+  // const quoteDocRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
+  // const quotes = []
+  // const otherQuotes = []
+  // quoteDocRef.forEach((doc) => {
+  //   if (doc.data().salesperson === user.email) {
+  //     quotes.push(doc.data());
+  //   } else {
+  //     otherQuotes.push(doc.data());
+  //   }
+  // });
+  // return {quotes, otherQuotes};
 };
 //get quotes from client
 export const getQuoteForClient = async (user, clientInfo) => {
-  if (!auth.currentUser) return console.log('not authorized');
-  const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
-  const quotes = []
-  const otherQuotes = []
-  quoteDecRef.forEach((doc) => {
-    if (doc.data().createdFor === clientInfo.email) {
-      if (doc.data().salesperson === user.email) {
-        quotes.push(doc.data());
-      } else {
-        otherQuotes.push(doc.data());
-      }
-    }
-  });
-  return {quotes, otherQuotes};
+  return console.log('get quote for client')
+  // if (!auth.currentUser) return console.log('not authorized');
+  // const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
+  // const quotes = []
+  // const otherQuotes = []
+  // quoteDecRef.forEach((doc) => {
+  //   if (doc.data().createdFor === clientInfo.email) {
+  //     if (doc.data().salesperson === user.email) {
+  //       quotes.push(doc.data());
+  //     } else {
+  //       otherQuotes.push(doc.data());
+  //     }
+  //   }
+  // });
+  // return {quotes, otherQuotes};
 }
 //add quote from salesperson
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
-  if (!auth.currentUser) return console.log('No authorized user');
-  console.log('add quote from salesperson');
-  const id = formData.id;
-  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
-  const quoteSnapshot = await getDoc(quoteDocRef);
-  if (!quoteSnapshot.exists()) {
-    const createdAt = new Date();
-    try {
-      await setDoc(quoteDocRef, {
-        createdAt,
-        createdBy: currentUser.email,
-        salesperson: currentUser.email,
-        status: "active",
-        cartTotal,
-        cartCount,
-        cartItems,
-        createdFor: formData.recipientEmail,
-        id,
-      });
-    } catch (error) {
-      console.log('error creating quote from salesperson')
-    }
-  }
-  return quoteDocRef;
+  return console.log('add quote from salesperson')
+  // if (!auth.currentUser) return console.log('No authorized user');
+  // console.log('add quote from salesperson');
+  // const id = formData.id;
+  // const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  // const quoteSnapshot = await getDoc(quoteDocRef);
+  // if (!quoteSnapshot.exists()) {
+  //   const createdAt = new Date();
+  //   try {
+  //     await setDoc(quoteDocRef, {
+  //       createdAt,
+  //       createdBy: currentUser.email,
+  //       salesperson: currentUser.email,
+  //       status: "active",
+  //       cartTotal,
+  //       cartCount,
+  //       cartItems,
+  //       createdFor: formData.recipientEmail,
+  //       id,
+  //     });
+  //   } catch (error) {
+  //     console.log('error creating quote from salesperson')
+  //   }
+  // }
+  // return quoteDocRef;
 }
 //update quote from salesperson
 export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
-  if (!auth.currentUser) return console.log('No authorized user');
-  console.log('update quote from salesperson')
-  const id = quote.id;
-  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
-  const quoteSnapshot = await getDoc(quoteDocRef);
-  if (quoteSnapshot.exists()) {
-    try {
-      await updateDoc(quoteDocRef, {
-        updatedAt: serverTimestamp(),
-        updatedBy: currentUser.email,
-        cartCount,
-        cartTotal,
-        cartItems,
-      })
-    } catch (error) {
-      console.log('error updating quote from salesperson')
-    }
-  }
-  return console.log('Update Quote Successfull')
+  return console.log('updatequote from salesperson')
+  // if (!auth.currentUser) return console.log('No authorized user');
+  // console.log('update quote from salesperson')
+  // const id = quote.id;
+  // const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  // const quoteSnapshot = await getDoc(quoteDocRef);
+  // if (quoteSnapshot.exists()) {
+  //   try {
+  //     await updateDoc(quoteDocRef, {
+  //       updatedAt: serverTimestamp(),
+  //       updatedBy: currentUser.email,
+  //       cartCount,
+  //       cartTotal,
+  //       cartItems,
+  //     })
+  //   } catch (error) {
+  //     console.log('error updating quote from salesperson')
+  //   }
+  // }
+  // return console.log('Update Quote Successfull')
 };
 
 /*---UserQuotes---*/
 //get end user quotes
 export const getUserQuotes = async () => {
-  if (!auth.currentUser) return console.log("not an authorized user");
-  const quoteDocRef = await getDocs(collection(db, 'users', auth.currentUser.uid, 'quotes'))
-  const quotes = [];
-  quoteDocRef.forEach((doc) => {
-    quotes.push(doc.data());
-  });
-  return quotes;
+  console.log('get user quotes')
+  // if (!auth.currentUser) return console.log("not an authorized user");
+  // const quoteDocRef = await getDocs(collection(db, 'users', auth.currentUser.uid, 'quotes'))
+  // const quotes = [];
+  // quoteDocRef.forEach((doc) => {
+  //   quotes.push(doc.data());
+  // });
+  // return quotes;
 }
 //add quote from end user
 export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cartTotal, cartCount) => {
-  if (!auth.currentUser) return console.log("not an authorized user");
-  console.log('add quote from end user');
-  console.log(formData)
-  const id = formData.id;
-  const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
-  const quoteSnapshot = await getDoc(quoteDocRef);
-  if (!quoteSnapshot.exists()) {
-    const createdAt = new Date();
-    try {
-      await setDoc(quoteDocRef, {
-        createdAt,
-        createdBy: currentUser.email,
-        salesperson: null,
-        status: "active",
-        cartTotal,
-        cartCount,
-        cartItems,
-        id,
-      });
-    } catch (error) {
-      console.log('error creating quote from end user')
-    }
-  }
+  return console.log('add quote from end user')
+  // if (!auth.currentUser) return console.log("not an authorized user");
+  // console.log('add quote from end user');
+  // console.log(formData)
+  // const id = formData.id;
+  // const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
+  // const quoteSnapshot = await getDoc(quoteDocRef);
+  // if (!quoteSnapshot.exists()) {
+  //   const createdAt = new Date();
+  //   try {
+  //     await setDoc(quoteDocRef, {
+  //       createdAt,
+  //       createdBy: currentUser.email,
+  //       salesperson: null,
+  //       status: "active",
+  //       cartTotal,
+  //       cartCount,
+  //       cartItems,
+  //       id,
+  //     });
+  //   } catch (error) {
+  //     console.log('error creating quote from end user')
+  //   }
+  // }
 }; 
 //update quote from end user
 export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
-  if (!auth.currentUser) return console.log('No authorized user');
-  console.log('update quote from salesperson')
-  const id = quote.id;
-  const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
-  const quoteSnapshot = await getDoc(quoteDocRef);
-  if (quoteSnapshot.exists()) {
-    try {
-      await updateDoc(quoteDocRef, {
-        updatedAt: serverTimestamp(),
-        updatedBy: currentUser.email,
-        cartCount,
-        cartTotal,
-        cartItems,
-      })
-    } catch (error) {
-      console.log('error updating quote from end user')
-    }
-  }
-  return console.log('Update Quote Successfull')
+  return console.log('update quote from end user')
+  // if (!auth.currentUser) return console.log('No authorized user');
+  // console.log('update quote from salesperson')
+  // const id = quote.id;
+  // const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
+  // const quoteSnapshot = await getDoc(quoteDocRef);
+  // if (quoteSnapshot.exists()) {
+  //   try {
+  //     await updateDoc(quoteDocRef, {
+  //       updatedAt: serverTimestamp(),
+  //       updatedBy: currentUser.email,
+  //       cartCount,
+  //       cartTotal,
+  //       cartItems,
+  //     })
+  //   } catch (error) {
+  //     console.log('error updating quote from end user')
+  //   }
+  // }
+  // return console.log('Update Quote Successfull')
 };

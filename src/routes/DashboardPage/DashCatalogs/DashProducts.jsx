@@ -2,25 +2,25 @@ import React, { useState, useEffect, useContext } from "react";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import  moment from "moment";
 import { UserContext } from "../../../context/user.context";
-import { getAllCatalogs } from "../../../utils/firebase";
+import { getAllProducts } from "../../../utils/firebase";
 import { useNavigate } from "react-router-dom";
 
-export default function DashCatalogs() {
+export default function DashProducts() {
   const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
-  const [catalogs, setCatalogs] = useState([]);
+  const [products, setCatalogs] = useState([]);
 
   useEffect(() => {
-    const getCatalogs = async () => {
+    const getProducts = async () => {
       const company = currentUserInfo.company;
-      const allCatalogs = await getAllCatalogs(company);
+      const allCatalogs = await getAllProducts(company);
       setCatalogs(allCatalogs);
     }
-    getCatalogs();
+    getProducts();
   }, [])
 
-  const handleClick = (catalog) => {
-    navigate(`/dashboard/catalogs/${catalog.category}`, {state:{data: catalog}})
+  const handleClick = (product) => {
+    navigate(`/dashboard/products/${product.sku}`, {state:{data: product}})
   }
 
   return (
@@ -28,29 +28,29 @@ export default function DashCatalogs() {
       <Thead>
         <Tr>
           <Th>Name</Th>
-          <Th>Company</Th>
+          <Th>SKU</Th>
           <Th>Category</Th>
           <Th>Sub Category</Th>
-          <Th>Item Count</Th>
+          <Th>Group</Th>
           <Th>Status</Th>
           <Th>Created</Th>
           <Th>Actions</Th>
         </Tr>
       </Thead>
-      {catalogs.length ? (
+      {products.length ? (
         <Tbody>
-          {catalogs?.map((catalog, key) => {
+          {products?.map((product, key) => {
             return (
-              <Tr key={key} onClick={() => handleClick(catalog)}>
-                <Th>{catalog.name}</Th>
-                <Td>{catalog.company}</Td>
-                <Td>{catalog.category}</Td>
-                <Td>{catalog?.subCategory}</Td>
-                <Td>{catalog.items.length}</Td>
-                <Td>{catalog.status}</Td>
+              <Tr key={key} onClick={() => handleClick(product)}>
+                <Th>{product.name}</Th>
+                <Td>{product.sku}</Td>
+                <Td>{product.category}</Td>
+                <Td>{product?.subCategory}</Td>
+                <Td>{product?.group}</Td>
+                <Td>{product.status}</Td>
                 <Td>
                   {moment
-                    .unix(catalog.createdAt)
+                    .unix(product.createdAt)
                     .subtract(1969, "years")
                     .format("MMMM Do YYYY")}
                 </Td>
@@ -62,7 +62,7 @@ export default function DashCatalogs() {
       ) : (
         <Tbody>
           <Tr>
-            <Th>No Catalogs</Th>
+            <Th>No Products</Th>
           </Tr>
         </Tbody>
       )}

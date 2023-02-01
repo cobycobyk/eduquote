@@ -3,26 +3,22 @@ import { Bold, DisplayFlex, TextDividerSolid2 } from "../../../assets/css/custom
 import { QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context"
-import { addCatalogCategory, addCatalogSubCategory } from "../../../utils/firebase";
 import { DashCatalogTableSection, DCSColumn, DCSRow } from "./DashCatalogs.styles";
 
 
-export default function DashCatalogsSettings() {
+export default function DashProductsSettings() {
   const { currentUserInfo } = useContext(UserContext);
-  const { catalogCategories, catalogSubCategories } = useContext(ProductsContext);
+  const { productCategories, productSubCategories, productGroups } = useContext(ProductsContext);
   const [message, setMessage] = useState(false);
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState({
-    name: "",
-    parent: "",
-  });
+  const [formData, setFormData] = useState({});
   
   const handleAddCategory = async (e) => {
     e.preventDefault();
     if (!category.length) return setMessage('Please enter category name');
-    if (catalogCategories.some((cat) => cat.name === category)) return setMessage('Category already exists');
-    catalogCategories.push({name: category, subCategories: []})
-    await addCatalogCategory(currentUserInfo, category);
+    if (productCategories.some((cat) => cat === formData.category)) return setMessage('Category already exists');
+    if (productSubCategories.some((cat) => cat === formData.subCategory)) return setMessage('Sub Category already exists');
+    if (productGroups.some((cat) => cat === formData.group)) return setMessage('Group already exists');
+    // await addCatalogCategory(currentUserInfo, category);
     setCategory("");
   }
   const handleAddSubCategory = async (e) => {

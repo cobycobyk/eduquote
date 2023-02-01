@@ -25,7 +25,7 @@ import QuotePage from "./routes/QuotePage/QuotePage";
 import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
 import TestPage from "./routes/TestPage/TestPage";
 import { UserContext, UserProvider } from "./context/user.context.jsx";
-import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashCatalogs";
+import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashProducts";
 import { ProductsProvider } from "./context/products.context";
 import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 
@@ -33,16 +33,20 @@ import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { CartProvider } from "./context/cart.context";
 import DashQuoteNew from "./routes/DashboardPage/DashQuotes/DashQuoteNew";
-import DashCatalogNew from "./routes/DashboardPage/DashCatalogs/DashCatalogNew";
-import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashCatalog";
-import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashCatalogEdit";
+import DashCatalogNew from "./routes/DashboardPage/DashCatalogs/DashProductNew";
+import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashProduct";
+import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashProductEdit";
 import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
 import Footer from "./components/Footer/Footer";
 import HowToPage from "./routes/HowToPage/HowToPage";
 import PricingPage from "./routes/PricingPage/PricingPage";
 import DashClient from "./routes/DashboardPage/DashClients/DashClient";
 import MyQuoteEditPage from "./routes/AccountPage/MyQuoteEditPage";
-import DashCatalogsSettings from "./routes/DashboardPage/DashCatalogs/DashCatalogsSettings";
+import DashCatalogsSettings from "./routes/DashboardPage/DashCatalogs/DashProductsSettings";
+import DashProducts from "./routes/DashboardPage/DashCatalogs/DashProducts";
+import DashProductNew from "./routes/DashboardPage/DashCatalogs/DashProductNew";
+import DashProduct from "./routes/DashboardPage/DashCatalogs/DashProduct";
+import DashProductEdit from "./routes/DashboardPage/DashCatalogs/DashProductEdit";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -116,16 +120,16 @@ function App() {
             path="quotes/:quoteId/edit"
             element={<DashQuoteEdit setCurrentPage={setCurrentPage} />}
           />
-          <Route path="catalogs" element={<DashCatalogs />} />
-          <Route path="catalogs/new" element={<DashCatalogNew />} />
-          <Route path="catalogs/settings" element={<DashCatalogsSettings />} />
+          <Route path="products" element={<DashProducts />} />
+          <Route path="products/new" element={<DashProductNew />} />
+          {/* <Route path="catalogs/settings" element={<DashCatalogsSettings />} /> */}
           <Route
-            path="catalogs/:catalogId"
-            element={<DashCatalog setCurrentPage={setCurrentPage} />}
+            path="products/:productId"
+            element={<DashProduct setCurrentPage={setCurrentPage} />}
           />
           <Route
-            path="catalogs/:catalogId/edit"
-            element={<DashCatalogEdit setCurrentPage={setCurrentPage} />}
+            path="products/:productId/edit"
+            element={<DashProductEdit setCurrentPage={setCurrentPage} />}
           />
           <Route path="settings" element={<DashSettings />} />
         </Route>
@@ -151,74 +155,3 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <UserContext />,
-//     errorElement: <ErrorPage />,
-//     children: [
-//       {
-//         path: "/",
-//         element: <NavBarWrapper />,
-//         children: [
-//           {
-//             path: "quote",
-//             element: <ProductsContext />,
-//             children: [
-//               { index: true, element: <QuotePage /> },
-//               {
-//                 path: "quote/:quoteId",
-//                 element: <QuotePage />,
-//               },
-//               {
-//                 path: "quote/:quoteId/edit",
-//                 element: <QuoteEditPage />,
-//               },
-//             ],
-//           },
-//           {
-//             path: "dashboard",
-//             element: <DashboardPage />,
-//             action: clientAction,
-//             children: [
-//               { index: true, element: <DashIndex /> },
-//               {
-//                 path: "clients/:clientId",
-//                 element: <DashClient />,
-//               },
-//               {
-//                 path: "quotes",
-//                 element: <DashQuotes />,
-//                 loader: quoteLoader,
-//               },
-//               {
-//                 path: "quotes/:quoteId",
-//                 element: <DashQuote />,
-//               },
-//               {
-//                 path: "quotes/:quoteId/edit",
-//                 element: <DashQuoteEdit />,
-//                 loader: quoteLoader,
-//               },
-//               {
-//                 path: "catalogs",
-//                 element: <DashCatalogs />,
-//                 loader: quoteLoader,
-//               },
-//               {
-//                 path: "catalogs/:catalogId",
-//                 element: <DashQuote />,
-//               },
-//               {
-//                 path: "catalogs/:catalogId/edit",
-//                 element: <DashQuoteEdit />,
-//                 loader: quoteLoader,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ]);

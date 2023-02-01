@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext} from "react"
 import { Tbody, Td, TdImg, Th, Thead, Tr } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { QAButton, QAInput, QuoteAddContainer, QuoteSection, QuoteTitle } from "../../../components/Quote/Quote.styles";
 import { UserContext } from "../../../context/user.context";
-import { addCatalogItem, deleteCatalogItem } from "../../../utils/firebase";
 import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
 import { DTable } from "../DashboardPage.styles";
 import { DashCatalogTableInput, DashCatalogTableSection, DTButton } from "./DashCatalogs.styles";
@@ -28,14 +27,14 @@ export default function DashCatalogTable({ catalog }) {
 
   const handleAddProduct = async () => {
     setItems([...items, formData]);
-    await addCatalogItem(currentUserInfo, catalog, formData);
+    // await addCatalogItem(currentUserInfo, catalog, formData);
     setFormData(defaultFormData);
   }
   const handleDeleteProduct = async (item, index) => {
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems);
-    await deleteCatalogItem(currentUserInfo, catalog, item, index);
+    // await deleteCatalogItem(currentUserInfo, catalog, item, index);
     console.log('delete product')
   }
 

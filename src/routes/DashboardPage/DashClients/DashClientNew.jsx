@@ -23,6 +23,7 @@ const defaultFormData = {
   email: "",
   institution: "",
   salesperson: "",
+  role: ""
 };
 
 export default function DashClientNew() {
@@ -175,11 +176,52 @@ export default function DashClientNew() {
             />
           </SignupColumn>
           <SignupColumn>
-            <SignupColumnFull>
-              <RegisterButton type="submit">Add Client</RegisterButton>
-            </SignupColumnFull>
+            <SignupLabelRow>
+              <Icon.AtSign />
+              <FormLabel>
+                Role <Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <input
+              value="client"
+              onClick={handleChange}
+              type="radio"
+              name="role"
+              id="roleclient"
+              placeholder="Role"
+              required
+              errorMessage=""
+            />
+            <label for="roleclient">Client</label>
+            <input
+              value="salesPartnerRep"
+              onClick={handleChange}
+              type="radio"
+              name="role"
+              id="rolerep"
+              placeholder="Role"
+              required
+              errorMessage=""
+            />
+            <label for="rolerep">Sales Partner Rep</label>
+            <input
+              value="companyRep"
+              onClick={handleChange}
+              type="radio"
+              name="role"
+              id="rolecomp"
+              placeholder="Role"
+              required
+              errorMessage=""
+            />
+            <label for="rolecomp">Company Rep</label>
           </SignupColumn>
         </SignupRow>
+        <SignupColumn>
+          <SignupColumnFull>
+            <RegisterButton type="submit">Add Client</RegisterButton>
+          </SignupColumnFull>
+        </SignupColumn>
       </Formm>
     </SignupCard>
   );

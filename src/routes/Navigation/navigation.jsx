@@ -16,7 +16,7 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const { currentUser, currentUserInfo } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
 

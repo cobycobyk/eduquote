@@ -5,24 +5,24 @@ import * as Icon from "react-feather";
 import { Danger, SaveButton } from "../../../assets/css/custom.styles";
 import DashCatalogTable from "./DashCatalogTable";
 
-export default function DashCatalog({setCurrentPage}) {
+export default function DashProduct({setCurrentPage}) {
   const location = useLocation();
-  const catalog = location.state?.data;
+  const product = location.state?.data;
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrentPage(`${catalog.name} Catalog`)
+    setCurrentPage(`${product.name} Product`)
   }, [])
 
   const handleClick = () => {
     console.log('edit')
-    navigate(`/dashboard/catalogs/${catalog.category}/edit`, {state: {data: catalog},})
+    navigate(`/dashboard/products/${product.sku}/edit`, {state: {data: product},})
   }
 
   return (
     <React.Fragment>
       <SignupCard>
-        <CardTitlee>Catalog Information</CardTitlee>
+        <CardTitlee>Product Information</CardTitlee>
           <SignupRow>
             <SignupColumn>
               <SignupLabelRow>
@@ -33,10 +33,29 @@ export default function DashCatalog({setCurrentPage}) {
               </SignupLabelRow>
               <SignupInput
                 type="text"
-                value={catalog.name}
+                value={product.name}
                 name="name"
                 id="name"
                 placeholder="Name"
+                required
+                disabled
+                errorMessage=""
+                readOnly
+              />
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRow>
+                <Icon.UserCheck />
+                <FormLabel>
+                  SKU <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRow>
+              <SignupInput
+                type="text"
+                name="sku"
+                value={product.sku}
+                id="sku"
+                placeholder="SKU"
                 required
                 disabled
                 errorMessage=""
@@ -53,30 +72,9 @@ export default function DashCatalog({setCurrentPage}) {
               <SignupInput
                 type="text"
                 name="category"
-                value={catalog.category}
+                value={product.category}
                 id="category"
                 placeholder="Category"
-                required
-                disabled
-                errorMessage=""
-                readOnly
-              />
-            </SignupColumn>
-          </SignupRow>
-          <SignupRow>
-            <SignupColumn>
-              <SignupLabelRow>
-                <Icon.UserCheck />
-                <FormLabel>
-                  Company <Danger>*</Danger>
-                </FormLabel>
-              </SignupLabelRow>
-              <SignupInput
-                type="text"
-                name="company"
-                value={catalog.company}
-                id="sku"
-                placeholder={catalog.company}
                 required
                 disabled
                 errorMessage=""
@@ -93,9 +91,49 @@ export default function DashCatalog({setCurrentPage}) {
               <SignupInput
                 type="text"
                 name="subCategory"
-                value={catalog?.subCategory}
-                id="sku"
-                placeholder={catalog?.subCategory}
+                value={product.subCategory}
+                id="subCategory"
+                placeholder="Sub Category"
+                required
+                disabled
+                errorMessage=""
+                readOnly
+              />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRow>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Group <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRow>
+              <SignupInput
+                type="text"
+                name="group"
+                value={product.group}
+                id="group"
+                placeholder={product.group}
+                required
+                disabled
+                errorMessage=""
+                readOnly
+              />
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRow>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Status <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRow>
+              <SignupInput
+                type="text"
+                name="status"
+                value={product?.status}
+                id="status"
+                placeholder={product?.status}
                 required
                 disabled
                 errorMessage=""
@@ -106,12 +144,12 @@ export default function DashCatalog({setCurrentPage}) {
           <SignupRow>
             <SignupColumn>
               <SignupColumnFull>
-                <SaveButton onClick={handleClick}>Edit Catalog Info</SaveButton>
+                <SaveButton onClick={handleClick}>Edit Product Info</SaveButton>
               </SignupColumnFull>
             </SignupColumn>
           </SignupRow>
       </SignupCard>
-      <DashCatalogTable catalog={catalog}/>
+      {/* <DashCatalogTable product={product}/> */}
     </React.Fragment>
   );
 }

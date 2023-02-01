@@ -21,7 +21,6 @@ import {
 } from "../../routes/DashboardPage/DashboardPage.styles";
 import { ProductsContext } from "../../context/products.context";
 import QuoteItem from "./QuoteItem";
-import { getAllCatalogs } from "../../utils/firebase";
 import { UserContext } from "../../context/user.context";
 
 
@@ -34,15 +33,6 @@ export default function Quote({ handleProductClick }) {
   const [subCategories, setSubCategories] = useState([]);
   const [catalogs, setCatalogs] = useState([]);
   const [catalogSelection, setCatalogSelection] = useState(false)
-
-  useEffect(() => {
-    const getCatalogs = async () => {
-      const company = currentUserInfo.company;
-      const allCatalogs = await getAllCatalogs(company);
-      setCatalogs(allCatalogs);
-    };
-    getCatalogs();
-  }, []);
 
   useEffect(() => {
     if (catalogSelection.length) {
@@ -88,7 +78,7 @@ export default function Quote({ handleProductClick }) {
         <QuoteTitle>Build A Quote</QuoteTitle>
         <QuoteFilterBar>
           <FilterBarOptions>
-            <FilterBarOption>Filter by Catalog:</FilterBarOption>
+            <FilterBarOption>Filter by Product:</FilterBarOption>
             <FilterBarDropdown
               value={catalogSelection.name}
               onChange={handleChangeCatalog}
@@ -105,7 +95,7 @@ export default function Quote({ handleProductClick }) {
                 );
               })}
             </FilterBarDropdown>
-            <FilterBarOption>Filter by Category:</FilterBarOption>
+            <FilterBarOption>Filter Category:</FilterBarOption>
             <FilterBarDropdown
               value={categorySelection}
               onChange={handleChangeCategory}
@@ -124,7 +114,7 @@ export default function Quote({ handleProductClick }) {
             </FilterBarDropdown>
             {subCategories.length ? (
               <React.Fragment>
-                <FilterBarOption>Sub Catalog:</FilterBarOption>
+                <FilterBarOption>Filter Sub Catalog:</FilterBarOption>
                 <FilterBarDropdown
                   value={subCategorySelection}
                   name="subCategorySelection"

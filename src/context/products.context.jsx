@@ -1,53 +1,47 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
-import {PRODUCTS} from "../components/Quote/items";
-import { getCatalogCategories } from "../utils/firebase";
-import sortBy from "sort-by";
 import { UserContext } from "./user.context";
+import { getAllProducts, getProductsCategories } from "../utils/firebase";
 
 export const ProductsContext = createContext({
   products: [],
-  setProducts: () => {},
-  catalogCategories: false,
-  catalogSubCategories: [],
-  catalogs: [],
+  productCategories: false,
+  productSubCategories: [],
+  productGroups: [],
 });
-//helper functions
-const getAllSubCategories = (category) => {
-  const subs = category?.subCategories.map((subCategory) => {
-    return subCategory;
-  })
-  return subs;
-};
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [catalogCategories, setCatalogCategories] = useState([]);
-  const [catalogSubCategories, setCatalogSubCategories] = useState([]);
-  const [catalogs, setCatalogs] = useState([])
+  const [productCategories, setProductCategories] = useState([]);
+  const [productSubCategories, setProductSubCategories] = useState([]);
+  const [productGroups, setProductGroups] = useState([]);
   const { currentUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    const getCategories = async () => {
-      const categories = await getCatalogCategories();
-      setCatalogCategories(categories);
-    } 
-    getCategories();
-  }, []);
-
-  useEffect(() => {
-    console.log(currentUserInfo)
-  }, [currentUserInfo])
-
-  useEffect(() => {
-    const a = []
-    catalogCategories.forEach((category) => {
-      a.push(getAllSubCategories(category).sort(sortBy("name")))
-    });
-    setCatalogSubCategories(a.flat(1));
-  }, [catalogCategories])
+    if (currentUserInfo) {
+      const getCategories = async () => {
+        const categories = await getProductsCategories(currentUserInfo);
+        setProductCategories(categories.categories);
+        setProductSubCategories(categories.subCategories);
+        setProductGroups(categories.groups);
+      };
+      const getProducts = async () => {
+        const items = await getAllProducts(currentUserInfo.company);
+        setProducts(items);
+      }
+      getCategories();
+      getProducts();
+    } else {
+      setProductCategories([]);
+    }
+  }, [currentUserInfo]);
   
-  const value = { products, setProducts, catalogCategories, catalogSubCategories, catalogs };
+  const value = {
+    products,
+    productCategories,
+    productSubCategories,
+    productGroups,
+  };
   return (
     <ProductsContext.Provider value={value}>
       {children}
