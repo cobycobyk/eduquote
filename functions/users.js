@@ -15,7 +15,7 @@ exports.getUserUID = async function getUserUID(req, res) {
   const info = req.body.formData;
   const userRecord = await admin.auth().getUserByEmail(req.body.formData.email);
   const uid = userRecord.toJSON();
-  const newDate = new Date()
+  const newDate = new Date();
   const userDocRef = admin.firestore().doc(`/users/${uid.uid}`);
   await admin.firestore().collection("users").doc(`/${uid.uid}`).update({
     updatedAt: newDate,

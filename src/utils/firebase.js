@@ -143,14 +143,6 @@ export const addClient = async (currentUser, formData, uid) => {
   
 };
 
-//delete client **
-export const deleteClient = async (currentUser, formData) => {
-  return console.log('delete client')
-  // if (!auth.currentUser) return;
-  // const clientDocRef = doc(db, 'companies', currentUser.company, 'clients', formData.email);
-  // return await deleteDoc(clientDocRef);
-};
-
 /*---Products---*/
 //get products 
 export const getAllProducts = async (userCompany) => {

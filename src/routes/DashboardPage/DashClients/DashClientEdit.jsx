@@ -15,7 +15,6 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger } from "../../../assets/css/custom.styles";
-import { deleteClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import instance, { emulator } from "../../../axios";
 
@@ -37,7 +36,7 @@ export default function DashClientEdit({setCurrentPage}) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await emulator({
+    await instance({
       method: "post",
       url: "/users/get",
       data: {
@@ -50,7 +49,7 @@ export default function DashClientEdit({setCurrentPage}) {
   
   const handleDelete = async (event) => {
     event.preventDefault();
-    const a = await emulator({
+    const a = await instance({
       method: "post",
       url: "/users/delete",
       data: {
