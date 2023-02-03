@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react"
+import React, {useContext, useState, useEffect} from "react"
 import { CartContext } from "../../context/cart.context";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { Td, Th, Tr } from "../ConfirmQuoteModal/ConfirmQuoteModal.styles";
@@ -8,6 +8,7 @@ import { AddToQuoteButton, QAButton, QAInput, QuoteAddContainer } from "./Quote.
 export default function QuoteItem({ product, handleProductClick }) {
   const { addItemToCart } = useContext(CartContext);
   const [qty, setQty] = useState(1);
+
   return (
     <Tr>
       <Th>

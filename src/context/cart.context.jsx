@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 const addCartItem = (cartItems, productToAdd, qty) => {
   const existingCartItem = cartItems.find(
-    (cartItem) => cartItem.id === productToAdd.id
+    (cartItem) => cartItem.sku === productToAdd.sku
   );
 
   if (existingCartItem) {
@@ -19,7 +19,7 @@ const addCartItem = (cartItems, productToAdd, qty) => {
 const removeCartItem = (cartItems, cartItemToRemove) => {
   // find the cart item to remove
   const existingCartItem = cartItems.find(
-    (cartItem) => cartItem.id === cartItemToRemove.id
+    (cartItem) => cartItem.sku === cartItemToRemove.sku
   );
 
   // check if quantity is equal to 1, if it is remove that item from the cart

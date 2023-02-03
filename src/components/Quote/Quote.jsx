@@ -73,7 +73,7 @@ export default function Quote({ handleProductClick }) {
   const handleChangeGroup = (e) => {
     setGroupSelection(e.target.value);
   };
-  console.log(displayedProducts)
+  
   return (
     <React.Fragment>
       <QuoteSection>
