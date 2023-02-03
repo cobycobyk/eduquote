@@ -8,7 +8,8 @@ export const ProductsContext = createContext({
   productCategories: false,
   productSubCategories: [],
   productGroups: [],
-  addProductCategory: () => {},
+  addProductCategory: () => { },
+  addProductToProducts: () => { },
 });
 
 //helper functions
@@ -43,6 +44,9 @@ export const ProductsProvider = ({ children }) => {
   const addProductCategory = (category) => {
     setProductCategories([...productCategories, category])
   }
+  const addProductToProducts = (product) => {
+    setProducts([...products, product])
+  }
   
   const value = {
     products,
@@ -50,6 +54,7 @@ export const ProductsProvider = ({ children }) => {
     productSubCategories,
     productGroups,
     addProductCategory,
+    addProductToProducts,
   };
   return (
     <ProductsContext.Provider value={value}>

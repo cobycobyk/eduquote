@@ -25,42 +25,44 @@ import { UserContext } from "../../context/user.context";
 
 
 export default function Quote({ handleProductClick }) {
-  const { products, catalogCategories } = useContext(ProductsContext);
+  const { products, productCategories, productSubCategories, productGroups } = useContext(ProductsContext);
   const [displayedProducts, setDisplayedProducts] = useState([...products]);
   const { currentUserInfo } = useContext(UserContext);
   const [categorySelection, setCategorySelection] = useState(false);
-  const [subCategorySelection, setSubCategorySelection] = useState("");
-  const [subCategories, setSubCategories] = useState([]);
-  const [catalogs, setCatalogs] = useState([]);
-  const [catalogSelection, setCatalogSelection] = useState(false)
-
-  useEffect(() => {
-    if (catalogSelection.length) {
-      const filtered = catalogs?.filter(catalog => catalog.name === catalogSelection);
-      setDisplayedProducts(filtered[0].items)
-    }
-    if (!catalogSelection.length) {
-      setDisplayedProducts([...products])
-    }
-  }, [catalogSelection])
+  const [subCategorySelection, setSubCategorySelection] = useState(false);
+  const [groupSelection, setGroupSelection] = useState(false);
 
   useEffect(() => {
     if (categorySelection.length) {
-      const filtered = catalogCategories?.filter(catalog => catalog.name === categorySelection);
-      const subs = filtered[0]?.subCategories;
-      const filterProductsOnCategory = products.filter((product) => {
-        return (
-          product?.category.toLowerCase() === categorySelection?.toLowerCase()
+      const filtered = products.filter(product => product.category === categorySelection);
+      setDisplayedProducts(filtered)
+      if (subCategorySelection.length) {
+        const subFilter = filtered.filter(
+          (product) => product.subCategory === subCategorySelection
         );
-      });
-      setSubCategories(subs);
-      setDisplayedProducts(filterProductsOnCategory);
+        setDisplayedProducts(subFilter);
+        if (groupSelection.length) {
+          const groupfilter = subFilter.filter(
+            (product) => product.group === groupSelection
+          );
+          setDisplayedProducts(groupfilter);
+        }
+      }
     }
     if (!categorySelection.length) {
       setDisplayedProducts([...products])
-      categorySelection && setSubCategories([])
+      setSubCategorySelection(false);
+      setGroupSelection(false);
     }
-  }, [categorySelection]);
+  }, [categorySelection, subCategorySelection, groupSelection])
+
+  useEffect(() => {
+    setGroupSelection(false);
+  }, [categorySelection, subCategorySelection])
+  useEffect(() => {
+    setSubCategorySelection(false);
+    setGroupSelection(false);
+  }, [categorySelection])
 
   const handleChangeCategory = (e) => {
     setCategorySelection(e.target.value)
@@ -68,8 +70,8 @@ export default function Quote({ handleProductClick }) {
   const handleChangeSubCategory = (e) => {
     setSubCategorySelection(e.target.value);
   };
-  const handleChangeCatalog = (e) => {
-    setCatalogSelection(e.target.value);
+  const handleChangeGroup = (e) => {
+    setGroupSelection(e.target.value);
   };
   console.log(displayedProducts)
   return (
@@ -78,62 +80,52 @@ export default function Quote({ handleProductClick }) {
         <QuoteTitle>Build A Quote</QuoteTitle>
         <QuoteFilterBar>
           <FilterBarOptions>
-            <FilterBarOption>Filter by Product:</FilterBarOption>
-            <FilterBarDropdown
-              value={catalogSelection.name}
-              onChange={handleChangeCatalog}
-              placeholder="Catalog Selection"
-            >
-              <option value="" selected>
-                {catalogSelection ? catalogSelection.name : "All"}
-              </option>
-              {catalogs?.map((cat, key) => {
-                return (
-                  <option key={key}>
-                    {cat.name}
-                  </option>
-                );
-              })}
-            </FilterBarDropdown>
-            <FilterBarOption>Filter Category:</FilterBarOption>
+            <FilterBarOption>Filter by Category:</FilterBarOption>
             <FilterBarDropdown
               value={categorySelection}
               onChange={handleChangeCategory}
               placeholder="Category Selection"
             >
               <option value="" selected>
-                {categorySelection ? categorySelection.name : "All"}
+                {"All"}
               </option>
-              {catalogCategories?.map((cat, key) => {
-                return (
-                  <option key={key}>
-                    {cat.name}
-                  </option>
-                );
+              {productCategories?.map((cat, key) => {
+                return <option key={key}>{cat}</option>;
               })}
             </FilterBarDropdown>
-            {subCategories.length ? (
+            <FilterBarOption>Filter Sub Category:</FilterBarOption>
+            <FilterBarDropdown
+              value={subCategorySelection}
+              onChange={handleChangeSubCategory}
+              placeholder="Sub Category Selection"
+            >
+              <option value="" selected>
+                {"All"}
+              </option>
+              {productSubCategories?.map((subcat, key) => {
+                return <option key={key}>{subcat}</option>;
+              })}
+            </FilterBarDropdown>
+            {productSubCategories.length ? (
               <React.Fragment>
-                <FilterBarOption>Filter Sub Catalog:</FilterBarOption>
+                <FilterBarOption>Filter By Group:</FilterBarOption>
                 <FilterBarDropdown
-                  value={subCategorySelection}
-                  name="subCategorySelection"
-                  onChange={handleChangeSubCategory}
-                  id="subCatgeorySelection"
-                  placeholder="Sub Category Selection"
+                  value={groupSelection}
+                  name="groupSelection"
+                  onChange={handleChangeGroup}
+                  id="groupSelection"
+                  placeholder="Group Selection"
                   errorMessage=""
                 >
-                  <option value="" selected>All</option>
-                  {subCategories?.map((cat, key) => {
-                    return (
-                      <option key={key}>
-                        {cat}
-                      </option>
-                    );
+                  <option value="" selected>
+                    {"All"}
+                  </option>
+                  {productGroups?.map((group, key) => {
+                    return <option key={key}>{group}</option>;
                   })}
                 </FilterBarDropdown>
               </React.Fragment>
-            ):(null)}
+            ) : null}
           </FilterBarOptions>
         </QuoteFilterBar>
         <DTable>
@@ -152,7 +144,13 @@ export default function Quote({ handleProductClick }) {
           {displayedProducts?.length ? (
             <Tbody>
               {displayedProducts?.map((product, key) => {
-                return <QuoteItem product={product} key={key} handleProductClick={handleProductClick} />
+                return (
+                  <QuoteItem
+                    product={product}
+                    key={key}
+                    handleProductClick={handleProductClick}
+                  />
+                );
               })}
             </Tbody>
           ) : (

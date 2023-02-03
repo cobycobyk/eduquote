@@ -33,7 +33,7 @@ const defaultFormData = {
 export default function DashProductNew() {
   const [formData, setFormData] = useState(defaultFormData);
   const { currentUserInfo } = useContext(UserContext);
-  const { products, productCategories, productSubCategories, productGroups } = useContext(ProductsContext);
+  const { products, productCategories, productSubCategories, productGroups, addProductToProducts } = useContext(ProductsContext);
   const [newCategory, setNewCategory] = useState(false);
   const [newSubCategory, setNewSubCategory] = useState(false)
   const [newGroup, setNewGroup] = useState(false)
@@ -80,6 +80,7 @@ export default function DashProductNew() {
       return setMessage("Group already exists");
     if (products.some((product) => product.sku === formData.sku)) return setMessage('Product Already Exists')
     await addProduct(currentUserInfo, formData);
+    addProductToProducts(formData);
     resetFormData();
     navigate(`/dashboard/products/${formData.sku}`, { state: { data: formData } });
   };
