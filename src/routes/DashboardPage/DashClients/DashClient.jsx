@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   CardTitlee,
   FormLabel,
-  Formm,
   RegisterButton,
   SignupCard,
   SignupColumn,
@@ -13,8 +12,8 @@ import {
   SignupRow,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
-import { CancelButton, Danger, TextDividerSolid2 } from "../../../assets/css/custom.styles";
-import { deleteClient, getQuoteForClient, updateClient } from "../../../utils/firebase";
+import { Danger, TextDividerSolid2 } from "../../../assets/css/custom.styles";
+import { getQuoteForClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import moment from "moment";
@@ -95,8 +94,6 @@ export default function DashClient({ setCurrentPage }) {
             disabled
           />
         </SignupColumn>
-      </SignupRow>
-      <SignupRow>
         <SignupColumn>
           <SignupLabelRow>
             <Icon.AtSign />
@@ -115,6 +112,8 @@ export default function DashClient({ setCurrentPage }) {
             disabled
           />
         </SignupColumn>
+      </SignupRow>
+      <SignupRow>
         <SignupColumn>
           <SignupLabelRow>
             <Icon.Phone />
@@ -133,8 +132,6 @@ export default function DashClient({ setCurrentPage }) {
             disabled
           />
         </SignupColumn>
-      </SignupRow>
-      <SignupRow>
         <SignupColumn>
           <SignupLabelRow>
             <Icon.AtSign />
@@ -153,6 +150,44 @@ export default function DashClient({ setCurrentPage }) {
             disabled
           />
         </SignupColumn>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.AtSign />
+            <FormLabel>
+              Role <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            value={formData.role}
+            type="text"
+            name="role"
+            id="role"
+            placeholder={clientInfo.role}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+        <SignupColumn>
+          <SignupLabelRow>
+            <Icon.AtSign />
+            <FormLabel>
+              Phone Number <Danger>*</Danger>
+            </FormLabel>
+          </SignupLabelRow>
+          <SignupInput
+            value={formData.phoneNumber}
+            type="tel"
+            name="phoneNumber"
+            id="phoneNumber"
+            placeholder={clientInfo.phoneNumber}
+            required
+            errorMessage=""
+            disabled
+          />
+        </SignupColumn>
+      </SignupRow>
+      <SignupRow>
         <SignupColumn>
           <SignupColumnFull>
             <RegisterButton onClick={handleClick}>Edit</RegisterButton>

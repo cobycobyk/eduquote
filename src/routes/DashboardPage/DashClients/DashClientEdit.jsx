@@ -11,11 +11,13 @@ import {
   SignupInput,
   SignupLabelRow,
   SignupRow,
+  SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger } from "../../../assets/css/custom.styles";
-import { deleteClient, updateClient } from "../../../utils/firebase";
+import { deleteClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
+import instance, { emulator } from "../../../axios";
 
 export default function DashClientEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
@@ -33,14 +35,29 @@ export default function DashClientEdit({setCurrentPage}) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await updateClient(formData);
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    await emulator({
+      method: "post",
+      url: "/users/get",
+      data: {
+        formData,
+        currentUserInfo,
+      },
+    });
     navigate("/dashboard/clients");
   };
   
-  const handleDelete = async () => {
-    await deleteClient(currentUserInfo, formData);
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    const a = await emulator({
+      method: "post",
+      url: "/users/delete",
+      data: {
+        formData,
+      },
+    });
+    console.log(a);
     navigate("/dashboard/clients");
   }
 
@@ -97,8 +114,6 @@ export default function DashClientEdit({setCurrentPage}) {
               }}
             />
           </SignupColumn>
-        </SignupRow>
-        <SignupRow>
           <SignupColumn>
             <SignupLabelRow>
               <Icon.AtSign />
@@ -127,6 +142,8 @@ export default function DashClientEdit({setCurrentPage}) {
               }}
             />
           </SignupColumn>
+        </SignupRow>
+        <SignupRow>
           <SignupColumn>
             <SignupLabelRow>
               <Icon.Phone />
@@ -145,8 +162,6 @@ export default function DashClientEdit({setCurrentPage}) {
               errorMessage=""
             />
           </SignupColumn>
-        </SignupRow>
-        <SignupRow>
           <SignupColumn>
             <SignupLabelRow>
               <Icon.AtSign />
@@ -166,6 +181,58 @@ export default function DashClientEdit({setCurrentPage}) {
             />
           </SignupColumn>
           <SignupColumn>
+            <SignupLabelRow>
+              <Icon.AtSign />
+              <FormLabel>
+                Role <Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupSelect
+              value={formData.role}
+              name="role"
+              onChange={handleChange}
+              id="role"
+              placeholder="Role"
+              errorMessage=""
+            >
+              <option value="client">Client</option>
+              <option value="salesPartnerRep">Sales Partner Rep</option>
+              <option value="companyRep">Company Rep</option>
+            </SignupSelect>
+          </SignupColumn>
+          <SignupColumn>
+            <SignupLabelRow>
+              <Icon.Phone />
+              <FormLabel>
+                Phone Number <Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupInput
+              type="tel"
+              placeholder="Mobile number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              id="phoneNumber"
+              required
+              errorMessage=""
+              validate={{
+                required: {
+                  value: true,
+                  errorMessage: "Please enter your phone number",
+                },
+                minLength: {
+                  value: 6,
+                },
+                maxLength: {
+                  value: 16,
+                },
+              }}
+            />
+          </SignupColumn>
+        </SignupRow>
+        <SignupRow>
+          <SignupColumn>
             <SignupColumnFull>
               <RegisterButton type="submit">Save and Exit</RegisterButton>
             </SignupColumnFull>
@@ -173,10 +240,12 @@ export default function DashClientEdit({setCurrentPage}) {
         </SignupRow>
         <SignupRow>
           <SignupColumn>
-              <CancelButton onClick={() => navigate('/dashboard/clients')}>Cancel</CancelButton>
-            </SignupColumn>
-            <SignupColumn>
-              <CancelButton onClick={handleDelete}>Delete Client</CancelButton>
+            <CancelButton onClick={() => navigate("/dashboard/clients")}>
+              Cancel
+            </CancelButton>
+          </SignupColumn>
+          <SignupColumn>
+            <CancelButton onClick={handleDelete}>Delete Client</CancelButton>
           </SignupColumn>
         </SignupRow>
       </Formm>

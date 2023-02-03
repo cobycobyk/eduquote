@@ -25,6 +25,12 @@ app.post("/test", (req, res) => {
 app.post("/users/create", (req, res) => {
   users.addUser(req, res);
 });
+app.post("/users/get", (req, res) => {
+  users.getUserUID(req, res);
+});
+app.post("/users/delete", (req, res) => {
+  users.deleteUser(req, res);
+});
 
 // listen command
 exports.api = functions.https.onRequest(app);

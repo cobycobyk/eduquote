@@ -22,7 +22,6 @@ export default function DashClients() {
         }
         return acc;
       }, {})
-      console.log(Object.keys(reducedClients))
       setClients(reducedClients)
     }
     currentUserInfo && getClients();
@@ -31,7 +30,6 @@ export default function DashClients() {
   const handleClick = (client) => {
     navigate(`/dashboard/clients/${client.email}`, {state: {data: client}})
   }
-  console.log(Object.keys(clients))
   
   return (
     <React.Fragment>

@@ -113,26 +113,35 @@ export const getAllClients = async (userCompany) => {
   })
   return companyUsers;
 };
-//add client **
-export const addClient = async (userCompany, formData) => {
-  console.log('add client')
+//add client
+export const addClient = async (currentUser, formData, uid) => {
+  console.log('add client');
+  if (!auth.currentUser) return console.log('not an authorized user');
+  const userDocRef = doc(db, 'users', uid);
+  const userSnapshot = await getDoc(userDocRef);
+  if (!userSnapshot.exists()) {
+    const { firstName, lastName, email, institution, phoneNumber, salesperson, role } = formData;
+    try {
+      await setDoc(userDocRef, {
+        firstName,
+        lastName,
+        institution,
+        phoneNumber,
+        salesperson,
+        email,
+        createdAt: serverTimestamp(),
+        role,
+        company: currentUser.company,
+        status: "active",
+      });
+    } catch (error) {
+      console.log('error creating user', error.message)
+      return error
+    }
+  }
+  return userSnapshot;
   
 };
-//update client **
-export const updateClient = async (formData) => {
-  return console.log('update client')
-  // if (!auth.currentUser) return;
-  // const clientDocRef = doc(db, 'companies', formData.institution, 'clients', formData.email);
-  // await updateDoc(clientDocRef, {
-  //   updatedAt: serverTimestamp(),
-  //   firstName: formData.firstName,
-  //   lastName: formData.lastName,
-  //   email: formData.email,
-  //   institution: formData.institution,
-  //   salesperson: formData.salesperson,
-  // });
-};
-
 
 //delete client **
 export const deleteClient = async (currentUser, formData) => {

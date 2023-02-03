@@ -100,10 +100,10 @@ export default function DashboardPage({currentPage, setCurrentPage}) {
                     Quote
                   </DCreateDropdownLink>
                   <DCreateDropdownLink
-                    to="catalogs/new"
+                    to="products/new"
                     onClick={() => handleMenuClick("Add Catalog")}
                   >
-                    Catalog
+                    Product
                   </DCreateDropdownLink>
                 </DCreateDropdownLinks>
               </DCreateDropdown>

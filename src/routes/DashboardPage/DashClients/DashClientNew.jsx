@@ -33,13 +33,12 @@ const defaultFormData = {
 
 export default function DashClientNew() {
   const [formData, setFormData] = useState(defaultFormData);
-  const [salespersons, setSalespersons] = useState([]);
   const [salesperson, setSalesperson] = useState("");
   const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSalesperson(currentUserInfo?.firstName);
+    setSalesperson(currentUserInfo?.email);
   }, [currentUserInfo]);
 
   const resetFormData = () => {
@@ -60,11 +59,10 @@ export default function DashClientNew() {
         formData,
       }
     });
-    console.log(newUser.data.uid)
-    // const company = currentUserInfo.company;
-    // await addClient(company, formData);
-    // resetFormData();
-    // navigate('/dashboard/clients');
+    const uid = newUser.data.uid;
+    await addClient(currentUserInfo, formData, uid);
+    resetFormData();
+    navigate('/dashboard/clients');
   };
 
   return (
