@@ -12,13 +12,14 @@ const defaultFormData = {
   displayName: "",
   email: "",
   phoneNumber: "",
+  institution: "",
   password: "",
   confirmPassword: "",
 };
 
 export default function SignupPage() {
   const [formData, setFormData] = useState(defaultFormData);
-  const { firstName, lastName, email, phoneNumber, password, confirmPassword } = formData;
+  const { firstName, lastName, email, phoneNumber, institution, password, confirmPassword } = formData;
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
 
@@ -183,6 +184,26 @@ export default function SignupPage() {
                           value: 16,
                         },
                       }}
+                    />
+                  </SignupColumn>
+                </SignupRow>
+                <SignupRow>
+                  <SignupColumn>
+                    <SignupLabelRow>
+                      <Icon.Phone />
+                      <FormLabel>
+                        Institution <Danger>*</Danger>
+                      </FormLabel>
+                    </SignupLabelRow>
+                    <SignupInput
+                      type="text"
+                      placeholder="Institution"
+                      name="institution"
+                      value={institution}
+                      onChange={handleChange}
+                      id="institution"
+                      required
+                      errorMessage=""
                     />
                   </SignupColumn>
                 </SignupRow>

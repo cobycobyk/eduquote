@@ -1,14 +1,22 @@
-import { useContext } from "react";
 import { MulticolorButton } from "../../components/Buttons/Buttons";
-import { ProductsContext } from "../../context/products.context";
 import { TestContainer } from "./TestPage.styles";
+import instance, {emulator} from "../../axios";
 
 export default function TestPage() {
-  const { catalogCategories } = useContext(ProductsContext);
-  console.log(catalogCategories);
+  const test = async () => {
+    const response = await instance({
+      method: 'post',
+      url: "/users/create",
+      data: {
+        email: 'test@email.com'
+      }
+    });
+    console.log(response.data)
+  }
   return (
     <TestContainer>
       <MulticolorButton input="multi" />
+      <button onClick={test}>test</button>
     </TestContainer>
   );
 }

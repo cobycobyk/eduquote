@@ -11,19 +11,24 @@ import {
   SignupInput,
   SignupLabelRow,
   SignupRow,
+  SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger } from "../../../assets/css/custom.styles";
 import { addClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
+import instance, {emulator} from "../../../axios";
 
 const defaultFormData = {
   firstName: "",
   lastName: "",
   email: "",
   institution: "",
+  phoneNumber: "",
   salesperson: "",
-  role: ""
+  role: "client",
+  password: "",
+  confirmPassword: "",
 };
 
 export default function DashClientNew() {
@@ -48,10 +53,18 @@ export default function DashClientNew() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const company = currentUserInfo.company;
-    await addClient(company, formData);
-    resetFormData();
-    navigate('/dashboard/clients');
+    const newUser = await instance({
+      method: 'post',
+      url: "/users/create",
+      data: {
+        formData,
+      }
+    });
+    console.log(newUser.data.uid)
+    // const company = currentUserInfo.company;
+    // await addClient(company, formData);
+    // resetFormData();
+    // navigate('/dashboard/clients');
   };
 
   return (
@@ -182,39 +195,118 @@ export default function DashClientNew() {
                 Role <Danger>*</Danger>
               </FormLabel>
             </SignupLabelRow>
-            <input
-              value="client"
-              onClick={handleChange}
-              type="radio"
+            <SignupSelect
+              value={formData.role}
               name="role"
-              id="roleclient"
+              onChange={handleChange}
+              id="role"
               placeholder="Role"
+              errorMessage=""
+            >
+              <option value="client">Client</option>
+              <option value="salesPartnerRep">Sales Partner Rep</option>
+              <option value="companyRep">Company Rep</option>
+            </SignupSelect>
+          </SignupColumn>
+          <SignupColumn>
+            <SignupLabelRow>
+              <Icon.Phone />
+              <FormLabel>
+                Phone Number <Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupInput
+              type="tel"
+              placeholder="Mobile number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              id="phoneNumber"
               required
               errorMessage=""
+              validate={{
+                required: {
+                  value: true,
+                  errorMessage: "Please enter your phone number",
+                },
+                minLength: {
+                  value: 6,
+                },
+                maxLength: {
+                  value: 16,
+                },
+              }}
             />
-            <label for="roleclient">Client</label>
-            <input
-              value="salesPartnerRep"
-              onClick={handleChange}
-              type="radio"
-              name="role"
-              id="rolerep"
-              placeholder="Role"
+          </SignupColumn>
+        </SignupRow>
+        <SignupRow>
+          <SignupColumn>
+            <SignupLabelRow>
+              <Icon.Lock />
+              <FormLabel>
+                Password<Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupInput
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              name="password"
+              id="password"
+              placeholder="Enter password"
               required
               errorMessage=""
+              validate={{
+                required: {
+                  value: true,
+                  errorMessage: "Please enter Password",
+                },
+                minLength: {
+                  value: 6,
+                  errorMessage:
+                    "Your password must be between 6 and 8 characters",
+                },
+                maxLength: {
+                  value: 16,
+                  errorMessage:
+                    "Your password must be between 6 and 8 characters",
+                },
+              }}
             />
-            <label for="rolerep">Sales Partner Rep</label>
-            <input
-              value="companyRep"
-              onClick={handleChange}
-              type="radio"
-              name="role"
-              id="rolecomp"
-              placeholder="Role"
+          </SignupColumn>
+          <SignupColumn>
+            <SignupLabelRow>
+              <Icon.Lock />
+              <FormLabel>
+                Confirm Password<Danger>*</Danger>
+              </FormLabel>
+            </SignupLabelRow>
+            <SignupInput
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              id="confirmPassword"
+              placeholder="Confirm password"
               required
               errorMessage=""
+              validate={{
+                required: {
+                  value: true,
+                  errorMessage: "Please enter Password",
+                },
+                minLength: {
+                  value: 6,
+                  errorMessage:
+                    "Your password must be between 6 and 8 characters",
+                },
+                maxLength: {
+                  value: 16,
+                  errorMessage:
+                    "Your password must be between 6 and 8 characters",
+                },
+              }}
             />
-            <label for="rolecomp">Company Rep</label>
           </SignupColumn>
         </SignupRow>
         <SignupColumn>

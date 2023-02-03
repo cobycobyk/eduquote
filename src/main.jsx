@@ -25,7 +25,6 @@ import QuotePage from "./routes/QuotePage/QuotePage";
 import QuoteEditPage from "./routes/QuotePage/QuoteEditPage";
 import TestPage from "./routes/TestPage/TestPage";
 import { UserContext, UserProvider } from "./context/user.context.jsx";
-import DashCatalogs from "./routes/DashboardPage/DashCatalogs/DashProducts";
 import { ProductsProvider } from "./context/products.context";
 import DashClientNew from "./routes/DashboardPage/DashClients/DashClientNew";
 
@@ -33,9 +32,6 @@ import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { CartProvider } from "./context/cart.context";
 import DashQuoteNew from "./routes/DashboardPage/DashQuotes/DashQuoteNew";
-import DashCatalogNew from "./routes/DashboardPage/DashCatalogs/DashProductNew";
-import DashCatalog from "./routes/DashboardPage/DashCatalogs/DashProduct";
-import DashCatalogEdit from "./routes/DashboardPage/DashCatalogs/DashProductEdit";
 import DashSettings from "./routes/DashboardPage/DashSettings/DashSettings";
 import Footer from "./components/Footer/Footer";
 import HowToPage from "./routes/HowToPage/HowToPage";
@@ -47,6 +43,7 @@ import DashProducts from "./routes/DashboardPage/DashCatalogs/DashProducts";
 import DashProductNew from "./routes/DashboardPage/DashCatalogs/DashProductNew";
 import DashProduct from "./routes/DashboardPage/DashCatalogs/DashProduct";
 import DashProductEdit from "./routes/DashboardPage/DashCatalogs/DashProductEdit";
+import DashProductsSettings from "./routes/DashboardPage/DashCatalogs/DashProductsSettings";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -122,7 +119,7 @@ function App() {
           />
           <Route path="products" element={<DashProducts />} />
           <Route path="products/new" element={<DashProductNew />} />
-          {/* <Route path="catalogs/settings" element={<DashCatalogsSettings />} /> */}
+          <Route path="products/settings" element={<DashProductsSettings />} />
           <Route
             path="products/:productId"
             element={<DashProduct setCurrentPage={setCurrentPage} />}

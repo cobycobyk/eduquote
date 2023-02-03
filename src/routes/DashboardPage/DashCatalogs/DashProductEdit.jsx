@@ -315,7 +315,7 @@ export default function DashProductEdit({setCurrentPage}) {
                   Cancel
                 </CancelButton>
                 <CancelButton onClick={handleDelete}>
-                  Delete Catalog
+                  Delete Product
                 </CancelButton>
               </SignupColumnFull>
             </SignupColumn>
