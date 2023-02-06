@@ -328,7 +328,7 @@ export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, 
 };
 
 /*---UserQuotes---*/
-//get end user quotes **
+//get end user quotes
 export const getUserQuotes = async (currentUser) => {
   console.log('get user quotes');
   if (!auth.currentUser) return console.log("not an authorized user");
@@ -368,26 +368,25 @@ export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cart
   //   }
   // }
 }; 
-//update quote from end user **
+//update quote from end user
 export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
-  return console.log('update quote from end user');
-  // if (!auth.currentUser) return console.log('No authorized user');
-  // console.log('update quote from salesperson')
-  // const id = quote.id;
-  // const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
-  // const quoteSnapshot = await getDoc(quoteDocRef);
-  // if (quoteSnapshot.exists()) {
-  //   try {
-  //     await updateDoc(quoteDocRef, {
-  //       updatedAt: serverTimestamp(),
-  //       updatedBy: currentUser.email,
-  //       cartCount,
-  //       cartTotal,
-  //       cartItems,
-  //     })
-  //   } catch (error) {
-  //     console.log('error updating quote from end user')
-  //   }
-  // }
-  // return console.log('Update Quote Successfull')
+  console.log('update quote from end user');
+  if (!auth.currentUser) return console.log('No authorized user');
+  const id = quote.id;
+  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (quoteSnapshot.exists()) {
+    try {
+      await updateDoc(quoteDocRef, {
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.email,
+        cartCount,
+        cartTotal,
+        cartItems,
+      })
+    } catch (error) {
+      console.log('error updating quote from end user')
+    }
+  }
+  return console.log('Update Quote Successfull')
 };
