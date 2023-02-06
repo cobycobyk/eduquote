@@ -13,7 +13,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, TextDividerSolid2 } from "../../../assets/css/custom.styles";
-import { getQuoteForClient } from "../../../utils/firebase";
+import { getQuotesFromClient } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import moment from "moment";
@@ -32,9 +32,9 @@ export default function DashClient({ setCurrentPage }) {
 
   useEffect(() => {
     const getQuotes = async () => {
-      const allQuotes = await getQuoteForClient(currentUserInfo, clientInfo);
-      setQuotes(allQuotes.quotes.sort(sortBy("-createdAt")));
-      setOtherQuotes(allQuotes.otherQuotes.sort(sortBy("-createdAt")));
+      const allQuotes = await getQuotesFromClient(currentUserInfo, clientInfo);
+      setQuotes(allQuotes?.clientQuotes);
+      setOtherQuotes(allQuotes?.otherClientQuotes);
     };
     getQuotes();
     setFormData(clientInfo);
@@ -200,7 +200,6 @@ export default function DashClient({ setCurrentPage }) {
       <DTable>
         <Thead>
           <Tr>
-            <Th>ID</Th>
             <Th>Salesperson</Th>
             <Th>Created By</Th>
             <Th>Total Items</Th>
@@ -215,7 +214,6 @@ export default function DashClient({ setCurrentPage }) {
             {quotes?.map((quote, key) => {
               return (
                 <Tr key={key} onClick={() => handleClickQuote(quote)}>
-                  <Th>{quote.id}</Th>
                   <Td>{quote.salesperson}</Td>
                   <Td>{quote.createdBy}</Td>
                   <Td>{quote.cartCount}</Td>
@@ -245,7 +243,6 @@ export default function DashClient({ setCurrentPage }) {
       <DTable>
         <Thead>
           <Tr>
-            <Th>ID</Th>
             <Th>Salesperson</Th>
             <Th>Created By</Th>
             <Th>Total Items</Th>
@@ -260,7 +257,6 @@ export default function DashClient({ setCurrentPage }) {
             {otherQuotes?.map((quote, key) => {
               return (
                 <Tr key={key} onClick={() => handleClickQuote(quote)}>
-                  <Th>{quote.id}</Th>
                   <Td>{quote.salesperson}</Td>
                   <Td>{quote.createdBy}</Td>
                   <Td>{quote.cartCount}</Td>

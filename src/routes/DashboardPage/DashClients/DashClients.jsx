@@ -35,11 +35,11 @@ export default function DashClients() {
     <React.Fragment>
       {clients && Object.keys(clients).map((role, key) => {
         return (
-          <React.Fragment>
+          <React.Fragment key={key}>
             {role === `client` && <Bold>All Clients List</Bold>}
             {role === `salesPartnerRep` && <Bold>All Sales Partner Reps</Bold>}
             {role === `companyRep` && <Bold>All Collegues</Bold>}
-            <DTable key={key}>
+            <DTable >
               <Thead>
                 <Tr>
                   <Th>Name</Th>

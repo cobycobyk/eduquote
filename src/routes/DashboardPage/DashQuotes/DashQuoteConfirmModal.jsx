@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { CancelButton } from "../../../assets/css/custom.styles";
@@ -15,16 +15,7 @@ export default function DashQuoteConfirmModal({confirm, setConfirm}) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     recipientEmail: "",
-    id: "",
   })
-
-  useEffect(() => {
-    const newDate = Date.now().toString();
-    setFormData({
-      ...formData,
-      id: newDate,
-    });
-  }, []);
 
   const handleConfirm = async (e) => {
     e.preventDefault();

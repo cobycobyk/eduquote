@@ -246,90 +246,85 @@ export const addCategoryToCompany = async (currentUser, formData) => {
   return companyDocRef;
 }
 /*---Quotes---*/
-//get all quotes **
-export const getAllQuotes = async (user) => {
+//get all quotes
+export const getAllQuotes = async (currentUser) => {
   console.log('get all quotes');
-  // if (!auth.currentUser) return console.log('not authorized');
-  // const quoteDocRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
-  // const quotes = []
-  // const otherQuotes = []
-  // quoteDocRef.forEach((doc) => {
-  //   if (doc.data().salesperson === user.email) {
-  //     quotes.push(doc.data());
-  //   } else {
-  //     otherQuotes.push(doc.data());
-  //   }
-  // });
-  // return {quotes, otherQuotes};
+  if (!auth.currentUser) return console.log('not authorized');
+  const quoteDocRef = await getDocs(collection(db, 'companies', currentUser.company, 'quotes'))
+  const quotes = []
+  const otherQuotes = []
+  quoteDocRef.forEach((doc) => {
+    if (doc.data().salesperson === currentUser.email) {
+      quotes.push(doc.data());
+    } else {
+      otherQuotes.push(doc.data());
+    }
+  });
+  return {quotes, otherQuotes};
 };
-//get quotes from client **
-export const getQuoteForClient = async (user, clientInfo) => {
-  return console.log('get quote for client');
-  // if (!auth.currentUser) return console.log('not authorized');
-  // const quoteDecRef = await getDocs(collection(db, 'companies', user.company, 'quotes'))
-  // const quotes = []
-  // const otherQuotes = []
-  // quoteDecRef.forEach((doc) => {
-  //   if (doc.data().createdFor === clientInfo.email) {
-  //     if (doc.data().salesperson === user.email) {
-  //       quotes.push(doc.data());
-  //     } else {
-  //       otherQuotes.push(doc.data());
-  //     }
-  //   }
-  // });
-  // return {quotes, otherQuotes};
-}
-//add quote from salesperson **
+//get quotes from client
+export const getQuotesFromClient = async (currentUser, clientInfo) => {
+  console.log('get quotes from client');
+  if (!auth.currentUser) return console.log('not authorized');
+  const quotesRef = collection(db, 'companies', currentUser.company, 'quotes');
+  const q = query(quotesRef, where("createdFor", "==", clientInfo.email));
+  const querySnapshop = await getDocs(q);
+  const clientQuotes = [];
+  const otherClientQuotes = [];
+  querySnapshop.forEach((doc) => {
+    if (doc.data().salesperson === currentUser.email) {
+      clientQuotes.push(doc.data());
+    } else {
+      otherClientQuotes.push(doc.data());
+    };
+  });
+  return {clientQuotes, otherClientQuotes};
+};
+//add quote from salesperson
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
-  return console.log('add quote from salesperson');
-  // if (!auth.currentUser) return console.log('No authorized user');
-  // console.log('add quote from salesperson');
+  console.log('add quote from salesperson');
+  if (!auth.currentUser) return console.log('No authorized user');
   // const id = formData.id;
-  // const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
-  // const quoteSnapshot = await getDoc(quoteDocRef);
-  // if (!quoteSnapshot.exists()) {
-  //   const createdAt = new Date();
-  //   try {
-  //     await setDoc(quoteDocRef, {
-  //       createdAt,
-  //       createdBy: currentUser.email,
-  //       salesperson: currentUser.email,
-  //       status: "active",
-  //       cartTotal,
-  //       cartCount,
-  //       cartItems,
-  //       createdFor: formData.recipientEmail,
-  //       id,
-  //     });
-  //   } catch (error) {
-  //     console.log('error creating quote from salesperson')
-  //   }
-  // }
-  // return quoteDocRef;
+  const quoteDocRef = doc(collection(db, 'companies', currentUser.company, 'quotes'));
+  const createdAt = new Date();
+  try {
+    await setDoc(quoteDocRef, {
+      createdAt,
+      createdBy: currentUser.email,
+      salesperson: currentUser.email,
+      status: "active",
+      cartTotal,
+      cartCount,
+      cartItems,
+      createdFor: formData.recipientEmail,
+      id: quoteDocRef.id,
+    });
+  } catch (error) {
+    console.log('error creating quote from salesperson')
+  }
+  return quoteDocRef;
 }
-//update quote from salesperson **
+//update quote from salesperson
 export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
-  return console.log('updatequote from salesperson');
-  // if (!auth.currentUser) return console.log('No authorized user');
-  // console.log('update quote from salesperson')
-  // const id = quote.id;
-  // const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
-  // const quoteSnapshot = await getDoc(quoteDocRef);
-  // if (quoteSnapshot.exists()) {
-  //   try {
-  //     await updateDoc(quoteDocRef, {
-  //       updatedAt: serverTimestamp(),
-  //       updatedBy: currentUser.email,
-  //       cartCount,
-  //       cartTotal,
-  //       cartItems,
-  //     })
-  //   } catch (error) {
-  //     console.log('error updating quote from salesperson')
-  //   }
-  // }
-  // return console.log('Update Quote Successfull')
+  console.log('update quote from salesperson');
+  if (!auth.currentUser) return console.log('No authorized user');
+  const id = quote.id;
+  const quoteDocRef = doc(db, 'companies', currentUser.company, 'quotes', id);
+  const quoteSnapshot = await getDoc(quoteDocRef);
+  if (quoteSnapshot.exists()) {
+    try {
+      await updateDoc(quoteDocRef, {
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.email,
+        cartCount,
+        cartTotal,
+        cartItems,
+      })
+    } catch (error) {
+      console.log('error updating quote from salesperson')
+    }
+  }
+  return console.log('Update Quote Successfull')
 };
 
 /*---UserQuotes---*/

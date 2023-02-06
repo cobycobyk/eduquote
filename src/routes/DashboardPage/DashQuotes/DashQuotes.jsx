@@ -17,8 +17,8 @@ export default function DashQuotes() {
   useEffect(() => {
     const getQuotes = async () => {
       const allQuotes = await getAllQuotes(currentUserInfo);
-      setQuotes(allQuotes.quotes.sort(sortBy("-createdAt")));
-      setOtherQuotes(allQuotes.otherQuotes)
+      setQuotes(allQuotes?.quotes);
+      setOtherQuotes(allQuotes?.otherQuotes)
     };
     getQuotes();
   }, []);
@@ -31,6 +31,7 @@ export default function DashQuotes() {
 
   return (
     <React.Fragment>
+      <div>Quotes I Created</div>
       <DTable>
         <Thead>
           <Tr>
@@ -50,7 +51,6 @@ export default function DashQuotes() {
             {quotes?.map((quote, key) => {
               return (
                 <Tr key={key} onClick={() => handleClick(quote)}>
-                  <Th>{quote.id}</Th>
                   <Td>{quote.salesperson}</Td>
                   <Td>{quote.createdBy}</Td>
                   <Td>{quote.createdFor}</Td>
@@ -81,7 +81,6 @@ export default function DashQuotes() {
       <DTable>
         <Thead>
           <Tr>
-            <Th>ID</Th>
             <Th>Salesperson</Th>
             <Th>Created By</Th>
             <Th>Total Items</Th>
@@ -96,7 +95,6 @@ export default function DashQuotes() {
             {otherQuotes?.map((quote, key) => {
               return (
                 <Tr key={key} onClick={() => handleClick(quote)}>
-                  <Th>{quote.id}</Th>
                   <Td>{quote.salesperson}</Td>
                   <Td>{quote.createdBy}</Td>
                   <Td>{quote.cartCount}</Td>

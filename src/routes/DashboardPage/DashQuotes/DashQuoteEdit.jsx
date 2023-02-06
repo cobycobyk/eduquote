@@ -54,7 +54,7 @@ export default function DashQuoteEdit({ setCurrentPage }) {
 
   useEffect(() => {
     replaceCartItems(quote.cartItems);
-    setCurrentPage(`Edit Quote ${quote.id}`);
+    setCurrentPage(`Edit Quote ${quote?.id}`);
   }, []);
 
   const handleSubmit = async (e) => {
