@@ -284,7 +284,6 @@ export const getQuotesFromClient = async (currentUser, clientInfo) => {
 export const addQuoteFromSalesperson = async (currentUser, formData, cartCount, cartTotal, cartItems) => {
   console.log('add quote from salesperson');
   if (!auth.currentUser) return console.log('No authorized user');
-  // const id = formData.id;
   const quoteDocRef = doc(collection(db, 'companies', currentUser.company, 'quotes'));
   const createdAt = new Date();
   try {
@@ -341,32 +340,28 @@ export const getUserQuotes = async (currentUser) => {
   })
   return quotes;
 }
-//add quote from end user **
-export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cartTotal, cartCount) => {
-  return console.log('add quote from end user');
-  // if (!auth.currentUser) return console.log("not an authorized user");
-  // console.log('add quote from end user');
-  // console.log(formData)
-  // const id = formData.id;
-  // const quoteDocRef = doc(db, 'users', auth.currentUser.uid, 'quotes', id);
-  // const quoteSnapshot = await getDoc(quoteDocRef);
-  // if (!quoteSnapshot.exists()) {
-  //   const createdAt = new Date();
-  //   try {
-  //     await setDoc(quoteDocRef, {
-  //       createdAt,
-  //       createdBy: currentUser.email,
-  //       salesperson: null,
-  //       status: "active",
-  //       cartTotal,
-  //       cartCount,
-  //       cartItems,
-  //       id,
-  //     });
-  //   } catch (error) {
-  //     console.log('error creating quote from end user')
-  //   }
-  // }
+//add quote from end user
+export const addQuoteFromEndUser = async (currentUser, cartItems, cartTotal, cartCount) => {
+  console.log('add quote from end user');
+  if (!auth.currentUser) return console.log("not an authorized user");
+  const quoteDocRef = doc(collection(db, 'companies', currentUser.company, 'quotes'));
+  const createdAt = new Date();
+  try {
+    await setDoc(quoteDocRef, {
+      createdAt,
+      createdBy: currentUser.email,
+      salesperson: currentUser.salesperson,
+      status: "active",
+      cartTotal,
+      cartCount,
+      cartItems,
+      createdFor: currentUser.email,
+      id: quoteDocRef.id,
+    });
+  } catch (error) {
+    console.log('error creating quote from salesperson')
+  };
+  return quoteDocRef;
 }; 
 //update quote from end user
 export const updateQuoteFromEndUser = async (currentUser, quote, cartCount, cartTotal, cartItems) => {
