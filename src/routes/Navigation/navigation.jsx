@@ -16,7 +16,7 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUserInfo } = useContext(UserContext);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
 
@@ -38,12 +38,9 @@ export default function Navigation() {
                   <TopNavLink to={navLink.link}>{navLink.title}</TopNavLink>
                 </TopNavLi>
               ))}
-              <TopNavLi>
-                {currentUser?.displayName || currentUser?.firstName}
-              </TopNavLi>
             </TopNavUl>
           </TopNavMiddle>
-          {currentUser ? (
+          {currentUserInfo ? (
             <React.Fragment>
               <ProfileDropDown open={toggleProfile}>
                 <ProfileDropDownLinks>
@@ -53,12 +50,15 @@ export default function Navigation() {
                   >
                     Account
                   </ProfileDropDownLink>
-                  <ProfileDropDownLink
-                    to="/dashboard"
-                    onClick={() => setToggleProfile(!toggleProfile)}
-                  >
-                    Dashboard
-                  </ProfileDropDownLink>
+                  {currentUserInfo.role === "companyRep" ||
+                  currentUserInfo.role === "salesPartnerRep" ? (
+                    <ProfileDropDownLink
+                      to="/dashboard"
+                      onClick={() => setToggleProfile(!toggleProfile)}
+                    >
+                      Dashboard
+                    </ProfileDropDownLink>
+                  ) : null}
                   <ProfileDropDownLink
                     to="/quote"
                     onClick={() => setToggleProfile(!toggleProfile)}
@@ -71,19 +71,10 @@ export default function Navigation() {
                   >
                     My Quotes
                   </ProfileDropDownLink>
-                  {/* {currentUser.isAdmin ? (
-                  <React.Fragment>
-                    <hr />
-                    <ProfileDropDownLink
-                      to="/upload"
-                      onClick={() => setToggleProfile(!toggleProfile)}
-                    >
-                      Upload Assets
-                    </ProfileDropDownLink>
-                  </React.Fragment>
-                ) : null} */}
                   <hr />
-                  <ProfileDropDownLink to="/" onClick={handleLogOut}>Logout</ProfileDropDownLink>
+                  <ProfileDropDownLink to="/" onClick={handleLogOut}>
+                    Logout
+                  </ProfileDropDownLink>
                 </ProfileDropDownLinks>
               </ProfileDropDown>
               <TopNavRightShow>
