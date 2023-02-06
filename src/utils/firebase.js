@@ -329,15 +329,17 @@ export const updateQuoteFromSalesperson = async (currentUser, quote, cartCount, 
 
 /*---UserQuotes---*/
 //get end user quotes **
-export const getUserQuotes = async () => {
+export const getUserQuotes = async (currentUser) => {
   console.log('get user quotes');
-  // if (!auth.currentUser) return console.log("not an authorized user");
-  // const quoteDocRef = await getDocs(collection(db, 'users', auth.currentUser.uid, 'quotes'))
-  // const quotes = [];
-  // quoteDocRef.forEach((doc) => {
-  //   quotes.push(doc.data());
-  // });
-  // return quotes;
+  if (!auth.currentUser) return console.log("not an authorized user");
+  const quoteDocRef = collection(db, 'companies', currentUser.company, 'quotes');
+  const q = query(quoteDocRef, where("createdFor", "==", currentUser.email));
+  const querySnapshop = await getDocs(q);
+  const quotes = [];
+  querySnapshop.forEach((doc) => {
+    quotes.push(doc.data());
+  })
+  return quotes;
 }
 //add quote from end user **
 export const addQuoteFromEndUser = async (currentUser, formData, cartItems, cartTotal, cartCount) => {

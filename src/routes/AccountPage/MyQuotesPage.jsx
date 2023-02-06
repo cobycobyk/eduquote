@@ -4,14 +4,17 @@ import { getUserQuotes } from "../../utils/firebase";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { DTable, Tbody, Td, Th, Thead, Tr } from "../DashboardPage/DashboardPage.styles";
 import MyQuoteModal from "./MyQuoteModal";
+import { useContext } from "react";
+import { UserContext } from "../../context/user.context";
 
 export default function MyQuotesPage() {
+  const { currentUserInfo } = useContext(UserContext);
   const [quotes, setQuotes] = useState([]);
   const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     const getAllUserQuotes = async () => {
-      const userQuotes = await getUserQuotes();
+      const userQuotes = await getUserQuotes(currentUserInfo);
       setQuotes(userQuotes);
     }
     getAllUserQuotes();
