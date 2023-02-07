@@ -50,8 +50,7 @@ export default function Navigation() {
                   >
                     Account
                   </ProfileDropDownLink>
-                  {currentUserInfo.role === "companyRep" ||
-                  currentUserInfo.role === "salesPartnerRep" ? (
+                  {currentUserInfo.role !== "client" ? (
                     <ProfileDropDownLink
                       to="/dashboard"
                       onClick={() => setToggleProfile(!toggleProfile)}

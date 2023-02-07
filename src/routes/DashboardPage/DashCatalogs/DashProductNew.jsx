@@ -14,11 +14,12 @@ import {
   SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
-import { Danger } from "../../../assets/css/custom.styles";
+import { Danger, DisplayFlex } from "../../../assets/css/custom.styles";
 import { addProduct } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
 import { ProductsContext } from "../../../context/products.context";
+import { ProductImgAdd } from "./DashCatalogs.styles";
 
 const defaultFormData = {
   name: "",
@@ -35,10 +36,12 @@ export default function DashProductNew() {
   const { currentUserInfo } = useContext(UserContext);
   const { products, productCategories, productSubCategories, productGroups, addProductToProducts } = useContext(ProductsContext);
   const [newCategory, setNewCategory] = useState(false);
-  const [newSubCategory, setNewSubCategory] = useState(false)
-  const [newGroup, setNewGroup] = useState(false)
+  const [newSubCategory, setNewSubCategory] = useState(false);
+  const [newGroup, setNewGroup] = useState(false);
   const navigate = useNavigate();
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
     setFormData({
@@ -47,9 +50,20 @@ export default function DashProductNew() {
     });
   }, []);
 
+  useEffect(() => {
+    if (images.length < 1) return;
+    const newImageUrls = [];
+    images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
+    setImageUrls(newImageUrls);
+  }, [images])
+
   const resetFormData = () => {
     setFormData(defaultFormData);
   };
+
+  const handleImageChange = (event) => {
+    setImages([...event.target.files]);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -270,9 +284,7 @@ export default function DashProductNew() {
               errorMessage=""
             >
               <option value="" selected>
-                {newSubCategory
-                  ? "Type new Group below"
-                  : "Choose Group Here"}
+                {newSubCategory ? "Type new Group below" : "Choose Group Here"}
               </option>
               {productGroups?.map((cat, key) => {
                 return <option key={key}>{cat}</option>;
@@ -330,10 +342,23 @@ export default function DashProductNew() {
               onChange={handleChange}
               id="description"
               placeholder="Description"
-              />
+            />
           </SignupColumn>
         </SignupRow>
         <SignupRow>
+          <SignupColumn>
+            <input
+              type="file"
+              multiple
+              accepts="image/*"
+              onChange={handleImageChange}
+            />
+            <DisplayFlex>
+              {imageUrls.map((imageSrc) => (
+                <ProductImgAdd src={imageSrc} />
+              ))}
+            </DisplayFlex>
+          </SignupColumn>
           <SignupColumn>
             <SignupColumnFull>
               <RegisterButton type="submit">Add Product</RegisterButton>

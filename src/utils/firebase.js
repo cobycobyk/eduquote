@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc, query, where, arrayUnion } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 //webapp configuration
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
+const storage = getStorage();
 
 /*-----------Auth-----------*/
 const provider = new GoogleAuthProvider();
@@ -186,6 +188,14 @@ export const addProduct = async (currentUser, formData) => {
     };
   };
   return console.log('Product added succesfully');
+};
+export const addImagesToProduct = async (product, images) => {
+  images.forEach((image, index) => {
+    const imagesRef = ref(storage, `productImages/${product.sku}/${index}`);
+    uploadBytes(imagesRef, image).then((snapshot) => {
+      console.log(snapshot.metadata.fullPath);
+    });
+  });
 };
 //update product information 
 export const updateProduct = async (currentUser, formData) => {

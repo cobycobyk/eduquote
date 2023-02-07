@@ -32,3 +32,7 @@ export const DCSLeft = styled.div`
   display: flex;
   justify-content: 
 `;
+
+export const ProductImgAdd = styled.img`
+  max-width: 10vw;
+`;
