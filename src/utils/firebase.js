@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc, query, where, arrayUnion } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject, listAll } from 'firebase/storage';
 
 //webapp configuration
 const firebaseConfig = {
@@ -97,19 +97,34 @@ export const sendPasswordReset = async (email) => {
 //upload product images
 export const addImagesToProduct = async (product, images) => {
   let downloads = [];
-  let promises = []
+  let promises = [];
   for (const image of images) {
     promises.push(addImageToProduct(product, image));
-  }
+  };
   downloads = await Promise.all(promises);
   return downloads;
 };
 const addImageToProduct = async (product, image) => {
   const imagesRef = ref(storage, `productImages/${product.sku}/${image.name}`);
-  await uploadBytes(imagesRef, image)
-  const download = await getDownloadURL(imagesRef)
-  return download
-}
+  await uploadBytes(imagesRef, image);
+  const download = await getDownloadURL(imagesRef);
+  return download;
+};
+//delete product images
+export const deleteAllImagesFromProduct = async (product) => {
+  // if (!product?.images) return console.log('no product images');
+  const imagesRef = ref(storage, `productImages/${product.sku}`);
+  listAll(imagesRef).then((res) => {
+    res.items.forEach((itemRef) => {
+      deleteObject(ref(storage, itemRef.fullPath)).then(() => {
+        return console.log('delete');
+      })
+    })
+  }).catch((error) => {
+    return console.log(error)
+  });
+};
+
 
 /*-----------Database-----------*/
 /*---Clients---*/

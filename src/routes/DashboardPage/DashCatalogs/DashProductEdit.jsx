@@ -14,7 +14,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger, SaveButton } from "../../../assets/css/custom.styles";
-import { deleteProduct, updateProduct } from "../../../utils/firebase";
+import { deleteAllImagesFromProduct, deleteProduct, updateProduct } from "../../../utils/firebase";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context";
 
@@ -85,6 +85,7 @@ export default function DashProductEdit({setCurrentPage}) {
 
   const handleDelete = async (e) => {
     e.preventDefault();
+    await deleteAllImagesFromProduct(formData);
     await deleteProduct(currentUserInfo, formData);
     navigate("/dashboard/products");
   }
