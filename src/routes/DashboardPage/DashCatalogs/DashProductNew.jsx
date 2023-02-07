@@ -196,7 +196,7 @@ export default function DashProductNew() {
               placeholder="New Category Name"
               errorMessage=""
             >
-              <option value="" selected>
+              <option value="">
                 {newCategory
                   ? "Type new Category below"
                   : "Choose Category Here"}
@@ -240,7 +240,7 @@ export default function DashProductNew() {
               placeholder="New Sub Category Name"
               errorMessage=""
             >
-              <option value="" selected>
+              <option value="">
                 {newSubCategory
                   ? "Type new Sub Category below"
                   : "Choose Sub Category Here"}
@@ -284,7 +284,7 @@ export default function DashProductNew() {
               placeholder="New Group Name"
               errorMessage=""
             >
-              <option value="" selected>
+              <option value="">
                 {newSubCategory ? "Type new Group below" : "Choose Group Here"}
               </option>
               {productGroups?.map((cat, key) => {

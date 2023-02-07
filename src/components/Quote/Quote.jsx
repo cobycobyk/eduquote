@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  AddToQuoteButton,
   FilterBarDropdown,
   FilterBarOption,
   FilterBarOptions,
-  QAButton,
-  QAInput,
-  QuoteAddContainer,
   QuoteFilterBar,
   QuoteSection,
   QuoteTitle,

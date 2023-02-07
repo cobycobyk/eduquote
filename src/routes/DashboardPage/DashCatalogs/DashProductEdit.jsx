@@ -218,7 +218,7 @@ export default function DashProductEdit({setCurrentPage}) {
                 placeholder="New Sub Category Name"
                 errorMessage=""
               >
-                <option value="" selected>
+                <option value="" >
                   {formData.subCategory}
                 </option>
                 {productSubCategories?.map((cat, key) => {
@@ -260,7 +260,7 @@ export default function DashProductEdit({setCurrentPage}) {
                 placeholder="New Group Name"
                 errorMessage=""
               >
-                <option value="" selected>
+                <option value="">
                   {newSubCategory
                     ? "Type new Group below"
                     : "Choose Group Here"}
