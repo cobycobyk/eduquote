@@ -10,7 +10,10 @@ export default function TestPage() {
   const [imageUrls, setImageUrls] = useState([]);
   const product = {
     sku: 'test_sku'
-  }
+  };
+  const [downloads, setDownloads] = useState([]);
+
+
 
   useEffect(() => {
     if (images.length < 1) return;
@@ -20,7 +23,7 @@ export default function TestPage() {
   }, [images]);
 
   const handleImageChange = (event) => {
-    console.log(event.target.files[0])
+    console.log(event.target.files)
     console.log(images)
     setImages([...event.target.files]);
   };
@@ -28,12 +31,18 @@ export default function TestPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('submit')
-    await addImagesToProduct(product, imageUrls);
+    const a = await addImagesToProduct(product, images);
+    setDownloads(a);
+    console.log(a);
   }
+
+  useEffect(() => {
+    console.log(downloads)
+  }, [downloads])
 
   return (
     <TestContainer>
-      <MulticolorButton input="multi"/>
+      <MulticolorButton input="multi" />
       <input
         type="file"
         multiple
@@ -46,6 +55,13 @@ export default function TestPage() {
         ))}
       </DisplayFlex>
       <button onClick={handleSubmit}>submit</button>
+      {downloads?.length && downloads.map((download, key) => {
+        <img
+          key={key}
+          src={download}
+          alt="download"
+        />
+      })}
     </TestContainer>
   );
 }

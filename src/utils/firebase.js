@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, serverTimestamp, deleteDoc, query, where, arrayUnion } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 //webapp configuration
 const firebaseConfig = {
@@ -94,11 +94,22 @@ export const sendPasswordReset = async (email) => {
 };
 
 /*-----------Storage-----------*/
-//upload product
-// export const uploadProduct = async (formData) => {
-  //   //look to see if document already exists
-  //   const existsRef = await getDoc(doc(firestore, ''))
-  // }
+//upload product images
+export const addImagesToProduct = async (product, images) => {
+  let downloads = [];
+  let promises = []
+  for (const image of images) {
+    promises.push(addImageToProduct(product, image));
+  }
+  downloads = await Promise.all(promises);
+  return downloads;
+};
+const addImageToProduct = async (product, image) => {
+  const imagesRef = ref(storage, `productImages/${product.sku}/${image.name}`);
+  await uploadBytes(imagesRef, image)
+  const download = await getDownloadURL(imagesRef)
+  return download
+}
 
 /*-----------Database-----------*/
 /*---Clients---*/
@@ -158,7 +169,7 @@ export const getAllProducts = async (userCompany) => {
   return products;
   };
   //add product
-export const addProduct = async (currentUser, formData) => {
+export const addProduct = async (currentUser, formData, images) => {
   console.log('add product');
   if (!auth.currentUser) return console.log('user not authorized');
   const companyDocRef = doc(db, 'companies', currentUser.company);
@@ -182,21 +193,16 @@ export const addProduct = async (currentUser, formData) => {
         sku: formData.sku,
         subCategory: formData.subCategory,
         status: "active",
+        images,
       });
     } catch (error) {
-      console.log('error creating product')
+      console.log('error creating product');
+      console.log(error);
     };
   };
   return console.log('Product added succesfully');
 };
-export const addImagesToProduct = async (product, images) => {
-  images.forEach((image, index) => {
-    const imagesRef = ref(storage, `productImages/${product.sku}/${index}`);
-    uploadBytes(imagesRef, image).then((snapshot) => {
-      console.log(snapshot.metadata.fullPath);
-    });
-  });
-};
+
 //update product information 
 export const updateProduct = async (currentUser, formData) => {
   console.log('update catalog');

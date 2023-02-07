@@ -15,7 +15,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, DisplayFlex } from "../../../assets/css/custom.styles";
-import { addProduct } from "../../../utils/firebase";
+import { addImagesToProduct, addProduct } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
 import { ProductsContext } from "../../../context/products.context";
@@ -80,7 +80,7 @@ export default function DashProductNew() {
       return setNewGroup(true);
     } else {
       setFormData({ ...formData, [name]: value });
-    }
+    };
   };
 
   const handleSubmit = async (e) => {
@@ -92,8 +92,9 @@ export default function DashProductNew() {
       return setMessage("Sub Category already exists");
     if (newGroup && productGroups.some((cat) => cat.toLowerCase() === formData.group.toLowerCase()))
       return setMessage("Group already exists");
-    if (products.some((product) => product.sku === formData.sku)) return setMessage('Product Already Exists')
-    await addProduct(currentUserInfo, formData);
+    if (products.some((product) => product.sku === formData.sku)) return setMessage('Product Already Exists');
+    const uploadedImages = await addImagesToProduct(formData, images);
+    await addProduct(currentUserInfo, formData, uploadedImages);
     addProductToProducts(formData);
     resetFormData();
     navigate(`/dashboard/products/${formData.sku}`, { state: { data: formData } });
