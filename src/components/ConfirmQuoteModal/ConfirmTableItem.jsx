@@ -12,7 +12,7 @@ export default function ConfirmTableItem({ cartItem }) {
     <React.Fragment>
       <Tr>
         <Th>
-          <TdImg src={cartItem.images[0]} alt="product image" />
+          <TdImg src={cartItem?.images?.length ? cartItem.images[0] : ""} alt="product image" />
         </Th>
         <Td>{cartItem.name}</Td>
         <Td>{cartItem.sku}</Td>

@@ -86,7 +86,7 @@ export default function Quote({ handleProductClick }) {
               onChange={handleChangeCategory}
               placeholder="Category Selection"
             >
-              <option value="" selected>
+              <option value="">
                 {"All"}
               </option>
               {productCategories?.map((cat, key) => {
@@ -99,7 +99,7 @@ export default function Quote({ handleProductClick }) {
               onChange={handleChangeSubCategory}
               placeholder="Sub Category Selection"
             >
-              <option value="" selected>
+              <option value="">
                 {"All"}
               </option>
               {productSubCategories?.map((subcat, key) => {
@@ -117,7 +117,7 @@ export default function Quote({ handleProductClick }) {
                   placeholder="Group Selection"
                   errorMessage=""
                 >
-                  <option value="" selected>
+                  <option value="">
                     {"All"}
                   </option>
                   {productGroups?.map((group, key) => {
