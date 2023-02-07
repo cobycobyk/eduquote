@@ -64,7 +64,7 @@ export default function MyQuoteEditPage() {
                 <React.Fragment key={key}>
                   <CartItem>
                     <CartTableCol1>
-                      <CartItemImg src={item.image} alt="item" />
+                      <CartItemImg src={item?.images?.length ? item.images[0] : ""} alt="item" />
                     </CartTableCol1>
                     <CartTableCol2>
                       <CartItemName>{item.name}</CartItemName>

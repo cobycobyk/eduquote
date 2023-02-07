@@ -125,7 +125,6 @@ export const deleteAllImagesFromProduct = async (product) => {
   });
 };
 
-
 /*-----------Database-----------*/
 /*---Clients---*/
 //get all clients

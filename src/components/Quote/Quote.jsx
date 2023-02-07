@@ -136,6 +136,7 @@ export default function Quote({ handleProductClick }) {
               <Th>SKU</Th>
               <Th>Category</Th>
               <Th>Sub Category</Th>
+              <Th>Group</Th>
               <Th>Description</Th>
               <Th>Price</Th>
               <Th>Add To Quote</Th>

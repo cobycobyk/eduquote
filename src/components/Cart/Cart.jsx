@@ -23,7 +23,7 @@ export default function Cart({confirm, setConfirm}) {
             <React.Fragment key={key}>
               <CartItem>
                 <CartTableCol1>
-                  <CartItemImg src={item.image} alt="item" />
+                  <CartItemImg src={item.images[0]} alt="item" />
                 </CartTableCol1>
                 <CartTableCol2>
                   <CartItemName>{item.name}</CartItemName>

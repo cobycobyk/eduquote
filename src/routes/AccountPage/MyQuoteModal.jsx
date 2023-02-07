@@ -46,7 +46,7 @@ export default function MyQuoteModal({ confirm, setConfirm, quote}) {
               {cartItems.map((cartItem, key) => (
                 <Tr>
                   <Th>
-                    <TdImg src={cartItem.image} alt="product image" />
+                    <TdImg src={ cartItem?.images?.length ? cartItem.images[0] : ""} alt="product image" />
                   </Th>
                   <Td>{cartItem.name}</Td>
                   <Td>{cartItem.sku}</Td>

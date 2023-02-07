@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { CardTitlee, FormLabel, Formm, SignupCard, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupRow } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, SaveButton } from "../../../assets/css/custom.styles";
-import DashCatalogTable from "./DashCatalogTable";
 
 export default function DashProduct({setCurrentPage}) {
   const location = useLocation();
@@ -149,7 +148,6 @@ export default function DashProduct({setCurrentPage}) {
             </SignupColumn>
           </SignupRow>
       </SignupCard>
-      {/* <DashCatalogTable product={product}/> */}
     </React.Fragment>
   );
 }

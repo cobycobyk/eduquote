@@ -5,9 +5,11 @@ import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 
 export default function ProductModal({ modalOpen, modal, setModalOpen }) {
   const [mainImage, setMainImage] = useState();
+  const [otherImages, setOtherImages] = useState([]);
 
   useEffect(() => {
-    setMainImage(modal.image)
+    modal?.images?.length && setMainImage(modal.images[0]);
+    modal?.images?.length && setOtherImages(modal.images)
   }, [modal])
 
   return (
@@ -18,11 +20,13 @@ export default function ProductModal({ modalOpen, modal, setModalOpen }) {
       <ModalBody>
         <PMContainer>
           <PMImgs>
-            <PMImgSmall
-              src={modal.image}
+            {otherImages.map((image) => {
+            return <PMImgSmall
+              src={image}
               alt="product image small"
-              onClick={() => setMainImage(modal.image)}
+              onClick={() => setMainImage(image)}
             />
+            })}
           </PMImgs>
           <PMImgMain src={mainImage} alt="product image main" />
           <PMDescContainer>

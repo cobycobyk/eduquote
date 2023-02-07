@@ -39,7 +39,7 @@ export default function DashQuote({setCurrentPage}) {
             {quote.cartItems.map((cartItem, key) => (
               <Tr key={key}>
                 <Th>
-                  <TdImg src={cartItem.image} alt="product image" />
+                  <TdImg src={cartItem?.images?.length ? cartItem?.images[0] : ""} alt="product image" />
                 </Th>
                 <Td>{cartItem.name}</Td>
                 <Td>{cartItem.sku}</Td>

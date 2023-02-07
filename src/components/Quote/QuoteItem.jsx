@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from "react"
 import { CartContext } from "../../context/cart.context";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
+import { CartThumbnail } from "../Cart/Cart.styles";
 import { Td, Th, Tr } from "../ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { AddToQuoteButton, QAButton, QAInput, QuoteAddContainer } from "./Quote.styles";
 
@@ -12,12 +13,13 @@ export default function QuoteItem({ product, handleProductClick }) {
   return (
     <Tr>
       <Th>
-        <img src={product.image} width={54} />
+        <CartThumbnail src={product.images ? product.images[0] : ""} width={54} />
       </Th>
       <Td onClick={() => handleProductClick(product)}>{product.name}</Td>
       <Td>{product.sku}</Td>
       <Td>{product.category}</Td>
       <Td>{product.subCategory}</Td>
+      <Td>{product.group}</Td>
       <Td>{product.description}</Td>
       <Td>{priceFormatter.format(product.price)}</Td>
       <Td>
