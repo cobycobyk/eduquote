@@ -4,6 +4,8 @@ import  moment from "moment";
 import { UserContext } from "../../../context/user.context";
 import { getAllProducts } from "../../../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
+import { CartThumbnail } from "../../../components/Cart/Cart.styles";
 
 export default function DashProducts() {
   const { currentUserInfo } = useContext(UserContext);
@@ -24,48 +26,58 @@ export default function DashProducts() {
   }
 
   return (
-    <DTable>
-      <Thead>
-        <Tr>
-          <Th>Name</Th>
-          <Th>SKU</Th>
-          <Th>Category</Th>
-          <Th>Sub Category</Th>
-          <Th>Group</Th>
-          <Th>Status</Th>
-          <Th>Created</Th>
-          <Th>Actions</Th>
-        </Tr>
-      </Thead>
-      {products.length ? (
-        <Tbody>
-          {products?.map((product, key) => {
-            return (
-              <Tr key={key} onClick={() => handleClick(product)}>
-                <Th>{product.name}</Th>
-                <Td>{product.sku}</Td>
-                <Td>{product.category}</Td>
-                <Td>{product?.subCategory}</Td>
-                <Td>{product?.group}</Td>
-                <Td>{product.status}</Td>
-                <Td>
-                  {moment
-                    .unix(product.createdAt)
-                    .subtract(1969, "years")
-                    .format("MMMM Do YYYY")}
-                </Td>
-                <Td>Actions</Td>
-              </Tr>
-            );
-          })}
-        </Tbody>
-      ) : (
-        <Tbody>
-          <Tr>
-            <Th>No Products</Th>
-          </Tr>
-        </Tbody>
-      )}
-    </DTable>
+    <TableCard>
+      <TableCardBody>
+        <TableContainer>
+          <TableTable>
+            <THeadDark>
+              <TRDark>
+                <THDark>Image</THDark>
+                <THDark>Name</THDark>
+                <THDark>SKU</THDark>
+                <THDark>Category</THDark>
+                <THDark>Sub Category</THDark>
+                <THDark>Group</THDark>
+                <THDark>Description</THDark>
+                <THDark>Status</THDark>
+                <THDark>Created</THDark>
+                <THDark>Actions</THDark>
+              </TRDark>
+            </THeadDark>
+            {products.length ? (
+              <TBodyDark>
+                {products?.map((product, key) => {
+                  return (
+                    <TRDark key={key} onClick={() => handleClick(product)}>
+                      <TDDark>{product?.images ? <CartThumbnail src={product.images[0]} /> : ""}</TDDark>
+                      <TDDark>{product.name}</TDDark>
+                      <TDDark>{product.sku}</TDDark>
+                      <TDDark>{product.category}</TDDark>
+                      <TDDark>{product?.subCategory}</TDDark>
+                      <TDDark>{product?.group}</TDDark>
+                      <TDDark>{product.description}</TDDark>
+                      <TDDark>{product.status}</TDDark>
+                      <TDDark>
+                        {moment
+                          .unix(product.createdAt)
+                          .subtract(1969, "years")
+                          .format("MMMM Do YYYY")}
+                      </TDDark>
+                      <TDDark>Actions</TDDark>
+                    </TRDark>
+                  );
+                })}
+              </TBodyDark>
+            ) : (
+              <TBodyDark>
+                <TRDark>
+                  <THDark>No Products</THDark>
+                </TRDark>
+              </TBodyDark>
+            )}
+          </TableTable>
+        </TableContainer>
+      </TableCardBody>
+    </TableCard>
   );
 }

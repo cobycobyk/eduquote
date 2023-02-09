@@ -5,6 +5,7 @@ import { getAllClients } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
 import { BoldDark } from "../../../assets/css/custom.styles";
+import { TableCard, TableCardBody, TableContainer, TableTable, TableTopRow, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
 
 export default function DashClients() {
   const { currentUserInfo } = useContext(UserContext);
@@ -33,52 +34,62 @@ export default function DashClients() {
   
   return (
     <React.Fragment>
-      {clients && Object.keys(clients).map((role, key) => {
-        return (
-          <React.Fragment key={key}>
-            <DMainBG>
-              {role === `client` && <BoldDark>All Clients List</BoldDark>}
-              {role === `salesPartnerRep` && (
-                <BoldDark>All Sales Partner Reps</BoldDark>
-              )}
-              {role === `companyRep` && <BoldDark>All Collegues</BoldDark>}
-              <DTable>
-                <Thead>
-                  <Tr>
-                    <Th>Name</Th>
-                    <Th>Email</Th>
-                    <Th>Institution</Th>
-                    <Th>Status</Th>
-                    <Th>Created</Th>
-                    <Th>Actions</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {clients[role].map((client, key) => {
-                    return (
-                      <Tr key={key} onClick={() => handleClick(client)}>
-                        <Th>
-                          {client.firstName} {""}
-                          {client.lastName}
-                        </Th>
-                        <Td>{client.email}</Td>
-                        <Td>{client.institution}</Td>
-                        <Td>{client.status}</Td>
-                        <Td>
-                          {moment
-                            .unix(client.createdAt)
-                            .subtract(1969, "years")
-                            .format("MMMM Do YYYY")}
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </DTable>
-            </DMainBG>
-          </React.Fragment>
-        );
-      })}
+      {clients &&
+        Object.keys(clients).map((role, key) => {
+          return (
+            <React.Fragment key={key}>
+              <DMainBG>
+                {role === `client` && <BoldDark>ALL CLIENTS LIST</BoldDark>}
+                {role === `salesPartnerRep` && (
+                  <BoldDark>SALES PARTNER REPS</BoldDark>
+                )}
+                {role === `companyRep` && <BoldDark>COLLEGUES</BoldDark>}
+                <TableCard>
+                  <TableCardBody>
+                    <TableContainer>
+                      <TableTable>
+                        <THeadDark>
+                          <TRDark>
+                            <THDark>Name</THDark>
+                            <THDark>Email</THDark>
+                            <THDark>Institution</THDark>
+                            <THDark>Status</THDark>
+                            <THDark>Created</THDark>
+                            <THDark>Actions</THDark>
+                          </TRDark>
+                        </THeadDark>
+                        <TBodyDark>
+                          {clients[role].map((client, key) => {
+                            return (
+                              <TRDark
+                                key={key}
+                                onClick={() => handleClick(client)}
+                              >
+                                <TDDark>
+                                  {client.firstName} {""}
+                                  {client.lastName}
+                                </TDDark>
+                                <TDDark>{client.email}</TDDark>
+                                <TDDark>{client.institution}</TDDark>
+                                <TDDark>{client.status}</TDDark>
+                                <TDDark>
+                                  {moment
+                                    .unix(client.createdAt)
+                                    .subtract(1969, "years")
+                                    .format("MMMM Do YYYY")}
+                                </TDDark>
+                              </TRDark>
+                            );
+                          })}
+                        </TBodyDark>
+                      </TableTable>
+                    </TableContainer>
+                  </TableCardBody>
+                </TableCard>
+              </DMainBG>
+            </React.Fragment>
+          );
+        })}
     </React.Fragment>
   );
 }

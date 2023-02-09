@@ -46,4 +46,33 @@ code {
   --gray-800: #eff2f7;
   --gray-900: #f8f9fa;
   --black: #000;
+  /* tables */
+  --table-color: var(--gray-400);
+  --table-bg: transparent;
+  --table-border-color: var(--gray-300);
+  --table-accent-bg: transparent;
+  --table-striped-color: var(--gray-400);
+  --table-striped-bg: var(--gray-100);
+  --table-active-color: var(--gray-400);
+  --table-active-bg: var(--gray-100);
+  --table-hover-color: var(--gray-400);
+  --table-hover-bg: var(--gray-100);
+  /* card */
+  --bs-card-spacer-y: 1.25rem;
+  --bs-card-spacer-x: 1.25rem;
+  --bs-card-title-spacer-y: .5rem;
+  --bs-card-border-width: 0;
+  --bs-card-border-color: #f6f6f6;
+  --bs-card-border-radius: .25rem;
+  --bs-card-box-shadow: ;
+  --bs-card-inner-border-radius: 0.25rem;
+  --bs-card-cap-padding-y: .625rem;
+  --bs-card-cap-padding-x: 1.25rem;
+  --bs-card-cap-bg: rgba(0, 0, 0, .03);
+  --bs-card-cap-color: #262b3c;
+  --bs-card-height: 50px;
+  --bs-card-color: #a6b0cf;
+  --bs-card-bg: #2a3042;
+  --bs-card-img-overlay-padding: 1rem;
+  --bs-card-group-margin: 12px;
 }

@@ -211,6 +211,7 @@ export const Td = styled.td`
   border-style: solid;
   border-width: 0;
   padding-left: 0.5rem;
+  color: var(--grey-500);
 `;
 export const TdLink = styled(Link)`
   float: right;
