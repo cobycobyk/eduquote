@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react"
-import { Bold, DisplayFlex, TextDividerSolid2 } from "../../../assets/css/custom.styles";
-import { QuoteTitle } from "../../../components/Quote/Quote.styles";
+import { Bold, BoldDark, DisplayFlex, DisplayFlexDark, TextDividerSolid2, TextDividerSolid2Dark } from "../../../assets/css/custom.styles";
+import { QuoteTitle, QuoteTitleDark } from "../../../components/Quote/Quote.styles";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context"
 import { addCategoryToCompany } from "../../../utils/firebase";
+import { CardTitleeDark, SignupCardDark } from "../../SignupPage/SignupPage.styles";
+import { DMainBG } from "../DashboardPage.styles";
 import { DashCatalogTableSection, DCSColumn, DCSRow } from "./DashCatalogs.styles";
 
 const defaultFormData = {
@@ -43,78 +45,70 @@ export default function DashProductsSettings() {
   }
   return (
     <React.Fragment>
-      <DashCatalogTableSection>
-        <QuoteTitle>Catalog Categories Settings</QuoteTitle>
-        {message && <div>{message}</div>}
-        <DCSRow>
-          <DCSColumn></DCSColumn>
-        </DCSRow>
-        <DCSRow>
-          <DCSColumn>
-            <Bold>Categories</Bold>
-            <TextDividerSolid2></TextDividerSolid2>
-            {productCategories?.map((cat, key) => {
-              return (
-                <DisplayFlex key={key}>
-                  {cat}
-                </DisplayFlex>
-              );
-            })}
-            <DisplayFlex>
-              <input
-                type="text"
-                value={formData.category}
-                onChange={handleChange}
-                placeholder="New Category"
-                name="category"
-              />
-              <button onClick={handleAddCategory}>Add Main Category</button>
-            </DisplayFlex>
-          </DCSColumn>
-          <DCSColumn>
-            <Bold>Sub Categories</Bold>
-            <TextDividerSolid2></TextDividerSolid2>
-            {productSubCategories?.map((cat, key) => {
-              return (
-                <DisplayFlex key={key}>
-                    {cat}
-                </DisplayFlex>
-              );
-            })}
-            <DisplayFlex>
-              <input
-                type="text"
-                value={formData.subCategory}
-                onChange={handleChange}
-                placeholder="New Sub Category"
-                name="subCategory"
-              />
-              <button onClick={handleAddCategory}>Add Sub Category</button>
-            </DisplayFlex>
-          </DCSColumn>
-          <DCSColumn>
-            <Bold>Groups</Bold>
-            <TextDividerSolid2></TextDividerSolid2>
-            {productGroups?.map((cat, key) => {
-              return (
-                <DisplayFlex key={key}>
-                    {cat}
-                </DisplayFlex>
-              );
-            })}
-            <DisplayFlex>
-              <input
-                type="text"
-                value={formData.group}
-                onChange={handleChange}
-                placeholder="New Group"
-                name="group"
-              />
-              <button onClick={handleAddCategory}>Add Group</button>
-            </DisplayFlex>
-          </DCSColumn>
-        </DCSRow>
-      </DashCatalogTableSection>
+      <DMainBG>
+        <SignupCardDark>
+          <CardTitleeDark>
+            {"Catalog Categories Settings".toUpperCase()}
+          </CardTitleeDark>
+          {message && <div>{message}</div>}
+          <DCSRow>
+            <DCSColumn></DCSColumn>
+          </DCSRow>
+          <DCSRow>
+            <DCSColumn>
+              <BoldDark>Categories</BoldDark>
+              <TextDividerSolid2Dark></TextDividerSolid2Dark>
+              {productCategories?.map((cat, key) => {
+                return <DisplayFlexDark key={key}>{cat}</DisplayFlexDark>;
+              })}
+              <DisplayFlex>
+                <input
+                  type="text"
+                  value={formData.category}
+                  onChange={handleChange}
+                  placeholder="New Category"
+                  name="category"
+                />
+                <button onClick={handleAddCategory}>Add Main Category</button>
+              </DisplayFlex>
+            </DCSColumn>
+            <DCSColumn>
+              <BoldDark>Sub Categories</BoldDark>
+              <TextDividerSolid2Dark></TextDividerSolid2Dark>
+              {productSubCategories?.map((cat, key) => {
+                return <DisplayFlexDark key={key}>{cat}</DisplayFlexDark>;
+              })}
+              <DisplayFlex>
+                <input
+                  type="text"
+                  value={formData.subCategory}
+                  onChange={handleChange}
+                  placeholder="New Sub Category"
+                  name="subCategory"
+                />
+                <button onClick={handleAddCategory}>Add Sub Category</button>
+              </DisplayFlex>
+            </DCSColumn>
+            <DCSColumn>
+              <BoldDark>Groups</BoldDark>
+              <TextDividerSolid2Dark></TextDividerSolid2Dark>
+              {productGroups?.map((cat, key) => {
+                return <DisplayFlexDark key={key}>{cat}</DisplayFlexDark>;
+              })}
+              <DisplayFlex>
+                <input
+                  type="text"
+                  value={formData.group}
+                  onChange={handleChange}
+                  placeholder="New Group"
+                  name="group"
+                />
+                <button onClick={handleAddCategory}>Add Group</button>
+              </DisplayFlex>
+            </DCSColumn>
+          </DCSRow>
+        </SignupCardDark>
+      </DMainBG>
     </React.Fragment>
   );
 }

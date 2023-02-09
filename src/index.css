@@ -10,9 +10,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Poppins', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,4 +18,32 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+:root {
+  /* header */
+  --header-bg: #262b3c;
+  --header-item-color: #a6b0cf;
+  --box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+  /* sidebar */
+  --sidebar-dark-bg: #2a3042;
+  --sidebar-dark-menu-item-color: #a6b0cf;
+  --sidebar-dark-menu-sub-item-color: #79829c;
+  --sidebar-dark-menu-item-icon-color: #6a7187;
+  --sidebar-dark-menu-item-hover-color: #ffffff;
+  --sidebar-dark-menu-item-active-color: #ffffff;
+  /* dashboard main page */
+  --dash-main-bg: #222736;
+  /* scss-docs-start gray-color-variables */
+  --white: #fff;
+  --gray-100: #212529;
+  --gray-200: #2a3042;
+  --gray-300: #32394e;
+  --gray-400: #a6b0cf;
+  --gray-500: #bfc8e2;
+  --gray-600: #c3cbe4;
+  --gray-700: #f6f6f6;
+  --gray-800: #eff2f7;
+  --gray-900: #f8f9fa;
+  --black: #000;
 }

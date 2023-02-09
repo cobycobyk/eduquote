@@ -15,6 +15,14 @@ export const QuoteTitle = styled.div`
   font-size: 32px;
   font-weight: bold;
 `;
+export const QuoteTitleDark = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1rem;
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--sidebar-dark-menu-item-color);
+`;
 
 export const QuoteAddContainer = styled.div`
   display: flex;

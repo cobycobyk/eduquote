@@ -36,3 +36,6 @@ export const DCSLeft = styled.div`
 export const ProductImgAdd = styled.img`
   max-width: 10vw;
 `;
+export const ProductImgInput = styled.input`
+  background-color: var(--grey-500);
+`;

@@ -7,12 +7,8 @@ export const TopNav = styled.div`
   left: 0;
   top: 0;
   z-index: 999;
-  background-color: transparent;
-  border: 0;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  -webkit-box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
-  box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
+  background-color: var(--header-bg);
+  box-shadow: var(--box-shadow);
 `;
 
 export const TopNavContainer = styled.div`
@@ -20,7 +16,7 @@ export const TopNavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 75px;
+  height: 70px;
   padding-right: 2rem;
   padding-left: 2rem;
   margin-right: auto;
@@ -35,12 +31,12 @@ export const TopNavLogo = styled(Link)`
   font-weight: 700;
   font-size: 24px;
   padding: 0 0 6px;
-  letter-spacing: 1px;
-  line-height: 68px;
+  width: 250px;
 `;
 export const TopNavLogoImg = styled.img`
   display: inline-block;
   height: 36px;
+  line-height: 70px;
 `;
 
 export const TopNavMiddle = styled.div`
@@ -85,7 +81,7 @@ export const TopNavLi = styled.li`
   }
 `;
 export const TopNavLink = styled(Link)`
-  color: black;
+  color: var(--sidebar-dark-menu-item-color);
   font-weight: bold;
   :hover {
     color: orange;

@@ -54,10 +54,27 @@ export const SignupCard = styled.div`
     padding: 1rem;
   }
 `;
+export const SignupCardDark = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 1rem;
+  @media only screen and (max-width: 600px) {
+    padding: 1rem;
+  }
+`;
 export const CardTitlee = styled.h4`
   padding-bottom: 1rem;
   font-weight: bold;
   text-align: center;
+`;
+export const CardTitleeDark = styled.h4`
+  padding-bottom: 1rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--sidebar-dark-menu-item-color);
 `;
 export const Formm = styled.form`
   display: block;
@@ -77,12 +94,26 @@ export const SignupLabelRow = styled.div`
   align-items: center;
   justify-content: start;
 `;
+export const SignupLabelRowDark = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: var(--sidebar-dark-menu-item-color);
+`;
 export const FormLabel = styled.label`
   font-weight: 700;
   font-size: 14px;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   margin-left: 0.5rem;
+`;
+export const FormLabelDark = styled.label`
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  color: var(--sidebar-dark-menu-item-color);
 `;
 export const SignupInput = styled.input`
   display: block;
@@ -144,6 +175,27 @@ export const RegisterButton = styled.button`
   :hover {
     color: white;
     background-color: orange;
+  }
+`;
+export const RegisterButtonDark = styled.button`
+  border-radius: 30px;
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.5;
+  color: var(--gray-100);
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: var(--gray-500);
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  :hover {
+    color: var(--gray-500);
+    background-color: var(--gray-100);
   }
 `;
 export const FormExRow = styled.div``;

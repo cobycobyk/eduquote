@@ -3,16 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 
 export const DashContainer = styled.div`
   display: flex;
-  padding: 4.625rem 0;
+  margin-top: 70px;
 `;
 export const DSidebar = styled.div`
-  width: 19rem;
+  width: 250px;
   height: 100vmin;
-  background-color: lightgrey;
+  background-color: var(--header-bg);
   border-right: solid 1px #e3e3e3;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 10px;
 `;
 export const DSImg = styled.img`
   height: 3rem;
@@ -23,21 +23,25 @@ export const DSH1 = styled.h1`
 `;
 export const DSInfo = styled.div`
   display: flex;
-  align-items: center;
   padding: 2rem 0 .5rem;
   ${DSH1} {
     margin-right: 1rem;
   }
 `;
 export const DNavLink = styled(NavLink)`
-  color: black;
+  display: flex;
+  color: var(--sidebar-dark-menu-item-color);
   text-decoration: none;
   padding: 0.5rem;
   border-radius: 10px;
   :hover {
     color: white;
-    background-color: orange;
   }
+`;
+export const DNavLinkIcon = styled.div`
+  margin-right: 10px;
+  margin-left: 10px;
+  color: var(--sidebar-dark-menu-item-color);
 `;
 export const DSH2 = styled.h2`
   font-weight: bold;
@@ -48,20 +52,27 @@ export const DSH3 = styled.h3`
 export const DSH5 = styled.h5`
   font-weight: bold;
 `;
+export const DSName = styled.div`
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--sidebar-dark-menu-item-color);
+`;
 export const DMain = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1rem 1rem;
+  padding: 24px 18px 60px;
+  background-color: var(--dash-main-bg);
   `;
   export const DMainNav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3.5rem;
+  height: 30px;
 `;
-export const DMainNavLeft = styled.h1`
+export const DMainNavLeft = styled.h4`
   font-weight: bold;
+  color: var(--sidebar-dark-menu-item-color);
 `;
 export const DMainNavRight = styled.div`
   display: flex;
@@ -72,7 +83,7 @@ export const DMainNavRight = styled.div`
   background-color: lightgrey;
   :hover {
     cursor: pointer;
-    background-color: orange;
+    background-color: var(--sidebar-dark-menu-item-color);
     color: white;
   }
 `;
@@ -80,17 +91,18 @@ export const DNavButton = styled.div`
   padding: 0.75rem 0.5rem 0.75rem 0.25rem;
   display: flex;
   align-items: center;
+  height: 30px;
 `;
 
 export const DCreateDropdown = styled.div`
-  swidth: 200px;
+  width: 120px;
   position: absolute;
   inset: 90px 20px auto auto;
   transform: translate3d(-20px, 60px, 0px);
-  background-color: white;
+  background-color: var(--sidebar-dark-menu-item-color);
   border-radius: 0.5rem;
   cursor: pointer;
-  visibility: ${({ open }) => (open ? "visible" : "collapse")}
+  visibility: ${({ open }) => (open ? "visible" : "collapse")};
 `;
 export const DCreateDropdownLinks = styled.div`
   display: flex;
@@ -142,6 +154,12 @@ export const DAddLink = styled(Link)`
     background-color: orange;
   }
 `;
+export const DMainBG = styled.div`
+  background-color: var(--sidebar-dark-bg);
+  padding: 20px;
+  border-radius: 7px;
+`;
+
 
 /*------- DashClients ------*/
 export const DTable = styled.table`

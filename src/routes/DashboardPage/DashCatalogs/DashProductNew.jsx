@@ -2,14 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CardTitlee,
+  CardTitleeDark,
   FormLabel,
   Formm,
   RegisterButton,
+  RegisterButtonDark,
   SignupCard,
+  SignupCardDark,
   SignupColumn,
   SignupColumnFull,
   SignupInput,
   SignupLabelRow,
+  SignupLabelRowDark,
   SignupRow,
   SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
@@ -19,7 +23,8 @@ import { addImagesToProduct, addProduct } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
 import { ProductsContext } from "../../../context/products.context";
-import { ProductImgAdd } from "./DashCatalogs.styles";
+import { ProductImgAdd, ProductImgInput } from "./DashCatalogs.styles";
+import { DMainBG } from "../DashboardPage.styles";
 
 const defaultFormData = {
   name: "",
@@ -101,272 +106,284 @@ export default function DashProductNew() {
   };
 
   return (
-    <SignupCard>
-      <CardTitlee>New Product</CardTitlee>
-      {message && <div>{message}</div>}
-      <Formm onSubmit={handleSubmit}>
-        <SignupRow>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.User />
-              <FormLabel>
-                Name <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupInput
-              type="text"
-              value={formData.name}
-              name="name"
-              onChange={handleChange}
-              id="name"
-              placeholder="Name"
-              required
-              errorMessage=""
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter a Name",
-                },
-              }}
-            />
-          </SignupColumn>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.User />
-              <FormLabel>
-                SKU <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupInput
-              type="text"
-              value={formData.sku}
-              name="sku"
-              onChange={handleChange}
-              id="sku"
-              placeholder="SKU"
-              required
-              errorMessage=""
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter a Sku",
-                },
-              }}
-            />
-          </SignupColumn>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.UserCheck />
-              <FormLabel>
-                Company <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupInput
-              type="text"
-              name="company"
-              value={formData.company}
-              onChange={handleChange}
-              id="company"
-              placeholder={currentUserInfo?.company}
-              required
-              disabled
-              errorMessage=""
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter SKU",
-                },
-              }}
-            />
-          </SignupColumn>
-        </SignupRow>
-        <SignupRow>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.UserCheck />
-              <FormLabel>
-                Category <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupSelect
-              value={formData.category}
-              name="category"
-              onChange={handleChange}
-              id="catgeory"
-              placeholder="New Category Name"
-              errorMessage=""
-            >
-              <option value="">
-                {newCategory
-                  ? "Type new Category below"
-                  : "Choose Category Here"}
-              </option>
-              {productCategories?.map((cat, key) => {
-                return <option key={key}>{cat}</option>;
-              })}
-              <option value="new">Enter New Category</option>
-            </SignupSelect>
-            {newCategory && (
+    <DMainBG>
+      <SignupCardDark>
+        <CardTitleeDark>{"New Product".toUpperCase()}</CardTitleeDark>
+        {message && <div>{message}</div>}
+        <Formm onSubmit={handleSubmit}>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.User />
+                <FormLabel>
+                  Name <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
-                name="category"
-                value={formData.category}
+                value={formData.name}
+                name="name"
                 onChange={handleChange}
-                id="category"
-                placeholder="Category"
+                id="name"
+                placeholder="Name"
                 required
                 errorMessage=""
                 validate={{
                   required: {
                     value: true,
-                    errorMessage: "Please enter a category",
+                    errorMessage: "Please enter a Name",
                   },
                 }}
               />
-            )}
-          </SignupColumn>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.UserCheck />
-              <FormLabel>
-                Sub Category <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupSelect
-              value={formData.subCategory}
-              name="subCategory"
-              onChange={handleChange}
-              id="subCategory"
-              placeholder="New Sub Category Name"
-              errorMessage=""
-            >
-              <option value="">
-                {newSubCategory
-                  ? "Type new Sub Category below"
-                  : "Choose Sub Category Here"}
-              </option>
-              {productSubCategories?.map((cat, key) => {
-                return <option key={key}>{cat}</option>;
-              })}
-              <option value="new">Enter New Sub Category</option>
-            </SignupSelect>
-            {newSubCategory && (
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.User />
+                <FormLabel>
+                  SKU <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
-                name="subCategory"
+                value={formData.sku}
+                name="sku"
+                onChange={handleChange}
+                id="sku"
+                placeholder="SKU"
+                required
+                errorMessage=""
+                validate={{
+                  required: {
+                    value: true,
+                    errorMessage: "Please enter a Sku",
+                  },
+                }}
+              />
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Company <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupInput
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                id="company"
+                placeholder={currentUserInfo?.company}
+                required
+                disabled
+                errorMessage=""
+                validate={{
+                  required: {
+                    value: true,
+                    errorMessage: "Please enter SKU",
+                  },
+                }}
+              />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Category <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupSelect
+                value={formData.category}
+                name="category"
+                onChange={handleChange}
+                id="catgeory"
+                placeholder="New Category Name"
+                errorMessage=""
+              >
+                <option value="">
+                  {newCategory
+                    ? "Type new Category below"
+                    : "Choose Category Here"}
+                </option>
+                {productCategories?.map((cat, key) => {
+                  return <option key={key}>{cat}</option>;
+                })}
+                <option value="new">Enter New Category</option>
+              </SignupSelect>
+              {newCategory && (
+                <SignupInput
+                  type="text"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  id="category"
+                  placeholder="Category"
+                  required
+                  errorMessage=""
+                  validate={{
+                    required: {
+                      value: true,
+                      errorMessage: "Please enter a category",
+                    },
+                  }}
+                />
+              )}
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Sub Category <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupSelect
                 value={formData.subCategory}
+                name="subCategory"
                 onChange={handleChange}
                 id="subCategory"
-                placeholder="Sub Category"
-                required
+                placeholder="New Sub Category Name"
                 errorMessage=""
-                validate={{
-                  required: {
-                    value: true,
-                    errorMessage: "Please enter a sub category",
-                  },
-                }}
-              />
-            )}
-          </SignupColumn>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.UserCheck />
-              <FormLabel>
-                Group <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupSelect
-              value={formData.group}
-              name="group"
-              onChange={handleChange}
-              id="group"
-              placeholder="New Group Name"
-              errorMessage=""
-            >
-              <option value="">
-                {newSubCategory ? "Type new Group below" : "Choose Group Here"}
-              </option>
-              {productGroups?.map((cat, key) => {
-                return <option key={key}>{cat}</option>;
-              })}
-              <option value="new">Enter New Group</option>
-            </SignupSelect>
-            {newGroup && (
-              <SignupInput
-                type="text"
-                name="group"
+              >
+                <option value="">
+                  {newSubCategory
+                    ? "Type new Sub Category below"
+                    : "Choose Sub Category Here"}
+                </option>
+                {productSubCategories?.map((cat, key) => {
+                  return <option key={key}>{cat}</option>;
+                })}
+                <option value="new">Enter New Sub Category</option>
+              </SignupSelect>
+              {newSubCategory && (
+                <SignupInput
+                  type="text"
+                  name="subCategory"
+                  value={formData.subCategory}
+                  onChange={handleChange}
+                  id="subCategory"
+                  placeholder="Sub Category"
+                  required
+                  errorMessage=""
+                  validate={{
+                    required: {
+                      value: true,
+                      errorMessage: "Please enter a sub category",
+                    },
+                  }}
+                />
+              )}
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.UserCheck />
+                <FormLabel>
+                  Group <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupSelect
                 value={formData.group}
+                name="group"
                 onChange={handleChange}
                 id="group"
-                placeholder="Group"
-                required
+                placeholder="New Group Name"
                 errorMessage=""
-                validate={{
-                  required: {
-                    value: true,
-                    errorMessage: "Please enter a Group",
-                  },
-                }}
+              >
+                <option value="">
+                  {newSubCategory
+                    ? "Type new Group below"
+                    : "Choose Group Here"}
+                </option>
+                {productGroups?.map((cat, key) => {
+                  return <option key={key}>{cat}</option>;
+                })}
+                <option value="new">Enter New Group</option>
+              </SignupSelect>
+              {newGroup && (
+                <SignupInput
+                  type="text"
+                  name="group"
+                  value={formData.group}
+                  onChange={handleChange}
+                  id="group"
+                  placeholder="Group"
+                  required
+                  errorMessage=""
+                  validate={{
+                    required: {
+                      value: true,
+                      errorMessage: "Please enter a Group",
+                    },
+                  }}
+                />
+              )}
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.DollarSign />
+                <FormLabel>
+                  Price <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupInput
+                type="text"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                id="price"
+                placeholder="Price"
               />
-            )}
-          </SignupColumn>
-        </SignupRow>
-        <SignupRow>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.DollarSign />
-              <FormLabel>
-                Price <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupInput
-              type="text"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              id="price"
-              placeholder="Price"
-            />
-          </SignupColumn>
-          <SignupColumn>
-            <SignupLabelRow>
-              <Icon.FileText />
-              <FormLabel>
-                Description <Danger>*</Danger>
-              </FormLabel>
-            </SignupLabelRow>
-            <SignupInput
-              type="text"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              id="description"
-              placeholder="Description"
-            />
-          </SignupColumn>
-        </SignupRow>
-        <SignupRow>
-          <SignupColumn>
-            <input
-              type="file"
-              multiple
-              accepts="image/*"
-              onChange={handleImageChange}
-            />
-            <DisplayFlex>
-              {imageUrls.map((imageSrc) => (
-                <ProductImgAdd src={imageSrc} />
-              ))}
-            </DisplayFlex>
-          </SignupColumn>
-          <SignupColumn>
-            <SignupColumnFull>
-              <RegisterButton type="submit">Add Product</RegisterButton>
-            </SignupColumnFull>
-          </SignupColumn>
-        </SignupRow>
-      </Formm>
-    </SignupCard>
+            </SignupColumn>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.FileText />
+                <FormLabel>
+                  Description <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <SignupInput
+                type="text"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                id="description"
+                placeholder="Description"
+              />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.Camera />
+                <FormLabel>
+                  Images <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <ProductImgInput
+                type="file"
+                multiple
+                accepts="image/*"
+                onChange={handleImageChange}
+              />
+              <DisplayFlex>
+                {imageUrls.map((imageSrc) => (
+                  <ProductImgAdd src={imageSrc} />
+                ))}
+              </DisplayFlex>
+            </SignupColumn>
+            <SignupColumn>
+              <SignupColumnFull>
+                <RegisterButtonDark type="submit">
+                  Add Product
+                </RegisterButtonDark>
+              </SignupColumnFull>
+            </SignupColumn>
+          </SignupRow>
+        </Formm>
+      </SignupCardDark>
+    </DMainBG>
   );
 }
