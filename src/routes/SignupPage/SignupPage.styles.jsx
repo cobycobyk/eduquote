@@ -124,7 +124,7 @@ export const SignupInput = styled.input`
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
-  background-color: #fff;
+  background-color: var(--gray-700);
   background-clip: padding-box;
   border: 1px solid #ced4da;
   -webkit-appearance: none;

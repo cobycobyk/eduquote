@@ -56,7 +56,6 @@ export default function DashClients() {
                             <THDark>Institution</THDark>
                             <THDark>Status</THDark>
                             <THDark>Created</THDark>
-                            <THDark>Actions</THDark>
                           </TRDark>
                         </THeadDark>
                         <TBodyDark>

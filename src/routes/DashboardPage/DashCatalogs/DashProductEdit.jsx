@@ -20,6 +20,7 @@ import { CancelButton, Danger, SaveButton } from "../../../assets/css/custom.sty
 import { deleteAllImagesFromProduct, deleteProduct, updateProduct } from "../../../utils/firebase";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context";
+import DeleteCheckModal from "../../../components/DeleteCheckModal/DeleteCheckModal";
 
 export default function DashProductEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
@@ -32,6 +33,7 @@ export default function DashProductEdit({setCurrentPage}) {
   const [newSubCategory, setNewSubCategory] = useState(false);
   const [newGroup, setNewGroup] = useState(false);
   const [message, setMessage] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   useEffect(() => {
     setFormData(product);
@@ -318,13 +320,14 @@ export default function DashProductEdit({setCurrentPage}) {
                 <CancelButton onClick={() => navigate("/dashboard/products")}>
                   Cancel
                 </CancelButton>
-                <CancelButton onClick={handleDelete}>
-                  Delete Product
-                </CancelButton>
               </SignupColumnFull>
             </SignupColumn>
           </SignupRow>
         </Formm>
+        <CancelButton onClick={() => setOpenDelete(!openDelete)}>
+          Delete Product
+        </CancelButton>
+        <DeleteCheckModal openDelete={openDelete} setOpenDelete={setOpenDelete} handleDelete={handleDelete}/>
       </SignupCardDark>
     </React.Fragment>
   );

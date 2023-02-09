@@ -8,6 +8,7 @@ export const CartSection = styled.div`
   border: 1px solid black;
   border-radius: 1rem;
   background-color: white;
+  margin-left: 10px;
 `;
 
 export const CartTitle = styled.div`

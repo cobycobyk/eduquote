@@ -9,8 +9,8 @@ export const QuoteSectionContainer = styled.div`
   }
 `;
 export const QuoteSectionLeft = styled.div`
-  flex-basis: 70%;
+  flex-shrink: 2;
 `
 export const QuoteSectionRight = styled.div`
-  flex-basis: 30%;
+  flex-shrink: 1;
 `

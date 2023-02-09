@@ -32,6 +32,7 @@ export const TableTopRow = styled.div`
 export const THeadDark = styled.thead`
   border-color: var(--table-border-color);
   color: var(--table-color);
+  border-width: 0 0 5px 0;
   `;
   export const THDark = styled.th`
   border-width: 0 1px;
