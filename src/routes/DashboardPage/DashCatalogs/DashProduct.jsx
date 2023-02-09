@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { CardTitlee, FormLabel, Formm, SignupCard, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupRow } from "../../SignupPage/SignupPage.styles";
+import { CardTitlee, CardTitleeDark, FormLabel, Formm, SignupCard, SignupCardDark, SignupColumn, SignupColumnFull, SignupInput, SignupLabelRow, SignupLabelRowDark, SignupRow } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, SaveButton } from "../../../assets/css/custom.styles";
 
@@ -20,16 +20,16 @@ export default function DashProduct({setCurrentPage}) {
 
   return (
     <React.Fragment>
-      <SignupCard>
-        <CardTitlee>Product Information</CardTitlee>
+      <SignupCardDark>
+        <CardTitleeDark>PRODUCT INFORMATION</CardTitleeDark>
           <SignupRow>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.User />
                 <FormLabel>
                   Name <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 value={product.name}
@@ -43,12 +43,12 @@ export default function DashProduct({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   SKU <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="sku"
@@ -62,12 +62,12 @@ export default function DashProduct({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Category <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="category"
@@ -81,12 +81,12 @@ export default function DashProduct({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Sub Category <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="subCategory"
@@ -102,12 +102,12 @@ export default function DashProduct({setCurrentPage}) {
           </SignupRow>
           <SignupRow>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Group <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="group"
@@ -121,12 +121,12 @@ export default function DashProduct({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Status <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="status"
@@ -147,7 +147,7 @@ export default function DashProduct({setCurrentPage}) {
               </SignupColumnFull>
             </SignupColumn>
           </SignupRow>
-      </SignupCard>
+      </SignupCardDark>
     </React.Fragment>
   );
 }

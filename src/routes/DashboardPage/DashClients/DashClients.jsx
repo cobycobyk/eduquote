@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllClients } from "../../../utils/firebase";
 import { UserContext } from "../../../context/user.context";
 import moment from "moment";
-import { BoldDark } from "../../../assets/css/custom.styles";
+import { BoldDark, TextDividerSolid2Dark } from "../../../assets/css/custom.styles";
 import { TableCard, TableCardBody, TableContainer, TableTable, TableTopRow, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
 
 export default function DashClients() {
@@ -44,6 +44,7 @@ export default function DashClients() {
                   <BoldDark>SALES PARTNER REPS</BoldDark>
                 )}
                 {role === `companyRep` && <BoldDark>COLLEGUES</BoldDark>}
+                <TextDividerSolid2Dark />
                 <TableCard>
                   <TableCardBody>
                     <TableContainer>

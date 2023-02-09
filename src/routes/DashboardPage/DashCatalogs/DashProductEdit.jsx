@@ -2,13 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   CardTitlee,
+  CardTitleeDark,
   FormLabel,
   Formm,
   SignupCard,
+  SignupCardDark,
   SignupColumn,
   SignupColumnFull,
   SignupInput,
   SignupLabelRow,
+  SignupLabelRowDark,
   SignupRow,
   SignupSelect,
 } from "../../SignupPage/SignupPage.styles";
@@ -92,18 +95,18 @@ export default function DashProductEdit({setCurrentPage}) {
 
   return (
     <React.Fragment>
-      <SignupCard>
-        <CardTitlee>Edit Product Information</CardTitlee>
+      <SignupCardDark>
+        <CardTitleeDark>Edit Product Information</CardTitleeDark>
         {message && <div>{message}</div>}
         <Formm onSubmit={handleSubmit}>
           <SignupRow>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.User />
                 <FormLabel>
                   Name <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 value={formData.name}
@@ -122,10 +125,10 @@ export default function DashProductEdit({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.User />
                 <FormLabel>SKU</FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 value={formData.sku}
@@ -144,12 +147,12 @@ export default function DashProductEdit({setCurrentPage}) {
               />
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.DollarSign />
                 <FormLabel>
                   Price <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="price"
@@ -162,12 +165,12 @@ export default function DashProductEdit({setCurrentPage}) {
           </SignupRow>
           <SignupRow>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Category <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupSelect
                 value={formData.category}
                 name="category"
@@ -204,12 +207,12 @@ export default function DashProductEdit({setCurrentPage}) {
               )}
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Sub Category <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupSelect
                 value={formData.subCategory}
                 name="subCategory"
@@ -246,12 +249,12 @@ export default function DashProductEdit({setCurrentPage}) {
               )}
             </SignupColumn>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.UserCheck />
                 <FormLabel>
                   Group <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupSelect
                 value={formData.group}
                 name="group"
@@ -292,12 +295,12 @@ export default function DashProductEdit({setCurrentPage}) {
           </SignupRow>
           <SignupRow>
             <SignupColumn>
-              <SignupLabelRow>
+              <SignupLabelRowDark>
                 <Icon.FileText />
                 <FormLabel>
                   Description <Danger>*</Danger>
                 </FormLabel>
-              </SignupLabelRow>
+              </SignupLabelRowDark>
               <SignupInput
                 type="text"
                 name="description"
@@ -322,8 +325,7 @@ export default function DashProductEdit({setCurrentPage}) {
             </SignupColumn>
           </SignupRow>
         </Formm>
-      </SignupCard>
-      <SignupCard></SignupCard>
+      </SignupCardDark>
     </React.Fragment>
   );
 }
