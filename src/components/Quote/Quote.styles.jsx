@@ -37,13 +37,26 @@ export const QAButton = styled.button`
     color: orange;
   }
 `;
+export const QAButtonDark = styled.button`
+  margin: 0 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--table-color);
+  :hover {
+    color: orange;
+  }
+`;
 export const QAInput = styled.input`
   display: flex;
   justify-content: center;
   text-align: center;
   width: 1rem;
   border: none;
-  background-color: lightgrey;
+  background-color: transparent;
+  color: var(--table-color);
+  :hover {
+    cursor: pointer;
+  }
 `;
 export const AddToQuoteButton = styled.button`
   margin-left: 1rem;
@@ -59,7 +72,7 @@ export const AddToQuoteButton = styled.button`
 export const QuoteFilterBar = styled.div`
   display: flex;
   height: 3rem;
-  background-color: lightgrey;
+  background-color: var(--table-bg);
   margin: 0 0 1rem 0;
   align-items: center;
 `;
@@ -68,7 +81,10 @@ export const FilterBarOptions = styled.div`
 `;
 export const FilterBarOption = styled.div`
   display: flex;
+  color: var(--table-color);
+  margin-right: 10px;
 `;
 export const FilterBarDropdown = styled.select`
   display: flex;
+  margin-right: 15px;
 `;

@@ -1,9 +1,10 @@
 import React, {useContext, useState, useEffect} from "react"
+import { TDDark, THDark, TRDark } from "../../assets/css/table.styles";
 import { CartContext } from "../../context/cart.context";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { CartThumbnail } from "../Cart/Cart.styles";
 import { Td, Th, Tr } from "../ConfirmQuoteModal/ConfirmQuoteModal.styles";
-import { AddToQuoteButton, QAButton, QAInput, QuoteAddContainer } from "./Quote.styles";
+import { AddToQuoteButton, QAButton, QAButtonDark, QAInput, QuoteAddContainer } from "./Quote.styles";
 
 
 export default function QuoteItem({ product, handleProductClick }) {
@@ -11,27 +12,42 @@ export default function QuoteItem({ product, handleProductClick }) {
   const [qty, setQty] = useState(1);
 
   return (
-    <Tr>
-      <Th>
-        <CartThumbnail src={product.images ? product.images[0] : ""} width={54} />
-      </Th>
-      <Td onClick={() => handleProductClick(product)}>{product.name}</Td>
-      <Td>{product.sku}</Td>
-      <Td>{product.category}</Td>
-      <Td>{product.subCategory}</Td>
-      <Td>{product.group}</Td>
-      <Td>{product.description}</Td>
-      <Td>{priceFormatter.format(product.price)}</Td>
-      <Td>
+    <TRDark>
+      <TDDark>
+        <CartThumbnail
+          src={product.images ? product.images[0] : ""}
+          width={54}
+        />
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {product.name}
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>{product.sku}</TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {product.category}
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {product.subCategory}
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {product.group}
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {product.description}
+      </TDDark>
+      <TDDark onClick={() => handleProductClick(product)}>
+        {priceFormatter.format(product.price)}
+      </TDDark>
+      <TDDark>
         <QuoteAddContainer>
-          <QAButton onClick={() => setQty(qty - 1)}>-</QAButton>
+          <QAButtonDark onClick={() => setQty(qty - 1)}>-</QAButtonDark>
           <QAInput value={qty} onChange={(e) => setQty(e.target.value)} />
-          <QAButton onClick={() => setQty(qty + 1)}>+</QAButton>
+          <QAButtonDark onClick={() => setQty(qty + 1)}>+</QAButtonDark>
           <AddToQuoteButton onClick={() => addItemToCart(product, qty)}>
             Add
           </AddToQuoteButton>
         </QuoteAddContainer>
-      </Td>
-    </Tr>
+      </TDDark>
+    </TRDark>
   );
 }

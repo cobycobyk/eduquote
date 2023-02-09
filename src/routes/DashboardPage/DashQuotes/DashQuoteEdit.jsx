@@ -34,6 +34,7 @@ import {
   QuoteSectionLeft,
   QuoteSectionRight,
 } from "../../QuotePage/QuotePage.styles";
+import { CardTitleeDark } from "../../SignupPage/SignupPage.styles";
 
 export default function DashQuoteEdit({ setCurrentPage }) {
   const location = useLocation();
@@ -83,7 +84,7 @@ export default function DashQuoteEdit({ setCurrentPage }) {
         </QuoteSectionLeft>
         <QuoteSectionRight>
           <CartSection>
-            <CartTitle>Edited Quote</CartTitle>
+            <CardTitleeDark>Edited Quote</CardTitleeDark>
             {cartItems.map((item, key) => {
               return (
                 <React.Fragment key={key}>

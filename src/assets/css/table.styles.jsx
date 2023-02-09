@@ -16,7 +16,7 @@ export const TableCard = styled.div`
 export const TableCardBody = styled.div`
   color: var(--table-color);
   flex: 1 1 auto;
-  padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+  padding: var(--bs-card-spacer-y) 0;
   `;
 export const TableContainer = styled.div`
   overflow-x: auto;

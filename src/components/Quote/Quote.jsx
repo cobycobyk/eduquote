@@ -6,8 +6,10 @@ import {
   QuoteFilterBar,
   QuoteSection,
   QuoteTitle,
+  QuoteTitleDark,
 } from "./Quote.styles";
 import {
+  DMainBG,
   DTable,
   Tbody,
   Td,
@@ -18,6 +20,8 @@ import {
 import { ProductsContext } from "../../context/products.context";
 import QuoteItem from "./QuoteItem";
 import { UserContext } from "../../context/user.context";
+import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, THDark, THeadDark, TRDark } from "../../assets/css/table.styles";
+import { TextDividerSolid2Dark } from "../../assets/css/custom.styles";
 
 
 export default function Quote({ handleProductClick }) {
@@ -72,8 +76,8 @@ export default function Quote({ handleProductClick }) {
   
   return (
     <React.Fragment>
-      <QuoteSection>
-        <QuoteTitle>Build A Quote</QuoteTitle>
+      <DMainBG>
+        <QuoteTitleDark>Build A Quote</QuoteTitleDark>
         <QuoteFilterBar>
           <FilterBarOptions>
             <FilterBarOption>Filter by Category:</FilterBarOption>
@@ -82,9 +86,7 @@ export default function Quote({ handleProductClick }) {
               onChange={handleChangeCategory}
               placeholder="Category Selection"
             >
-              <option value="">
-                {"All"}
-              </option>
+              <option value="">{"All"}</option>
               {productCategories?.map((cat, key) => {
                 return <option key={key}>{cat}</option>;
               })}
@@ -95,9 +97,7 @@ export default function Quote({ handleProductClick }) {
               onChange={handleChangeSubCategory}
               placeholder="Sub Category Selection"
             >
-              <option value="">
-                {"All"}
-              </option>
+              <option value="">{"All"}</option>
               {productSubCategories?.map((subcat, key) => {
                 return <option key={key}>{subcat}</option>;
               })}
@@ -113,9 +113,7 @@ export default function Quote({ handleProductClick }) {
                   placeholder="Group Selection"
                   errorMessage=""
                 >
-                  <option value="">
-                    {"All"}
-                  </option>
+                  <option value="">{"All"}</option>
                   {productGroups?.map((group, key) => {
                     return <option key={key}>{group}</option>;
                   })}
@@ -124,37 +122,44 @@ export default function Quote({ handleProductClick }) {
             ) : null}
           </FilterBarOptions>
         </QuoteFilterBar>
-        <DTable>
-          <Thead>
-            <Tr>
-              <Th>Image</Th>
-              <Th>Name</Th>
-              <Th>SKU</Th>
-              <Th>Category</Th>
-              <Th>Sub Category</Th>
-              <Th>Group</Th>
-              <Th>Description</Th>
-              <Th>Price</Th>
-              <Th>Add To Quote</Th>
-            </Tr>
-          </Thead>
-          {displayedProducts?.length ? (
-            <Tbody>
-              {displayedProducts?.map((product, key) => {
-                return (
-                  <QuoteItem
-                    product={product}
-                    key={key}
-                    handleProductClick={handleProductClick}
-                  />
-                );
-              })}
-            </Tbody>
-          ) : (
-            <div>No Products</div>
-          )}
-        </DTable>
-      </QuoteSection>
+        <TextDividerSolid2Dark />
+        <TableCard>
+          <TableCardBody>
+            <TableContainer>
+              <TableTable>
+                <THeadDark>
+                  <TRDark>
+                    <THDark>Image</THDark>
+                    <THDark>Name</THDark>
+                    <THDark>SKU</THDark>
+                    <THDark>Category</THDark>
+                    <THDark>Sub Category</THDark>
+                    <THDark>Group</THDark>
+                    <THDark>Description</THDark>
+                    <THDark>Price</THDark>
+                    <THDark>Add To Quote</THDark>
+                  </TRDark>
+                </THeadDark>
+                {displayedProducts?.length ? (
+                  <TBodyDark>
+                    {displayedProducts?.map((product, key) => {
+                      return (
+                        <QuoteItem
+                          product={product}
+                          key={key}
+                          handleProductClick={handleProductClick}
+                        />
+                      );
+                    })}
+                  </TBodyDark>
+                ) : (
+                  <div>No Products</div>
+                )}
+              </TableTable>
+            </TableContainer>
+          </TableCardBody>
+        </TableCard>
+      </DMainBG>
     </React.Fragment>
   );
 }
