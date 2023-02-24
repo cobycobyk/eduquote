@@ -217,6 +217,7 @@ export default function DashClient({ setCurrentPage }) {
                   <THDark>Total Items</THDark>
                   <THDark>Total Price</THDark>
                   <THDark>Created At</THDark>
+                  <THDark>Updated At</THDark>
                   <THDark>Status</THDark>
                   <THDark>Actions</THDark>
                 </TRDark>
@@ -235,6 +236,12 @@ export default function DashClient({ setCurrentPage }) {
                         <TDDark>
                           {moment
                             .unix(quote.createdAt)
+                            .subtract(1969, "years")
+                            .format("MMMM Do YYYY")}
+                        </TDDark>
+                        <TDDark>
+                          {moment
+                            .unix(quote?.updatedAt)
                             .subtract(1969, "years")
                             .format("MMMM Do YYYY")}
                         </TDDark>
@@ -269,6 +276,7 @@ export default function DashClient({ setCurrentPage }) {
                   <THDark>Total Items</THDark>
                   <THDark>Total Price</THDark>
                   <THDark>Created At</THDark>
+                  <THDark>Updated At</THDark>
                   <THDark>Status</THDark>
                   <THDark>Actions</THDark>
                 </TRDark>
@@ -287,6 +295,12 @@ export default function DashClient({ setCurrentPage }) {
                         <TDDark>
                           {moment
                             .unix(quote.createdAt)
+                            .subtract(1969, "years")
+                            .format("MMMM Do YYYY")}
+                        </TDDark>
+                        <TDDark>
+                          {moment
+                            .unix(quote?.updatedAt)
                             .subtract(1969, "years")
                             .format("MMMM Do YYYY")}
                         </TDDark>

@@ -45,7 +45,7 @@ export const HomeSh2 = styled.h2`
     color: orange;
   }
   @media only screen and (max-width: 600px) {
-    font-size: 40px;
+    font-size: 20px;
   }
 `;
 export const HomeSh3 = styled.h3`
@@ -70,7 +70,8 @@ export const HomeSh4 = styled.h4`
     color: orange;
   }
   @media only screen and (max-width: 600px) {
-    font-size: 40px;
+    font-size: 20px;
+    width: 100%;
   }
 `;
 export const HomeBody1 = styled.div`
@@ -84,7 +85,8 @@ export const HomeBody1 = styled.div`
     color: orange;
   }
   @media only screen and (max-width: 600px) {
-    font-size: 40px;
+    font-size: 20px;
+    margin-bottom: 0.5rem;
   }
 `;
 export const ButtonText = styled.div`
@@ -114,7 +116,11 @@ export const HomeActionLink = styled(Link)`
 `;
 
 export const HomeHeroImg = styled.img`
-    margin-top: 3rem;
+  margin-top: 3rem;
+  @media only screen and (max-width: 600px) {
+    margin: 1rem;
+    width: 100%;
+  }
 `;
 export const HomeClientsContainer = styled.div`
   width: 100vw;
@@ -142,6 +148,9 @@ export const HomePartImgColumn = styled.div`
 
 export const HomePartImg = styled.img`
   height: 1.5rem;
+  @media only screen and (max-width: 600px) {
+    width: 2.5rem;
+  }
 `;
 
 export const HomeFSection = styled.section`
@@ -193,4 +202,7 @@ export const HomeFSub = styled.div`
   font-size: 20px;
   color: grey;
   margin-top: 1rem;
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+  }
 `

@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import qlogo from '../../assets/images/logos/qlogo.png';
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase";
-import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavSignin, TopNavUl } from "./navigation.styles";
+import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavRightSmall, TopNavRightSmallLines, TopNavSignin, TopNavUl } from "./navigation.styles";
 
 
 const navLinks = [
   { id: 1, title: "Home", link: "/" },
   { id: 2, title: "Build A Quote", link: "/quote" },
-  { id: 4, title: "Case Studies", link: "/casestudies" },
-  { id: 5, title: "How-To", link: "/howto" },
+  // { id: 4, title: "Case Studies", link: "/casestudies" },
+  // { id: 5, title: "How-To", link: "/howto" },
   { id: 6, title: "Pricing", link: "/pricing" },
   { id: 7, title: "About", link: "/about" },
   { id: 8, title: "Contact", link: "/contact" },
@@ -19,10 +19,38 @@ export default function Navigation() {
   const { currentUserInfo } = useContext(UserContext);
   const [toggleLinks, setToggleLinks] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
+  const menuRef = useRef();
+  const smallProfileRef = useRef();
+  const profileRef = useRef();
+
+  useEffect(() => {
+    const closeDowpdown = (e) => {
+      if (e.target !== menuRef.current) {
+        setToggleLinks(false);
+      }
+    };
+    document.body.addEventListener("click", closeDowpdown);
+
+    return () => document.body.removeEventListener("click", closeDowpdown);
+  }, []);
 
   const handleLogOut = async () => {
     await signOutUser();
   }
+
+  const showLinks = () => {
+    setToggleLinks(!toggleLinks);
+    if (toggleProfile) {
+      setToggleProfile(false);
+    }
+  };
+
+  const showProfile = () => {
+    setToggleProfile(!toggleProfile);
+    if (toggleLinks) {
+      setToggleLinks(false);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -32,7 +60,7 @@ export default function Navigation() {
             <TopNavLogoImg src={qlogo} alt="logo" />
           </TopNavLogo>
           <TopNavMiddle>
-            <TopNavUl>
+            <TopNavUl visibility={`${toggleLinks}`}>
               {navLinks.map((navLink, key) => (
                 <TopNavLi key={key}>
                   <TopNavLink to={navLink.link}>{navLink.title}</TopNavLink>
@@ -79,6 +107,7 @@ export default function Navigation() {
               <TopNavRightShow>
                 <TopNavRight>
                   <TopNavProfile
+                    ref={profileRef}
                     onClick={() => setToggleProfile(!toggleProfile)}
                   >
                     Profile
@@ -95,6 +124,20 @@ export default function Navigation() {
               </TopNavRightShow>
             </React.Fragment>
           )}
+          <TopNavRightSmall>
+            {currentUserInfo ? (
+              <TopNavProfile ref={smallProfileRef} onClick={showProfile}>
+                Profile
+              </TopNavProfile>
+            ) : (
+              <TopNavSignin to="/signin">Sign In</TopNavSignin>
+            )}
+            <TopNavRightSmallLines ref={menuRef} onClick={showLinks}>
+              <hr />
+              <hr />
+              <hr />
+            </TopNavRightSmallLines>
+          </TopNavRightSmall>
         </TopNavContainer>
       </TopNav>
     </React.Fragment>

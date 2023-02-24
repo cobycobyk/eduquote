@@ -13,6 +13,7 @@ export const FooterContainer = styled.div`
   background-color: lightgrey;
   @media only screen and (max-width: 600px) {
     padding: 1rem;
+    flex-direction: column;
   }
 `;
 
@@ -27,6 +28,9 @@ export const FooterColumnRight = styled.div`
   flex-direction: column;
   align-items: end;
   flex-basis: 33.33%;
+  @media only screen and (max-width: 600px) {
+    align-items: center;
+  }
 `;
 
 export const FooterTitle = styled.div`
@@ -43,6 +47,7 @@ export const FooterSubtitle = styled.div`
 export const FooterEmail = styled.form`
   display: flex;
   align-items: center;
+  
 `;
 
 export const FooterInput = styled.input`
@@ -63,6 +68,9 @@ export const FooterInput = styled.input`
   appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+  }
 `;
 
 export const SendButton = styled.button`
@@ -77,6 +85,9 @@ export const SendButton = styled.button`
 
   :hover {
     background-color: orange;
+  }
+  @media only screen and (max-width: 600px) {
+    padding: 10px 0
   }
 `;
 
@@ -102,6 +113,11 @@ export const FooterLinks = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 5rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
 `;
 
 export const FooterLink = styled(Link)`
@@ -115,6 +131,10 @@ export const FooterLink = styled(Link)`
 export const FooterSocials = styled.div`
   display: flex;
   margin-top: 5rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 export const FooterSocialIcon = styled.a`
