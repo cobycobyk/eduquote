@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import qlogo from '../../assets/images/logos/qlogo.png';
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase";
-import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavProfile, TopNavRight, TopNavRightShow, TopNavRightSmall, TopNavRightSmallLines, TopNavSignin, TopNavUl } from "./navigation.styles";
+import { ProfileDropDown, ProfileDropDownLink, ProfileDropDownLinks, TopNav, TopNavContainer, TopNavLi, TopNavLink, TopNavLogo, TopNavLogoImg, TopNavMiddle, TopNavMiddleSmall, TopNavProfile, TopNavRight, TopNavRightShow, TopNavRightSmall, TopNavRightSmallLines, TopNavSignin, TopNavUl } from "./navigation.styles";
 
 
 const navLinks = [
@@ -60,7 +60,7 @@ export default function Navigation() {
             <TopNavLogoImg src={qlogo} alt="logo" />
           </TopNavLogo>
           <TopNavMiddle>
-            <TopNavUl visibility={`${toggleLinks}`}>
+            <TopNavUl>
               {navLinks.map((navLink, key) => (
                 <TopNavLi key={key}>
                   <TopNavLink to={navLink.link}>{navLink.title}</TopNavLink>
@@ -68,6 +68,17 @@ export default function Navigation() {
               ))}
             </TopNavUl>
           </TopNavMiddle>
+          <TopNavMiddleSmall>
+            <TopNavUl visibility={`${toggleLinks}`}>
+              {navLinks.map((navLink, key) => (
+                <TopNavLi key={key}>
+                  <TopNavLink to={navLink.link} onClick={showLinks}>
+                    {navLink.title}
+                  </TopNavLink>
+                </TopNavLi>
+              ))}
+            </TopNavUl>
+          </TopNavMiddleSmall>
           {currentUserInfo ? (
             <React.Fragment>
               <ProfileDropDown open={toggleProfile}>

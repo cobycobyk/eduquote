@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const AboutContainer = styled.div`
   padding: 5.625rem 5.625rem 0 5.625rem;
   @media only screen and (max-width: 600px) {
-    padding: 0 1rem 0 1rem;
+    padding: 55px 1rem 0 1rem;
   }
 `;
 export const AboutRow = styled.div`

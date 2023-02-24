@@ -56,11 +56,19 @@ export const AccountUl = styled.ul`
   padding: 1rem;
   list-style: none;
   margin: 1.5rem 1rem;
+  @media only screen and (max-width: 600px) {
+    margin: 0.5rem 0.5rem;
+    width: 100%;
+    padding: 0.5rem;
+  }
 `;
 
 export const AccountLi = styled.li`
   margin: 0 1rem;
   width: 10rem;
+  @media only screen and (max-width: 600px) {
+    width: 3rem;
+  }
 `;
 
 export const AccountLink = styled(Link)`
@@ -77,6 +85,9 @@ export const AccountLink = styled(Link)`
 export const AccountLinkTitle = styled.div`
   align-self: center;
   margin-left: 0.5rem;
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export const ProfileSection = styled.div`
   display: flex;

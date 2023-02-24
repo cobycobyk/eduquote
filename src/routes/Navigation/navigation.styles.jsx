@@ -141,7 +141,9 @@ export const TopNavRightSmallLines = styled.div`
     display: block;
     cursor: pointer;
     hr {
-      margin: 0.75rem 0;
+      margin: 0.6rem 0;
+      color: white;
+      height: 3px;
     }
   }
 `;
