@@ -35,7 +35,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 //create user auth doc
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
   if (!userAuth) return;
   const userDocRef = doc(db, 'users', userAuth.uid);
   const userSnapshot = await getDoc(userDocRef);
@@ -47,10 +47,10 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         displayName,
         email,
         createdAt,
+        ...additionalInformation,
         role: "client",
         company: null,
         status: "active",
-        ...additionalInformation,
       });
     } catch (error) {
       console.log('error creating user', error.message)
@@ -135,9 +135,9 @@ export const getAllClients = async (userCompany) => {
   const q = query(usersRef, where("company", "==", userCompany));
   const querySnapshop = await getDocs(q);
   const companyUsers = []
-  querySnapshop.forEach((doc) => {
-    companyUsers.push(doc.data());
-  })
+    querySnapshop.forEach((doc) => {
+      companyUsers.push(doc.data());
+    })
   return companyUsers;
 };
 //add client
@@ -282,16 +282,52 @@ export const getAllQuotes = async (currentUser) => {
   if (!auth.currentUser) return console.log('not authorized');
   const quoteDocRef = await getDocs(collection(db, 'companies', currentUser.company, 'quotes'))
   const quotes = []
+  const myOtherQuotes = []
   const otherQuotes = []
-  quoteDocRef.forEach((doc) => {
-    if (doc.data().salesperson === currentUser.email) {
-      quotes.push(doc.data());
-    } else {
-      otherQuotes.push(doc.data());
-    }
-  });
-  return {quotes, otherQuotes};
+  const role = await getUserRole();
+  if (role === 'admin') {
+    quoteDocRef.forEach((doc) => {
+      if (doc.data().salesperson === currentUser.email) {
+        quotes.push(doc.data());
+      } else {
+        myOtherQuotes.push(doc.data());
+      }
+    });
+  }
+  if (role === 'manager') {
+    quoteDocRef.forEach((doc) => {
+      if (doc.data().salesperson === currentUser.email) {
+        quotes.push(doc.data());
+      } else {
+        otherQuotes.push(doc.data());
+      }
+    });
+  }
+  if (role === 'salesRep') {
+    quoteDocRef.forEach((doc) => {
+      if (doc.data().salesperson === currentUser.email) {
+        quotes.push(doc.data());
+      } else {
+        otherQuotes.push(doc.data());
+      }
+    });
+  }
+  if (role === 'partnerRep') {
+    quoteDocRef.forEach((doc) => {
+      if (doc.data().salesperson === currentUser.email) {
+        quotes.push(doc.data());
+      } else {
+        otherQuotes.push(doc.data());
+      }
+    });
+  }
+  return {quotes, myOtherQuotes, otherQuotes};
 };
+const getUserRole = async () => {
+  const userDocRef = await getDoc(db, 'users', auth.currentUser.uid);
+  const userSnapshot = await getDoc(userDocRef);
+  return userSnapshot.data().role;
+}
 //get quotes from client
 export const getQuotesFromClient = async (currentUser, clientInfo) => {
   console.log('get quotes from client');

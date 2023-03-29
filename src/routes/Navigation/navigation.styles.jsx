@@ -95,6 +95,7 @@ export const TopNavSignin = styled(Link)`
   border-radius: 30px;
   padding: 7px 20px;
   text-decoration: none;
+  background-color: white;
   :hover {
     background-color: orange;
     border: 1px solid orange;

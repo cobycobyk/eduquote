@@ -34,16 +34,18 @@ export default function DashClients() {
   
   return (
     <React.Fragment>
+      <DMainBG>
       {clients &&
-        Object.keys(clients).map((role, key) => {
+        Object.keys(clients).sort().map((role, key) => {
           return (
             <React.Fragment key={key}>
-              <DMainBG>
-                {role === `client` && <BoldDark>ALL CLIENTS LIST</BoldDark>}
-                {role === `salesPartnerRep` && (
-                  <BoldDark>SALES PARTNER REPS</BoldDark>
+                {role === `client` && <BoldDark>CLIENTS</BoldDark>}
+                {role === `manager` && <BoldDark>MANAGERS</BoldDark>}
+                {role === `salesRep` && (
+                  <BoldDark>SALES REPS</BoldDark>
                 )}
-                {role === `companyRep` && <BoldDark>COLLEGUES</BoldDark>}
+                {role === `partnerRep` && <BoldDark>PARTNER REPS</BoldDark>}
+                {role === `admin` && <BoldDark>ADMIN</BoldDark>}
                 <TextDividerSolid2Dark />
                 <TableCard>
                   <TableCardBody>
@@ -59,7 +61,7 @@ export default function DashClients() {
                           </TRDark>
                         </THeadDark>
                         <TBodyDark>
-                          {clients[role].map((client, key) => {
+                          {clients[role].sort().map((client, key) => {
                             return (
                               <TRDark
                                 key={key}
@@ -86,10 +88,10 @@ export default function DashClients() {
                     </TableContainer>
                   </TableCardBody>
                 </TableCard>
-              </DMainBG>
             </React.Fragment>
           );
         })}
+      </DMainBG>
     </React.Fragment>
   );
 }

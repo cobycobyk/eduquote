@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from "react"
-import { TDDark, THDark, TRDark } from "../../assets/css/table.styles";
+import { TDDark, TDDarkInside, THDark, TRDark } from "../../assets/css/table.styles";
 import { CartContext } from "../../context/cart.context";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
 import { CartThumbnail } from "../Cart/Cart.styles";
@@ -33,7 +33,7 @@ export default function QuoteItem({ product, handleProductClick }) {
         {product.group}
       </TDDark>
       <TDDark onClick={() => handleProductClick(product)}>
-        {product.description}
+        <TDDarkInside>{product.description}</TDDarkInside>
       </TDDark>
       <TDDark onClick={() => handleProductClick(product)}>
         {priceFormatter.format(product.price)}

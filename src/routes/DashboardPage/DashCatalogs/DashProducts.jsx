@@ -4,7 +4,7 @@ import  moment from "moment";
 import { UserContext } from "../../../context/user.context";
 import { getAllProducts } from "../../../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
+import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark, TDDarkInside, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
 import { CartThumbnail } from "../../../components/Cart/Cart.styles";
 
 export default function DashProducts() {
@@ -49,13 +49,21 @@ export default function DashProducts() {
                 {products?.map((product, key) => {
                   return (
                     <TRDark key={key} onClick={() => handleClick(product)}>
-                      <TDDark>{product?.images ? <CartThumbnail src={product.images[0]} /> : ""}</TDDark>
+                      <TDDark>
+                        {product?.images ? (
+                          <CartThumbnail src={product.images[0]} />
+                        ) : (
+                          ""
+                        )}
+                      </TDDark>
                       <TDDark>{product.name}</TDDark>
                       <TDDark>{product.sku}</TDDark>
                       <TDDark>{product.category}</TDDark>
                       <TDDark>{product?.subCategory}</TDDark>
                       <TDDark>{product?.group}</TDDark>
-                      <TDDark>{product.description}</TDDark>
+                      <TDDark>
+                        <TDDarkInside>{product.description}</TDDarkInside>
+                      </TDDark>
                       <TDDark>{product.status}</TDDark>
                       <TDDark>
                         {moment

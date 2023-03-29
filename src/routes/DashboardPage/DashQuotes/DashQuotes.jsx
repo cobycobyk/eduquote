@@ -12,6 +12,7 @@ import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark
 
 export default function DashQuotes() {
   const [quotes, setQuotes] = useState([]);
+  const [myOtherQuotes, setMyOtherQuotes] = useState([]);
   const [otherQuotes, setOtherQuotes] = useState([]);
   const { currentUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function DashQuotes() {
     const getQuotes = async () => {
       const allQuotes = await getAllQuotes(currentUserInfo);
       setQuotes(allQuotes?.quotes);
+      setMyOtherQuotes(allQuotes?.myOtherQuotes)
       setOtherQuotes(allQuotes?.otherQuotes)
     };
     getQuotes();
@@ -105,9 +107,9 @@ export default function DashQuotes() {
                   <THDark>Actions</THDark>
                 </TRDark>
               </THeadDark>
-              {otherQuotes.length ? (
+              {myOtherQuotes.length ? (
                 <TBodyDark>
-                  {otherQuotes?.map((quote, key) => {
+                  {myOtherQuotes?.map((quote, key) => {
                     return (
                       <TRDark key={key} onClick={() => handleClick(quote)}>
                         <TDDark>{quote.salesperson}</TDDark>

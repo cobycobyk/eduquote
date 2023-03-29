@@ -62,7 +62,7 @@ export default function DashClient({ setCurrentPage }) {
   return (
     <SignupCardDark>
       <DMainBG>
-        <CardTitleeDark>EDIT CLIENT</CardTitleeDark>
+        <CardTitleeDark>{clientInfo.firstName.toUpperCase()}</CardTitleeDark>
         <SignupRow>
           <SignupColumn>
             <SignupLabelRowDark>
@@ -204,7 +204,9 @@ export default function DashClient({ setCurrentPage }) {
         </SignupRow>
       </DMainBG>
       <TextDividerSolid2Dark></TextDividerSolid2Dark>
-      <CardTitleeDark>CLIENT QUOTES</CardTitleeDark>
+      <CardTitleeDark>
+        {clientInfo.firstName.toUpperCase()} QUOTES
+      </CardTitleeDark>
       <DMainNavLeft>Quotes made by me</DMainNavLeft>
       <TableCard>
         <TableCardBody>
@@ -254,7 +256,7 @@ export default function DashClient({ setCurrentPage }) {
               ) : (
                 <TBodyDark>
                   <TRDark>
-                    <THDark>No Quotes</THDark>
+                    <DMainNavLeft>No Quotes</DMainNavLeft>
                   </TRDark>
                 </TBodyDark>
               )}
@@ -263,7 +265,7 @@ export default function DashClient({ setCurrentPage }) {
         </TableCardBody>
       </TableCard>
 
-      <TextDividerSolid2></TextDividerSolid2>
+      <TextDividerSolid2Dark></TextDividerSolid2Dark>
       <DMainNavLeft>Quotes from other salespersons</DMainNavLeft>
       <TableCard>
         <TableCardBody>

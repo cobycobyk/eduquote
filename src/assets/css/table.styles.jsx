@@ -22,6 +22,7 @@ export const TableContainer = styled.div`
   overflow-x: auto;
 `;
 export const TableTable = styled.table`
+  display: block;
   width: 100%;
 `;
 export const TableTopRow = styled.div`
@@ -33,25 +34,32 @@ export const THeadDark = styled.thead`
   border-color: var(--table-border-color);
   color: var(--table-color);
   border-width: 0 0 5px 0;
-  `;
-  export const THDark = styled.th`
+`;
+export const THDark = styled.th`
   border-width: 0 1px;
   font-weight: 600;
   padding: 0.75rem;
-  `;
-  export const TBodyDark = styled.tbody`
+`;
+export const TBodyDark = styled.tbody`
   border-top: 0;
-  `;
-  export const TRDark = styled.tr`
-  :hover {
+`;
+export const TRDark = styled.tr`
+  : hover {
     cursor: pointer;
     background-color: var(--table-border-color);
   }
-  `;
-  export const TDDark = styled.td`
+`;
+export const TDDark = styled.td`
     border-color: var(--table-border-color);
     border-width: 1px 1px;
     padding: 0.75rem;
     max-width: 200px;
-    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: no-wrap;
+`;
+export const TDDarkInside = styled.div`
+  height: 90px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;

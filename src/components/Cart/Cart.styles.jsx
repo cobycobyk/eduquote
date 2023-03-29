@@ -35,6 +35,8 @@ export const CartItem = styled.div`
 `;
 export const CartItemImg = styled.img`
   max-width: 5vw;
+  aspect-ratio: 3/2;
+  object-fit: contain;
 `;
 export const CartTableCol1 = styled.div`
   display: flex;
@@ -129,4 +131,6 @@ export const CartThumbnail = styled.img`
   max-width: 100%;
   height: auto;
   cursor: pointer;
+  aspect-ratio: 3/2;
+  object-fit: contain;
 `;

@@ -16,6 +16,7 @@ import {
   SignupLabelRowDark,
   SignupRow,
   SignupSelect,
+  SignupTextArea,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { Danger, DisplayFlex } from "../../../assets/css/custom.styles";
@@ -344,7 +345,7 @@ export default function DashProductNew() {
                   Description <Danger>*</Danger>
                 </FormLabel>
               </SignupLabelRowDark>
-              <SignupInput
+              <SignupTextArea
                 type="text"
                 name="description"
                 value={formData.description}
