@@ -169,8 +169,8 @@ export default function DashProduct({setCurrentPage}) {
               </FormLabel>
             </SignupLabelRowDark>
             <DisplayFlex>
-              {product.images.map((imageSrc) => (
-                <ProductImgAdd src={imageSrc} />
+              {product.images.map((imageSrc, key) => (
+                <ProductImgAdd key={key} src={imageSrc} />
               ))}
             </DisplayFlex>
           </SignupColumn>

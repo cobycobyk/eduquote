@@ -8,11 +8,19 @@ export const ProductsContext = createContext({
   productCategories: false,
   productSubCategories: [],
   productGroups: [],
-  addProductCategory: () => { },
-  addProductToProducts: () => { },
+  addProductCategory: () => {},
+  addProductToProducts: () => {},
+  updateExistingProduct: () => {},
 });
 
 //helper functions
+const editProduct = (products, productToUpdate, images) => {
+  const index = products.findIndex((product) => product.sku === productToUpdate.sku);
+  images?.map((image) => {
+    products[index].images.push(image);
+  });
+  return products;
+};
 
 
 export const ProductsProvider = ({ children }) => {
@@ -47,6 +55,9 @@ export const ProductsProvider = ({ children }) => {
   const addProductToProducts = (product) => {
     setProducts([...products, product])
   }
+  const updateExistingProduct = (productToUpdate, images) => {
+    setProducts(editProduct(products, productToUpdate, images));
+  }
   
   const value = {
     products,
@@ -55,6 +66,7 @@ export const ProductsProvider = ({ children }) => {
     productGroups,
     addProductCategory,
     addProductToProducts,
+    updateExistingProduct,
   };
   return (
     <ProductsContext.Provider value={value}>

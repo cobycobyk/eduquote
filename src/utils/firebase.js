@@ -218,7 +218,7 @@ export const addProduct = async (currentUser, formData, images) => {
 };
 
 //update product information 
-export const updateProduct = async (currentUser, formData) => {
+export const updateProduct = async (currentUser, formData, images) => {
   console.log('update catalog');
   if (!auth.currentUser) return console.log('user not authorized');
   const companyDocRef = doc(db, 'companies', currentUser.company);
@@ -239,6 +239,7 @@ export const updateProduct = async (currentUser, formData) => {
       name: formData.name,
       price: formData.price,
       subCategory: formData.subCategory,
+      images: arrayUnion(...images),
     });
   };
   return console.log('Update Product Successfull')

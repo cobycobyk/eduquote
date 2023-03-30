@@ -18,7 +18,7 @@ import {
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
 import { CancelButton, Danger, DisplayFlex, SaveButton } from "../../../assets/css/custom.styles";
-import { deleteAllImagesFromProduct, deleteProduct, updateProduct } from "../../../utils/firebase";
+import { addImagesToProduct, deleteAllImagesFromProduct, deleteProduct, updateProduct } from "../../../utils/firebase";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context";
 import DeleteCheckModal from "../../../components/DeleteCheckModal/DeleteCheckModal";
@@ -30,13 +30,26 @@ export default function DashProductEdit({setCurrentPage}) {
   const product = location.state?.data
   const navigate = useNavigate();
   const { currentUserInfo } = useContext(UserContext);
-  const { productCategories, productSubCategories, productGroups } = useContext(ProductsContext);
+  const {
+    productCategories,
+    productSubCategories,
+    productGroups,
+    updateExistingProduct,
+  } = useContext(ProductsContext);
   const [newCategory, setNewCategory] = useState(false);
   const [newSubCategory, setNewSubCategory] = useState(false);
   const [newGroup, setNewGroup] = useState(false);
   const [message, setMessage] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [images, setImages] = useState([]);
+  const [newImages, setNewImages] = useState([])
+  const [imageUrls, setImageUrls] = useState([]);
+  
+  useEffect(() => {
+    const newImageUrls = [];
+    newImages.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageUrls(newImageUrls);
+  }, [newImages]);
 
   useEffect(() => {
     setFormData(product);
@@ -44,7 +57,7 @@ export default function DashProductEdit({setCurrentPage}) {
   }, []);
 
   const handleImageChange = (event) => {
-    setImages([...event.target.files]);
+    setNewImages([...event.target.files]);
   };
 
   const handleChange = (e) => {
@@ -90,9 +103,10 @@ export default function DashProductEdit({setCurrentPage}) {
       )
     )
       return setMessage("Group already exists");
-    await updateProduct(currentUserInfo, formData);
+    const uploadedImages = await addImagesToProduct(formData, newImages)
+    await updateProduct(currentUserInfo, formData, uploadedImages);
+    updateExistingProduct(formData);
     navigate(`/dashboard/products`);
-    
   };
 
   const handleDelete = async (e) => {
@@ -333,8 +347,11 @@ export default function DashProductEdit({setCurrentPage}) {
                 onChange={handleImageChange}
               />
               <DisplayFlex>
-                {formData.images?.map((imageSrc) => (
-                  <ProductImgAdd src={imageSrc} />
+                {formData.images?.map((imageSrc, key) => (
+                  <ProductImgAdd key={key} src={imageSrc} />
+                ))}
+                {imageUrls?.map((imageSrc, key) => (
+                  <ProductImgAdd key={key} src={imageSrc} />
                 ))}
               </DisplayFlex>
             </SignupColumn>
