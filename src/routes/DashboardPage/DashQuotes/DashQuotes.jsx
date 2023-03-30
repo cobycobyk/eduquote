@@ -11,6 +11,7 @@ import { CardTitleeDark } from "../../SignupPage/SignupPage.styles";
 import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
 
 export default function DashQuotes() {
+  const [complete, setComplete] = useState([]);
   const [quotes, setQuotes] = useState([]);
   const [myOtherQuotes, setMyOtherQuotes] = useState([]);
   const [otherQuotes, setOtherQuotes] = useState([]);
@@ -20,6 +21,7 @@ export default function DashQuotes() {
   useEffect(() => {
     const getQuotes = async () => {
       const allQuotes = await getAllQuotes(currentUserInfo);
+      setComplete(allQuotes)
       setQuotes(allQuotes?.quotes);
       setMyOtherQuotes(allQuotes?.myOtherQuotes)
       setOtherQuotes(allQuotes?.otherQuotes)
@@ -32,7 +34,8 @@ export default function DashQuotes() {
       state: { data: quote },
     });
   };
-
+  console.log(quotes)
+  
   return (
     <React.Fragment>
       <CardTitleeDark>Quotes I Created</CardTitleeDark>
@@ -55,7 +58,7 @@ export default function DashQuotes() {
               </THeadDark>
               {quotes.length ? (
                 <TBodyDark>
-                  {quotes?.map((quote, key) => {
+                  {quotes.map((quote, key) => {
                     return (
                       <TRDark key={key} onClick={() => handleClick(quote)}>
                         <TDDark>{quote.id}</TDDark>
@@ -89,9 +92,9 @@ export default function DashQuotes() {
           </TableContainer>
         </TableCardBody>
       </TableCard>
-
+      
       <TextDividerSolid2Dark></TextDividerSolid2Dark>
-      <CardTitleeDark>Quotes from other salespersons</CardTitleeDark>
+      <CardTitleeDark>My Quotes from other salespersons</CardTitleeDark>
       <TableCard>
         <TableCardBody>
           <TableContainer>
@@ -109,7 +112,59 @@ export default function DashQuotes() {
               </THeadDark>
               {myOtherQuotes.length ? (
                 <TBodyDark>
-                  {myOtherQuotes?.map((quote, key) => {
+                  {myOtherQuotes.map((quote, key) => {
+                    return (
+                      <TRDark key={key} onClick={() => handleClick(quote)}>
+                        <TDDark>{quote.salesperson}</TDDark>
+                        <TDDark>{quote.createdBy}</TDDark>
+                        <TDDark>{quote.cartCount}</TDDark>
+                        <TDDark>
+                          {priceFormatter.format(quote.cartTotal)}
+                        </TDDark>
+                        <TDDark>
+                          {moment
+                            .unix(quote.createdAt)
+                            .subtract(1969, "years")
+                            .format("MMMM Do YYYY")}
+                        </TDDark>
+                        <TDDark>{quote.status}</TDDark>
+                        <TDDark>Actions</TDDark>
+                      </TRDark>
+                    );
+                  })}
+                </TBodyDark>
+              ) : (
+                <TBodyDark>
+                  <TRDark>
+                    <DMainNavLeft>No Other Quotes</DMainNavLeft>
+                  </TRDark>
+                </TBodyDark>
+              )}
+            </TableTable>
+          </TableContainer>
+        </TableCardBody>
+      </TableCard>
+
+      <TextDividerSolid2Dark></TextDividerSolid2Dark>
+      <CardTitleeDark>Other Quotes</CardTitleeDark>
+      <TableCard>
+        <TableCardBody>
+          <TableContainer>
+            <TableTable>
+              <THeadDark>
+                <TRDark>
+                  <THDark>Salesperson</THDark>
+                  <THDark>Created By</THDark>
+                  <THDark>Total Items</THDark>
+                  <THDark>Total Price</THDark>
+                  <THDark>Created At</THDark>
+                  <THDark>Status</THDark>
+                  <THDark>Actions</THDark>
+                </TRDark>
+              </THeadDark>
+              {otherQuotes.length ? (
+                <TBodyDark>
+                  {otherQuotes.map((quote, key) => {
                     return (
                       <TRDark key={key} onClick={() => handleClick(quote)}>
                         <TDDark>{quote.salesperson}</TDDark>

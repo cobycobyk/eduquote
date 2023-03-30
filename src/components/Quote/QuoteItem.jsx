@@ -15,6 +15,7 @@ export default function QuoteItem({ product, handleProductClick }) {
     <TRDark>
       <TDDark>
         <CartThumbnail
+          onClick={() => handleProductClick(product)}
           src={product.images ? product.images[0] : ""}
           width={54}
         />

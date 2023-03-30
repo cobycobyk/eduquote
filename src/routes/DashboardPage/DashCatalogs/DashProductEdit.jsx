@@ -14,13 +14,15 @@ import {
   SignupLabelRowDark,
   SignupRow,
   SignupSelect,
+  SignupTextArea,
 } from "../../SignupPage/SignupPage.styles";
 import * as Icon from "react-feather";
-import { CancelButton, Danger, SaveButton } from "../../../assets/css/custom.styles";
+import { CancelButton, Danger, DisplayFlex, SaveButton } from "../../../assets/css/custom.styles";
 import { deleteAllImagesFromProduct, deleteProduct, updateProduct } from "../../../utils/firebase";
 import { ProductsContext } from "../../../context/products.context";
 import { UserContext } from "../../../context/user.context";
 import DeleteCheckModal from "../../../components/DeleteCheckModal/DeleteCheckModal";
+import { ProductImgAdd, ProductImgInput } from "./DashCatalogs.styles";
 
 export default function DashProductEdit({setCurrentPage}) {
   const [formData, setFormData] = useState({});
@@ -34,11 +36,16 @@ export default function DashProductEdit({setCurrentPage}) {
   const [newGroup, setNewGroup] = useState(false);
   const [message, setMessage] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     setFormData(product);
     setCurrentPage(`Edit ${product.name}`);
   }, []);
+
+  const handleImageChange = (event) => {
+    setImages([...event.target.files]);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -223,9 +230,7 @@ export default function DashProductEdit({setCurrentPage}) {
                 placeholder="New Sub Category Name"
                 errorMessage=""
               >
-                <option value="" >
-                  {formData.subCategory}
-                </option>
+                <option value="">{formData.subCategory}</option>
                 {productSubCategories?.map((cat, key) => {
                   return <option key={key}>{cat}</option>;
                 })}
@@ -303,7 +308,7 @@ export default function DashProductEdit({setCurrentPage}) {
                   Description <Danger>*</Danger>
                 </FormLabel>
               </SignupLabelRowDark>
-              <SignupInput
+              <SignupTextArea
                 type="text"
                 name="description"
                 value={formData.description}
@@ -311,6 +316,27 @@ export default function DashProductEdit({setCurrentPage}) {
                 id="description"
                 placeholder="Description"
               />
+            </SignupColumn>
+          </SignupRow>
+          <SignupRow>
+            <SignupColumn>
+              <SignupLabelRowDark>
+                <Icon.Camera />
+                <FormLabel>
+                  Images <Danger>*</Danger>
+                </FormLabel>
+              </SignupLabelRowDark>
+              <ProductImgInput
+                type="file"
+                multiple
+                accepts="image/*"
+                onChange={handleImageChange}
+              />
+              <DisplayFlex>
+                {formData.images?.map((imageSrc) => (
+                  <ProductImgAdd src={imageSrc} />
+                ))}
+              </DisplayFlex>
             </SignupColumn>
           </SignupRow>
           <SignupRow>
@@ -327,7 +353,11 @@ export default function DashProductEdit({setCurrentPage}) {
         <CancelButton onClick={() => setOpenDelete(!openDelete)}>
           Delete Product
         </CancelButton>
-        <DeleteCheckModal openDelete={openDelete} setOpenDelete={setOpenDelete} handleDelete={handleDelete}/>
+        <DeleteCheckModal
+          openDelete={openDelete}
+          setOpenDelete={setOpenDelete}
+          handleDelete={handleDelete}
+        />
       </SignupCardDark>
     </React.Fragment>
   );

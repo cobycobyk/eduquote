@@ -286,47 +286,77 @@ export const getAllQuotes = async (currentUser) => {
   const otherQuotes = []
   const role = await getUserRole();
   if (role === 'admin') {
-    quoteDocRef.forEach((doc) => {
-      if (doc.data().salesperson === currentUser.email) {
+    quoteDocRef.forEach(async (doc) => {
+      const salespersonRole = await getSalespersonRole(doc.data().salesperson);
+      if (doc.data().createdBy === currentUser.email) {
         quotes.push(doc.data());
-      } else {
+      } else if (doc.data().salesperson === currentUser.email) {
         myOtherQuotes.push(doc.data());
-      }
+      } else if (salespersonRole === "salesRep" || salespersonRole === "partnerRep" || salespersonRole === "manager" || salespersonRole === "admin"){
+        otherQuotes.push(doc.data());
+      } else {
+        otherQuotes.push(doc.data());
+      };
     });
-  }
+  };
   if (role === 'manager') {
-    quoteDocRef.forEach((doc) => {
-      if (doc.data().salesperson === currentUser.email) {
+    quoteDocRef.forEach(async (doc) => {
+      const salespersonRole = await getSalespersonRole(doc.data().salesperson);
+      if (doc.data().createdBy === currentUser.email) {
         quotes.push(doc.data());
-      } else {
+      }else if (doc.data().salesperson === currentUser.email) {
+        myOtherQuotes.push(doc.data());
+      } else if (salespersonRole === "salesRep" || salespersonRole === "partnerRep" || salespersonRole === "manager" ){
         otherQuotes.push(doc.data());
-      }
+      } else {
+        console.log('Not authorized to see admin quotes')
+      };
     });
-  }
+  };
   if (role === 'salesRep') {
-    quoteDocRef.forEach((doc) => {
-      if (doc.data().salesperson === currentUser.email) {
+    quoteDocRef.forEach(async (doc) => {
+      const salespersonRole = await getSalespersonRole(doc.data().salesperson);
+      if (doc.data().createdBy === currentUser.email) {
         quotes.push(doc.data());
-      } else {
+      } else if (doc.data().salesperson === currentUser.email) {
+        myOtherQuotes.push(doc.data());
+      } else if (salespersonRole === "salesRep" || salespersonRole === "partnerRep") {
         otherQuotes.push(doc.data());
-      }
+      } else {
+        console.log('Not authorized to see manager quotes')
+      };
     });
-  }
+  };
   if (role === 'partnerRep') {
-    quoteDocRef.forEach((doc) => {
-      if (doc.data().salesperson === currentUser.email) {
+    quoteDocRef.forEach(async (doc) => {
+      const salespersonRole = await getSalespersonRole(doc.data().salesperson);
+      if (doc.data().createdBy === currentUser.email) {
         quotes.push(doc.data());
-      } else {
+      } else if (doc.data().salesperson === currentUser.email) {
+        myOtherQuotes.push(doc.data());
+      } else if (salespersonRole === "partnerRep"){
         otherQuotes.push(doc.data());
-      }
+      } else {
+        console.log('Not authorized to seemanager or partnerRep quotes')
+      };
     });
-  }
+  };
   return {quotes, myOtherQuotes, otherQuotes};
 };
 const getUserRole = async () => {
-  const userDocRef = await getDoc(db, 'users', auth.currentUser.uid);
+  const userDocRef = doc(db, 'users', auth.currentUser.uid);
   const userSnapshot = await getDoc(userDocRef);
   return userSnapshot.data().role;
+}
+ const getSalespersonRole = async (salesperson) => {
+  const salespersonRef = collection(db, 'users')
+  const q = query(salespersonRef, where('email', "==", salesperson));
+  const querySnapshot = await getDocs(q);
+  let role;
+  querySnapshot.forEach(snapshot => {
+    role = snapshot.data().role
+  });
+  return role;
 }
 //get quotes from client
 export const getQuotesFromClient = async (currentUser, clientInfo) => {
@@ -334,10 +364,10 @@ export const getQuotesFromClient = async (currentUser, clientInfo) => {
   if (!auth.currentUser) return console.log('not authorized');
   const quotesRef = collection(db, 'companies', currentUser.company, 'quotes');
   const q = query(quotesRef, where("createdFor", "==", clientInfo.email));
-  const querySnapshop = await getDocs(q);
+  const querySnapshot = await getDocs(q);
   const clientQuotes = [];
   const otherClientQuotes = [];
-  querySnapshop.forEach((doc) => {
+  querySnapshot.forEach((doc) => {
     if (doc.data().salesperson === currentUser.email) {
       clientQuotes.push(doc.data());
     } else {
