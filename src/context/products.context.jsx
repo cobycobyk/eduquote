@@ -16,9 +16,13 @@ export const ProductsContext = createContext({
 //helper functions
 const editProduct = (products, productToUpdate, images) => {
   const index = products.findIndex((product) => product.sku === productToUpdate.sku);
+  const pics = products[index].images;
   images?.map((image) => {
-    products[index].images.push(image);
+    pics.push(image);
   });
+  productToUpdate.images = pics
+  products.splice(index, 1, productToUpdate);
+  console.log(products);
   return products;
 };
 
