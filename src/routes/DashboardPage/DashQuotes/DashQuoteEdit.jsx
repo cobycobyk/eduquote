@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   CancelButton,
+  DisplayFlex,
   HoverOrange,
   TextDividerSolid2,
 } from "../../../assets/css/custom.styles";
@@ -29,7 +30,7 @@ import { CartContext } from "../../../context/cart.context";
 import { UserContext } from "../../../context/user.context";
 import { updateQuoteFromSalesperson } from "../../../utils/firebase";
 import Quote from "../../../components/Quote/Quote";
-import { DQNewContainer } from "./DashQuotes.styles";
+import { DQNewContainer, DQTop } from "./DashQuotes.styles";
 import {
   QuoteSectionLeft,
   QuoteSectionRight,
@@ -78,6 +79,11 @@ export default function DashQuoteEdit({ setCurrentPage }) {
 
   return (
     <React.Fragment>
+      <DisplayFlex>
+        <DQTop>Salesperson: {quote.salesperson}</DQTop>
+        <DQTop>Created By: {quote.createdBy}</DQTop>
+        <DQTop>Client: {quote.createdFor}</DQTop>
+      </DisplayFlex>
       <DQNewContainer>
         <QuoteSectionLeft>
           <Quote />
@@ -90,7 +96,10 @@ export default function DashQuoteEdit({ setCurrentPage }) {
                 <React.Fragment key={key}>
                   <CartItem>
                     <CartTableCol1>
-                      <CartItemImg src={item?.images?.length ? item.images[0] : ""} alt="item" />
+                      <CartItemImg
+                        src={item?.images?.length ? item.images[0] : ""}
+                        alt="item"
+                      />
                     </CartTableCol1>
                     <CartTableCol2>
                       <CartItemName>{item.name}</CartItemName>

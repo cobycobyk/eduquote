@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
-import { PMContainer, PMDescContainer, PMImgMain, PMImgs, PMImgSmall, PMRow } from "./ProductModal.styles";
+import { PMContainer, PMDescContainer, PMImgMain, PMImgs, PMImgSmall, PMRow, PMH4, PMH5, PMP } from "./ProductModal.styles";
 import { priceFormatter } from "../../utils/helperFunctions/PriceFormatter";
+import {TextDividerSolid2Dark} from '../../assets/css/custom.styles'
 
 export default function ProductModal({ modalOpen, modal, setModalOpen }) {
   const [mainImage, setMainImage] = useState();
@@ -20,8 +21,9 @@ export default function ProductModal({ modalOpen, modal, setModalOpen }) {
       <ModalBody>
         <PMContainer>
           <PMImgs>
-            {otherImages.map((image) => {
-            return <PMImgSmall
+            {otherImages.map((image, key) => {
+              return <PMImgSmall
+              key={key}
               src={image}
               alt="product image small"
               onClick={() => setMainImage(image)}
@@ -30,14 +32,11 @@ export default function ProductModal({ modalOpen, modal, setModalOpen }) {
           </PMImgs>
           <PMImgMain src={mainImage} alt="product image main" />
           <PMDescContainer>
-            <h4>{modal.name}</h4>
-            <h5>Price: {priceFormatter.format(modal.price)}</h5>
-            <p>{modal.description}</p>
+            <PMH4>{modal.name}</PMH4>
+            <TextDividerSolid2Dark></TextDividerSolid2Dark>
+            <PMH5>{priceFormatter.format(modal.price)}</PMH5>
+            <PMP>{modal.description}</PMP>
           </PMDescContainer>
-        </PMContainer>
-        <PMContainer>
-          <div>Specifications:</div>
-          
         </PMContainer>
       </ModalBody>
       <ModalFooter>

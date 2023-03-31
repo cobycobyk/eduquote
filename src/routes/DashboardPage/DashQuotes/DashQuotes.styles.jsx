@@ -8,3 +8,10 @@ export const DQNewContainer = styled.div`
     padding: 1rem;
   }
 `;
+
+export const DQTop = styled.div`
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--sidebar-dark-menu-item-color);
+  margin-right: 10px;
+`;

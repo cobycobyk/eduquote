@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import Select from 'react-select';
 import {
   FilterBarDropdown,
   FilterBarOption,
@@ -8,15 +9,7 @@ import {
   QuoteTitle,
   QuoteTitleDark,
 } from "./Quote.styles";
-import {
-  DMainBG,
-  DTable,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "../../routes/DashboardPage/DashboardPage.styles";
+import { DMainBG } from "../../routes/DashboardPage/DashboardPage.styles";
 import { ProductsContext } from "../../context/products.context";
 import QuoteItem from "./QuoteItem";
 import { UserContext } from "../../context/user.context";
@@ -46,26 +39,26 @@ export default function Quote({ handleProductClick }) {
             (product) => product.group === groupSelection
           );
           setDisplayedProducts(groupfilter);
-        }
-      }
-    }
+        };
+      };
+    };
     if (!categorySelection.length) {
       setDisplayedProducts([...products])
       setSubCategorySelection(false);
       setGroupSelection(false);
-    }
+    };
   }, [categorySelection, subCategorySelection, groupSelection])
 
   useEffect(() => {
     setGroupSelection(false);
-  }, [categorySelection, subCategorySelection])
+  }, [categorySelection, subCategorySelection]);
   useEffect(() => {
     setSubCategorySelection(false);
     setGroupSelection(false);
-  }, [categorySelection])
+  }, [categorySelection]);
 
   const handleChangeCategory = (e) => {
-    setCategorySelection(e.target.value)
+    setCategorySelection(e.target.value);
   };
   const handleChangeSubCategory = (e) => {
     setSubCategorySelection(e.target.value);

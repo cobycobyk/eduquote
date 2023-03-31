@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react"
 import { useLocation, useNavigate } from "react-router-dom";
-import { Bold, BoldDark } from "../../../assets/css/custom.styles";
+import { Bold, BoldDark, DisplayFlex } from "../../../assets/css/custom.styles";
 import { CheckoutTable, TableColumn, TdImg } from "../../../components/ConfirmQuoteModal/ConfirmQuoteModal.styles";
 import { priceFormatter } from "../../../utils/helperFunctions/PriceFormatter";
-import { Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
+import { DSName, Tbody, Td, Th, Thead, Tr } from "../DashboardPage.styles";
 import { CartCallToActionButton } from "../../../components/Cart/Cart.styles";
 import { TableCard, TableCardBody, TableContainer, TableTable, TBodyDark, TDDark, THDark, THeadDark, TRDark } from "../../../assets/css/table.styles";
 import { RegisterButtonDark } from "../../SignupPage/SignupPage.styles";
+import { DQTop } from "./DashQuotes.styles";
 
 export default function DashQuote({setCurrentPage}) {
   const location = useLocation();
@@ -25,6 +26,11 @@ export default function DashQuote({setCurrentPage}) {
 
   return (
     <React.Fragment>
+      <DisplayFlex>
+        <DQTop>Salesperson: {quote.salesperson}</DQTop>
+        <DQTop>Created By: {quote.createdBy}</DQTop>
+        <DQTop>Client: {quote.createdFor}</DQTop>
+      </DisplayFlex>
       <TableCard>
         <TableCardBody>
           <TableContainer>
@@ -80,9 +86,7 @@ export default function DashQuote({setCurrentPage}) {
           </TableContainer>
         </TableCardBody>
       </TableCard>
-      <RegisterButtonDark onClick={handleClick}>
-        Edit
-      </RegisterButtonDark>
+      <RegisterButtonDark onClick={handleClick}>Edit</RegisterButtonDark>
     </React.Fragment>
   );
 }
